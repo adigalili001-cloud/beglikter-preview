@@ -598,3 +598,59 @@ a.tile:hover > img{transform:scale(1.03)}
 .v4v-launch .meta,.v4v-launch .secondary{color:var(--neutral-900)}
 .v4v-launch-row{display:flex;align-items:center;gap:var(--space-6);margin-top:var(--space-2)}
 @media (max-width: 1023px){ .v4v-seg,.v4v-two{grid-template-columns:1fr} }
+
+/* ===== Site skeleton v1 (17.10) ===== */
+/* Credibility — real logos, monochrome, one row */
+.logo-row{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--space-12) var(--space-16)}
+.logo-item{display:flex;align-items:center;justify-content:center;height:72px}
+.logo-item img{max-height:72px;max-width:220px;width:auto;height:auto;object-fit:contain;opacity:.9}
+.creds2 .logo-row{justify-content:flex-start}
+/* Works page title */
+.wk-title{margin:0 0 var(--space-2)}
+/* V4V — how it works */
+.v4v-how{padding-top:var(--space-16)}
+.v4v-steps{list-style:none;margin:var(--space-8) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--grid-gutter)}
+.v4v-steps li{display:flex;flex-direction:column;gap:var(--space-2);border-top:1px solid var(--color-gallery-border-strong);padding-top:var(--space-4)}
+.v4v-step-n{font-size:var(--size-meta);font-weight:500;letter-spacing:.08em;color:var(--red-dot)}
+.v4v-step-t{font-size:var(--size-body-l);font-weight:500}
+.v4v-cert-row{display:grid;grid-template-columns:5fr 7fr;gap:var(--grid-gutter) calc(var(--grid-gutter)*2);margin-top:var(--space-16);align-items:start}
+.v4v-cert-img{aspect-ratio:4/5}
+.v4v-faq details{border-bottom:1px solid var(--color-gallery-border-default);padding-block:var(--space-4)}
+.v4v-faq summary{display:flex;justify-content:space-between;cursor:pointer;list-style:none;font-size:var(--size-body)}
+.v4v-faq summary::-webkit-details-marker{display:none}
+.v4v-faq .body{padding-top:var(--space-2)}
+/* About */
+.ab-hero{display:grid;grid-template-columns:5fr 7fr;gap:var(--grid-gutter) calc(var(--grid-gutter)*2);align-items:end;padding-block:var(--space-12) var(--space-16)}
+.ab-hero > .mod-label{grid-column:1 / -1}
+.ab-portrait{aspect-ratio:4/5}
+.ab-intro{padding-bottom:var(--space-4)}
+.ab-name{margin:0;font-size:var(--size-display);font-weight:500;line-height:.92;letter-spacing:-.035em}
+.ab-intro .body-l{max-width:30ch}
+.ab-links{display:flex;gap:var(--space-8);margin-top:var(--space-4)}
+.ab-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--grid-gutter)}
+.ab-cols p{margin:0;font-size:var(--size-body);line-height:1.6;color:var(--color-gallery-text-secondary)}
+.ab-quote{border-top:1px solid var(--color-gallery-border-default);border-bottom:1px solid var(--color-gallery-border-default)}
+.ab-quote .container{padding-block:var(--space-16)}
+.ab-quote .quote-big{max-width:20ch}
+.ab-cv{display:grid;grid-template-columns:4fr 8fr;gap:var(--grid-gutter) calc(var(--grid-gutter)*2);margin-top:var(--space-16)}
+.cv-plain{list-style:none;margin:var(--space-4) 0 0;padding:0;display:flex;flex-direction:column;gap:var(--space-3)}
+.cv-list{list-style:none;margin:var(--space-4) 0 var(--space-6);padding:0;border-top:1px solid var(--color-gallery-border-strong)}
+.cv-list li{display:grid;grid-template-columns:80px 1fr 1fr;gap:var(--space-6);padding-block:var(--space-4);border-bottom:1px solid var(--color-gallery-border-default);align-items:baseline}
+.cv-y{font-size:var(--size-small);color:var(--color-gallery-text-muted);font-variant-numeric:tabular-nums}
+.cv-t{font-weight:500}
+.ab-studio{display:grid;grid-template-columns:4fr 4fr 4fr;gap:var(--image-gap);align-items:end}
+.ab-studio-text{padding-left:var(--space-8);padding-bottom:var(--space-4)}
+.ab-contact-grid{display:grid;grid-template-columns:6fr 3fr 3fr;gap:var(--grid-gutter);border-top:1px solid var(--color-gallery-border-strong);padding-top:var(--space-8)}
+@media (max-width: 1023px){
+  .v4v-steps,.v4v-cert-row,.ab-hero,.ab-cols,.ab-cv,.ab-studio,.ab-contact-grid{grid-template-columns:1fr}
+  .cv-list li{grid-template-columns:60px 1fr}
+  .cv-v{grid-column:2}
+  .ab-name{font-size:56px}
+  .ab-studio-text{padding-left:0}
+}
+.creds2 .logo-row{flex-wrap:nowrap;justify-content:space-between;gap:var(--space-8)}
+.creds2 .logo-item{height:56px;flex:0 1 auto}
+.creds2 .logo-item img{max-height:56px;max-width:150px}
+.v4v{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+@media (max-width: 1023px){ .v4v{grid-template-columns:1fr} }
+.v4v-two > *{min-width:0}.v4v-line input{width:100%;min-width:0;box-sizing:border-box}
