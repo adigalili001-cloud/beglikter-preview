@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Works — Etamar Beglikter</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="./preview.css">
+<link rel="stylesheet" href="./site.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;1,400&amp;family=Noto+Sans+Hebrew:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<div class="page" style="{{rootStyle}}">
+<header class="site-header">
+<div class="container">
+<a href="./" class="wordmark">Etamar Begli<span class="k">k</span>ter</a>
+<nav aria-label="Main" class="nav"><a href="./works.html" aria-current="page">Works</a><a href="#">The Artist</a><a href="./volume-for-value.html">Volume for Value</a><a href="#">Bespoke</a><a href="#" class="lang" lang="he">עברית</a></nav>
+</div>
+</header>
+<main class="container wk">
+<aside class="wk-side" aria-label="Filter works">
+<span class="mod-label">Works index — sketch v0 · ref: everyday needs</span>
+<div class="wk-group"><span class="wk-h">Works</span><span class="wk-rule" aria-hidden="true"></span>
+<a href="#" aria-current="true">All</a><a href="#">Available</a><a href="#">Sold</a></div>
+<div class="wk-group"><span class="wk-h">Series</span>
+<a href="#">Brainless</a><a href="#">Nation's Greatest</a><a href="#">Cartoon Encyclopedia</a><a href="#">Shalekhet</a><a href="#">Yu.Pi</a></div>
+<div class="wk-group"><span class="wk-h">By volume</span>
+<a href="#">[Vol. I–VIII]</a><a href="#">[Vol. IX–XVI]</a><a href="#">[Vol. XVII–XXXII]</a></div>
+<div class="wk-group"><a href="#">Commission your own</a><a href="./volume-for-value.html">Volume for Value</a><a href="#">The workshop</a></div>
+</aside>
+<section class="wk-grid" aria-label="All works">
+<a href="./work.html" class="wk-tile wk-big"><img src="./img/brainless-1.jpg" alt="Brainless I"><span class="wk-cap"><span>Brainless I</span><span>[₪2,500]</span></span></a>
+<a href="./work.html" class="wk-tile"><img src="./img/leaders-glasses.jpg" alt="Nation's Greatest"><span class="wk-cap"><span>Nation's Greatest</span><span>[₪2,500]</span></span></a>
+<a href="./work.html" class="wk-tile"><img src="./img/cartoon-figure.jpg" alt="Cartoon Encyclopedia II"><span class="wk-cap"><span>Cartoon Encyclopedia II</span><span>[₪2,500]</span></span></a>
+<a href="./work.html" class="wk-tile"><img src="./img/smile-green.jpg" alt="Shalekhet · sold"><span class="wk-cap"><span>Shalekhet · sold</span><span>[₪2,500]</span></span></a>
+<a href="./work.html" class="wk-tile"><img src="./img/cartoon-mouse.jpg" alt="Cartoon Encyclopedia I"><span class="wk-cap"><span>Cartoon Encyclopedia I</span><span>[₪2,500]</span></span></a>
+<a href="./work.html" class="wk-tile"><img src="./img/profiles.jpg" alt="Brainless — profiles"><span class="wk-cap"><span>Brainless — profiles</span><span>[₪2,500]</span></span></a>
+<a href="./work.html" class="wk-tile wk-big"><img src="./img/leaders-group.jpg" alt="Nation's Greatest — three"><span class="wk-cap"><span>Nation's Greatest — three</span><span>[₪2,500]</span></span></a>
+<a href="./work.html" class="wk-tile"><img src="./img/cartoon-green.jpg" alt="Cartoon Encyclopedia III"><span class="wk-cap"><span>Cartoon Encyclopedia III</span><span>[₪2,500]</span></span></a>
+<a href="./work.html" class="wk-tile"><img src="./img/cartoon-open.jpg" alt="Cartoon Encyclopedia IV"><span class="wk-cap"><span>Cartoon Encyclopedia IV</span><span>[₪2,500]</span></span></a>
+<a href="./work.html" class="wk-tile"><img src="./img/brainless-2.jpg" alt="Brainless II"><span class="wk-cap"><span>Brainless II</span><span>[₪2,500]</span></span></a>
+<a href="./work.html" class="wk-tile"><img src="./img/smile-page.jpg" alt="Yu.Pi"><span class="wk-cap"><span>Yu.Pi</span><span>[₪2,500]</span></span></a>
+<a href="./work.html" class="wk-tile wk-big"><img src="./img/volumes-stack.jpg" alt="Volume for Value"><span class="wk-cap"><span>Volume for Value</span><span>[₪2,500]</span></span></a>
+<a href="./work.html" class="wk-tile"><img src="./img/install-close.jpg" alt="Fragments"><span class="wk-cap"><span>Fragments</span><span>[₪2,500]</span></span></a>
+<a href="./work.html" class="wk-tile"><img src="./img/cartoon-figure.jpg" alt="Cartoon Encyclopedia V"><span class="wk-cap"><span>Cartoon Encyclopedia V</span><span>[₪2,500]</span></span></a>
+</section>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;backdrop&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#C9CFC6&quot;,&quot;#E9E6E0&quot;,&quot;#D9D4CB&quot;,&quot;#FFFFFF&quot;],&quot;default&quot;:&quot;#C9CFC6&quot;,&quot;section&quot;:&quot;Photography backdrop&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:2300}}">
+class Component extends DCLogic {
+renderVals() {
+const bg = this.props.backdrop ?? '#C9CFC6';
+return { rootStyle: '--wk-backdrop:' + bg };
+}
+}
+</script>
+<script src="./dc-lite.js"></script>
+</body>
+</html>

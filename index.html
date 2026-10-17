@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Etamar Beglikter — Lost words. Found homes.</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="./preview.css">
+<link rel="stylesheet" href="./site.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;1,400&amp;family=Noto+Sans+Hebrew:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div class="page {{labelsClass}}">
+
+<header class="site-header">
+<div class="container">
+<a href="./" class="wordmark">Etamar Begli<span class="k">k</span>ter</a>
+<nav aria-label="Main" class="nav">
+<a href="#">The Artist</a>
+<a href="./volume-for-value.html">Volume for Value</a>
+<a href="#">Bespoke</a>
+<a href="#" class="lang" lang="he" aria-label="Switch to Hebrew">עברית</a>
+</nav>
+</div>
+</header>
+
+<main>
+
+<section class="hero" aria-roledescription="carousel" aria-label="Featured">
+<img class="hero-img {{c0}}" src="./img/brainless-1.jpg" alt="Brainless — two encyclopedia volumes cut into facing profiles">
+<img class="hero-img {{c1}}" src="./img/install-close.jpg" alt="Cut encyclopedia pieces on the studio floor">
+<img class="hero-img {{c2}}" src="./img/leaders-group.jpg" alt="Three portrait busts cut from encyclopedia volumes">
+<div class="hero-inner">
+<span class="mod-label" style="color: #FF8A85">01 · Hero — full-screen work or short video</span>
+<span class="meta" style="color: var(--color-studio-text-secondary)">{{slide.eyebrow}}</span>
+<h1 class="hero-title">{{slide.title}}</h1>
+<p class="hero-sub">{{slide.sub}}</p>
+<div class="hero-ctl">
+<button type="button" class="ctl-btn" aria-label="Previous slide" onClick="{{prev}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
+<a href="#" class="btn btn--inverse">{{slide.cta}}</a>
+<button type="button" class="ctl-btn" aria-label="Next slide" onClick="{{next}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></button>
+</div>
+<div class="hero-dots" aria-hidden="true">
+<sc-for list="{{dots}}" as="d" hint-placeholder-count="3"><span class="{{d.cls}}"></span></sc-for>
+</div>
+</div>
+</section>
+
+<section class="container section" aria-labelledby="h-new">
+<span class="mod-label">02 · New from the studio (name TBD) — grid options in Tweaks; E/F merge stories into the same cluster</span>
+<div class="section-head">
+<h2 id="h-new" class="title">Fresh off the shelf</h2>
+<a href="./works.html" class="small">All works →</a>
+</div>
+
+<sc-if value="{{gA}}" hint-placeholder-val="{{ true }}">
+<div class="g3">
+<a href="./work.html" class="tile g3-a"><img src="./img/brainless-2.jpg" alt="Brainless"><span class="tile-cap"><span class="tile-title">Brainless</span><span class="chip">₪2,500</span></span></a>
+<a href="./work.html" class="tile g3-b"><img src="./img/leaders-glasses.jpg" alt="Nation's Greatest"><span class="tile-cap"><span class="tile-title">Nation's Greatest</span><span class="chip">₪2,500</span></span></a>
+<div class="tile tile--text g3-c"><span class="meta">Nation's Greatest · 2010</span><p class="tile-quote">A nation’s greatest, carved back into the book that made them great.</p><span class="tile-foot"><svg class="tile-arrow arr-up" width="72" height="20" viewBox="0 0 72 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 10h66M58 2l10 8-10 8"></path></svg><a href="#" class="small">See the work →</a></span></div>
+<a href="./work.html" class="tile g3-d"><img src="./img/cartoon-figure.jpg" alt="Cartoon Encyclopedia II"><span class="tile-cap"><span class="tile-title">Cartoon Encyclopedia II</span><span class="chip">₪2,500</span></span></a>
+</div>
+</sc-if>
+
+<sc-if value="{{gB}}" hint-placeholder-val="{{ false }}">
+<div class="g2">
+<a href="./work.html" class="tile g2-a"><img src="./img/brainless-1.jpg" alt="Brainless" style="object-position: 40% center"><span class="tile-cap"><span class="tile-title">Brainless</span><span class="chip">₪2,500</span></span></a>
+<div class="tile tile--text g2-b"><span class="meta">Brainless · 2008</span><p class="tile-quote">Two heads, cut from the encyclopedia that was supposed to fill them.</p><span class="tile-foot"><svg class="tile-arrow arr-left" width="72" height="20" viewBox="0 0 72 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 10h66M58 2l10 8-10 8"></path></svg><a href="#" class="small">See the work →</a></span></div>
+<a href="./work.html" class="tile g2-c"><img src="./img/cartoon-figure.jpg" alt="Cartoon Encyclopedia II"><span class="tile-cap"><span class="tile-title">Cartoon Encyclopedia II</span><span class="chip">₪2,500</span></span></a>
+<a href="./work.html" class="tile g2-d"><img src="./img/smile-green.jpg" alt="Shalekhet"><span class="tile-cap"><span class="tile-title">Shalekhet</span><span class="chip"><span class="dot dot--sold" aria-hidden="true"></span>Sold</span></span></a>
+</div>
+</sc-if>
+
+<sc-if value="{{gC}}" hint-placeholder-val="{{ false }}">
+<div class="masonry m2">
+<a href="./work.html" class="tile ar-34"><img src="./img/brainless-2.jpg" alt="Brainless"><span class="tile-cap"><span class="tile-title">Brainless</span><span class="chip">₪2,500</span></span></a>
+<div class="tile tile--text ar-free"><span class="meta">Brainless · 2008</span><p class="tile-quote">Two heads, cut from the encyclopedia that was supposed to fill them.</p><span class="tile-foot"><svg class="tile-arrow arr-up" width="72" height="20" viewBox="0 0 72 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 10h66M58 2l10 8-10 8"></path></svg><a href="#" class="small">See the work →</a></span></div>
+<a href="./work.html" class="tile ar-916"><img src="./img/cartoon-figure.jpg" alt="Cartoon Encyclopedia II"><span class="tile-cap"><span class="tile-title">Cartoon Encyclopedia II</span><span class="chip">₪2,500</span></span></a>
+<a href="./work.html" class="tile ar-11"><img src="./img/leaders-glasses.jpg" alt="Nation's Greatest"><span class="tile-cap"><span class="tile-title">Nation's Greatest</span><span class="chip">₪2,500</span></span></a>
+<a href="./work.html" class="tile ar-45"><img src="./img/smile-green.jpg" alt="Shalekhet"><span class="tile-cap"><span class="tile-title">Shalekhet</span><span class="chip"><span class="dot dot--sold" aria-hidden="true"></span>Sold</span></span></a>
+<a href="./work.html" class="tile ar-34"><img src="./img/volumes-stack.jpg" alt="Volume for Value"><span class="tile-cap"><span class="tile-title">Volume for Value</span><span class="chip">₪2,500</span></span></a>
+</div>
+</sc-if>
+
+<sc-if value="{{gD}}" hint-placeholder-val="{{ false }}">
+<div class="masonry m3">
+<a href="./work.html" class="tile ar-11"><img src="./img/leaders-glasses.jpg" alt="Nation's Greatest"><span class="tile-cap"><span class="tile-title">Nation's Greatest</span><span class="chip">₪2,500</span></span></a>
+<div class="tile tile--text ar-free"><span class="meta">Nation's Greatest · 2010</span><p class="tile-quote">A nation’s greatest, carved back into the book that made them great.</p><span class="tile-foot"><svg class="tile-arrow arr-up" width="72" height="20" viewBox="0 0 72 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 10h66M58 2l10 8-10 8"></path></svg></span></div>
+<a href="./work.html" class="tile ar-916"><img src="./img/brainless-2.jpg" alt="Brainless"><span class="tile-cap"><span class="tile-title">Brainless</span><span class="chip">₪2,500</span></span></a>
+<a href="./work.html" class="tile ar-34"><img src="./img/cartoon-figure.jpg" alt="Cartoon Encyclopedia II"><span class="tile-cap"><span class="tile-title">Cartoon Encyclopedia II</span><span class="chip">₪2,500</span></span></a>
+<a href="./work.html" class="tile ar-11"><img src="./img/smile-green.jpg" alt="Shalekhet"><span class="tile-cap"><span class="tile-title">Shalekhet</span><span class="chip"><span class="dot dot--sold" aria-hidden="true"></span>Sold</span></span></a>
+<a href="./work.html" class="tile ar-45"><img src="./img/cartoon-open.jpg" alt="Cartoon Encyclopedia IV"><span class="tile-cap"><span class="tile-title">Cartoon Encyclopedia IV</span><span class="chip">₪2,500</span></span></a>
+<a href="./work.html" class="tile ar-916"><img src="./img/volumes-stack.jpg" alt="Volume for Value"><span class="tile-cap"><span class="tile-title">Volume for Value</span><span class="chip">₪2,500</span></span></a>
+<a href="./work.html" class="tile ar-34"><img src="./img/profiles.jpg" alt="Brainless — profiles"><span class="tile-cap"><span class="tile-title">Brainless — profiles</span><span class="chip">₪2,500</span></span></a>
+</div>
+</sc-if>
+<sc-if value="{{gE}}" hint-placeholder-val="{{ false }}">
+<div class="cluster">
+<div class="g2">
+<a href="./work.html" class="tile g2-a"><img src="./img/brainless-1.jpg" alt="Brainless" style="object-position: 40% center"><span class="tile-cap"><span class="tile-title">Brainless</span><span class="chip">₪2,500</span></span></a>
+<div class="tile tile--text g2-b"><span class="meta">Brainless · 2008</span><p class="tile-quote">Two heads, cut from the encyclopedia that was supposed to fill them.</p><span class="tile-foot"><svg class="tile-arrow arr-left" width="72" height="20" viewBox="0 0 72 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 10h66M58 2l10 8-10 8"></path></svg><a href="#" class="small">See the work →</a></span></div>
+<a href="./work.html" class="tile g2-c"><img src="./img/cartoon-figure.jpg" alt="Cartoon Encyclopedia II"><span class="tile-cap"><span class="tile-title">Cartoon Encyclopedia II</span><span class="chip">₪2,500</span></span></a>
+<a href="./work.html" class="tile g2-d"><img src="./img/smile-green.jpg" alt="Shalekhet"><span class="tile-cap"><span class="tile-title">Shalekhet</span><span class="chip"><span class="dot dot--sold" aria-hidden="true"></span>Sold</span></span></a>
+</div>
+<sc-if value="{{spSide}}" hint-placeholder-val="{{ false }}">
+<div class="story-row">
+<a href="#" class="story-tile"><span class="story-img"><img src="./img/smile-page.jpg" alt="A cut page — the first work"></span><span class="story-text"><span class="meta">Story · [date]</span><span class="title">[Yu.Pi — how it started]</span><p class="small secondary">[Two or three sentences, about 40 words. The first volume he cut, and why he did not stop. Enough to pull you in, not the whole story.]</p><span class="story-more small">Read the story →</span></span></a>
+<a href="#" class="story-tile"><span class="story-img"><img src="./img/install-close.jpg" alt="Cut pieces on the studio floor"></span><span class="story-text"><span class="meta">From the studio · [date]</span><span class="title">[What happens to the pieces that fall away]</span><p class="small secondary">[Two or three sentences, about 40 words. A process note, an exhibition or a press piece. Same tile for every kind of article.]</p><span class="story-more small">Read →</span></span></a>
+</div>
+</sc-if>
+<sc-if value="{{spEqual}}" hint-placeholder-val="{{ true }}">
+<div class="pair-eq">
+<a href="#" class="pair-item"><span class="pair-img"><img src="./img/smile-page.jpg" alt="A cut page — the first work"></span><span class="meta pair-meta">Story — [date] · How it started</span><span class="pair-title">[The first volume he cut, and why he didn't stop.]</span><span class="pair-link">Read the story <span class="ne" aria-hidden="true">↗</span></span></a>
+<a href="#" class="pair-item"><span class="pair-img"><img src="./img/install-close.jpg" alt="Cut pieces on the studio floor"></span><span class="meta pair-meta">From the studio — [date] · Process</span><span class="pair-title">[What happens to the pieces that fall away.]</span><span class="pair-link">Read <span class="ne" aria-hidden="true">↗</span></span></a>
+</div>
+</sc-if>
+<sc-if value="{{spDuo}}" hint-placeholder-val="{{ false }}">
+<div class="pair-duo">
+<a href="#" class="duo-small"><img src="./img/leaders-glasses.jpg" alt="Nation's Greatest — detail"></a>
+<a href="#" class="duo-large"><img src="./img/install-field.jpg" alt="The studio floor covered with cut pieces"><span class="duo-text"><span class="duo-title">[Ten thousand<br>pieces. One<br>volume.]</span><span class="duo-sub">[Two lines of story. What you are looking at, and why it matters.]</span><span class="btn btn--inverse btn--inline duo-btn">Read the story</span></span></a>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{gF}}" hint-placeholder-val="{{ false }}">
+<div class="cluster">
+<div class="g2">
+<a href="./work.html" class="tile g2-a"><img src="./img/brainless-1.jpg" alt="Brainless" style="object-position: 40% center"><span class="tile-cap"><span class="tile-title">Brainless</span><span class="chip">₪2,500</span></span></a>
+<div class="tile tile--text g2-b"><span class="meta">Brainless · 2008</span><p class="tile-quote">Two heads, cut from the encyclopedia that was supposed to fill them.</p><span class="tile-foot"><svg class="tile-arrow arr-left" width="72" height="20" viewBox="0 0 72 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 10h66M58 2l10 8-10 8"></path></svg><a href="#" class="small">See the work →</a></span></div>
+<a href="./work.html" class="tile g2-c"><img src="./img/cartoon-figure.jpg" alt="Cartoon Encyclopedia II"><span class="tile-cap"><span class="tile-title">Cartoon Encyclopedia II</span><span class="chip">₪2,500</span></span></a>
+<a href="./work.html" class="tile g2-d"><img src="./img/smile-green.jpg" alt="Shalekhet"><span class="tile-cap"><span class="tile-title">Shalekhet</span><span class="chip"><span class="dot dot--sold" aria-hidden="true"></span>Sold</span></span></a>
+</div>
+<div class="g2 g2--mirror">
+<a href="./work.html" class="tile g2-a"><img src="./img/leaders-group.jpg" alt="Nation's Greatest — three busts"><span class="tile-cap"><span class="tile-title">Nation's Greatest</span><span class="chip">₪2,500</span></span></a>
+<div class="tile tile--text g2-b"><span class="meta">Cartoon Encyclopedia · 2012</span><p class="tile-quote">Characters cut loose from the entries that explained them.</p><span class="tile-foot"><a href="#" class="small">See the series →</a><svg class="tile-arrow" width="72" height="20" viewBox="0 0 72 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 10h66M58 2l10 8-10 8"></path></svg></span></div>
+<a href="./work.html" class="tile g2-c"><img src="./img/cartoon-green.jpg" alt="Cartoon Encyclopedia III"><span class="tile-cap"><span class="tile-title">Cartoon Encyclopedia III</span><span class="chip">₪2,500</span></span></a>
+<a href="./work.html" class="tile g2-d"><img src="./img/cartoon-mouse.jpg" alt="Cartoon Encyclopedia I"><span class="tile-cap"><span class="tile-title">Cartoon Encyclopedia I</span><span class="chip">₪2,500</span></span></a>
+</div>
+<sc-if value="{{spSide}}" hint-placeholder-val="{{ false }}">
+<div class="story-row">
+<a href="#" class="story-tile"><span class="story-img"><img src="./img/smile-page.jpg" alt="A cut page — the first work"></span><span class="story-text"><span class="meta">Story · [date]</span><span class="title">[Yu.Pi — how it started]</span><p class="small secondary">[Two or three sentences, about 40 words. The first volume he cut, and why he did not stop. Enough to pull you in, not the whole story.]</p><span class="story-more small">Read the story →</span></span></a>
+<a href="#" class="story-tile"><span class="story-img"><img src="./img/install-close.jpg" alt="Cut pieces on the studio floor"></span><span class="story-text"><span class="meta">From the studio · [date]</span><span class="title">[What happens to the pieces that fall away]</span><p class="small secondary">[Two or three sentences, about 40 words. A process note, an exhibition or a press piece. Same tile for every kind of article.]</p><span class="story-more small">Read →</span></span></a>
+</div>
+</sc-if>
+<sc-if value="{{spEqual}}" hint-placeholder-val="{{ true }}">
+<div class="pair-eq">
+<a href="#" class="pair-item"><span class="pair-img"><img src="./img/smile-page.jpg" alt="A cut page — the first work"></span><span class="meta pair-meta">Story — [date] · How it started</span><span class="pair-title">[The first volume he cut, and why he didn't stop.]</span><span class="pair-link">Read the story <span class="ne" aria-hidden="true">↗</span></span></a>
+<a href="#" class="pair-item"><span class="pair-img"><img src="./img/install-close.jpg" alt="Cut pieces on the studio floor"></span><span class="meta pair-meta">From the studio — [date] · Process</span><span class="pair-title">[What happens to the pieces that fall away.]</span><span class="pair-link">Read <span class="ne" aria-hidden="true">↗</span></span></a>
+</div>
+</sc-if>
+<sc-if value="{{spDuo}}" hint-placeholder-val="{{ false }}">
+<div class="pair-duo">
+<a href="#" class="duo-small"><img src="./img/leaders-glasses.jpg" alt="Nation's Greatest — detail"></a>
+<a href="#" class="duo-large"><img src="./img/install-field.jpg" alt="The studio floor covered with cut pieces"><span class="duo-text"><span class="duo-title">[Ten thousand<br>pieces. One<br>volume.]</span><span class="duo-sub">[Two lines of story. What you are looking at, and why it matters.]</span><span class="btn btn--inverse btn--inline duo-btn">Read the story</span></span></a>
+</div>
+</sc-if>
+</div>
+</sc-if>
+</section>
+
+<section class="container section" aria-labelledby="h-creds">
+<span class="mod-label">03 · Credibility — logos only (placeholders), static, soft scroll-linked reveal</span>
+<div class="creds2">
+<div class="creds-head stack-tight">
+<span class="meta">Recognition</span>
+<h2 id="h-creds" class="title">In museum collections and on museum walls.</h2>
+</div>
+<div class="creds-rows">
+<ul class="logo-grid" aria-label="Collections and exhibitions"><li class="logo-ph reveal"><span class="logo-mark" aria-hidden="true"></span><span class="logo-name">The Knesset Art Collection</span></li><li class="logo-ph reveal"><span class="logo-mark" aria-hidden="true"></span><span class="logo-name">Eretz Israel Museum, Tel Aviv</span></li><li class="logo-ph reveal"><span class="logo-mark" aria-hidden="true"></span><span class="logo-name">Herzliya Museum of Contemporary Art</span></li><li class="logo-ph reveal"><span class="logo-mark" aria-hidden="true"></span><span class="logo-name">100 Years of Dada</span></li><li class="logo-ph reveal"><span class="logo-mark" aria-hidden="true"></span><span class="logo-name">Ticho House, Israel Museum</span></li><li class="logo-ph reveal"><span class="logo-mark" aria-hidden="true"></span><span class="logo-name">Israeli Pavilion, Budapest International Book Festival</span></li></ul>
+</div>
+</div>
+</section>
+
+
+<section class="container section workshop" aria-labelledby="h-studio">
+<span class="mod-label">04 · The workshop — short and warm; full service detail parked (Tweak) for a future service page</span>
+<div class="ws2">
+<div class="ws2-text">
+<div class="stack-tight">
+<span class="meta">The workshop · Tel Aviv</span>
+<h2 id="h-studio" class="headline">[From our table to your wall.]</h2>
+</div>
+<p class="ws-lede">[We take orders from anywhere in the world. Every work is packed by hand in the studio and shipped insured, door to door. Questions, special requests, a work you saw somewhere — talk to us. We are here.]</p>
+<a href="#" class="small ws2-link">Talk to us <span class="arrow" aria-hidden="true">→</span></a>
+<div class="ws2-frames">
+<figure class="media ws-ph"><img src="./img/install-close.jpg" alt="[placeholder] cutting at the table"><figcaption>[cutting]</figcaption></figure>
+<figure class="media ws-ph"><img src="./img/ref-studio-machine.jpg" alt="[reference placeholder] studio machine"><figcaption>[the studio · ref]</figcaption></figure>
+<figure class="media ws-ph"><img src="./img/ref-studio-pack.jpg" alt="[reference placeholder] packed works on the desk"><figcaption>[packing · ref]</figcaption></figure>
+<figure class="media ws-ph"><img src="./img/volumes-stack.jpg" alt="[placeholder] volumes waiting"><figcaption>[the material]</figcaption></figure>
+</div>
+</div>
+<figure class="media ws2-video"><img src="./img/install-field.jpg" alt="Studio floor covered with cut encyclopedia pieces"><span class="play" aria-hidden="true" style="background: var(--neutral-0)"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4l10 6-10 6z" fill="#161514"></path></svg></span><figcaption>[0:30 · a work, from volume to box]</figcaption></figure>
+</div>
+<sc-if value="{{wsDetail}}" hint-placeholder-val="{{ false }}">
+<div class="ws-parked">
+<span class="mod-label">Parked · service detail, for a future service / trade page</span>
+<ol class="ws-steps">
+<li><span class="ws-n">01</span><span class="stack-tight"><span class="ws-t">Cut by hand</span><span class="small secondary">[One volume, one work. 2–3 weeks at the table.]</span></span></li>
+<li><span class="ws-n">02</span><span class="stack-tight"><span class="ws-t">Signed, with a certificate</span><span class="small secondary">[Volume, entry and edition on the certificate. Your name too, if you gave the volume.]</span></span></li>
+<li><span class="ws-n">03</span><span class="stack-tight"><span class="ws-t">Packed in the studio</span><span class="small secondary">[Made-to-size box, acid-free paper. We photograph it before it closes.]</span></span></li>
+<li><span class="ws-n">04</span><span class="stack-tight"><span class="ws-t">Shipped, insured, tracked</span><span class="small secondary">[Israel: 2–3 days. Abroad: 5–7 days, courier, door to door.]</span></span></li>
+<li><span class="ws-n">05</span><span class="stack-tight"><span class="ws-t">Answered by a person</span><span class="small secondary">[Hebrew or English, usually the same day. Before and after you buy.]</span></span></li>
+</ol>
+<dl class="ws-facts">
+<div><dt>Ready works</dt><dd>[ship within 3 days]</dd></div>
+<div><dt>Commissions</dt><dd>[6–8 weeks, with photo updates]</dd></div>
+<div><dt>Studio visits</dt><dd>[by appointment, Tel Aviv]</dd></div>
+<div><dt>Team</dt><dd>[Etamar + 2 — names]</dd></div>
+</dl>
+</div>
+</sc-if>
+</section>
+
+
+<section class="quote-split section" aria-label="Quote">
+<figure class="media"><img src="./img/profiles.jpg" alt="Brainless — two cut profiles facing each other"></figure>
+<div class="quote-side">
+<span class="mod-label">05 · Quote — image + one huge line, side by side</span>
+<p class="quote-big">“[A line Etamar actually said.]”</p>
+<span class="small muted">— Etamar, [context]</span>
+</div>
+</section>
+
+<sc-if value="{{storyAlone}}" hint-placeholder-val="{{ false }}">
+<section class="container section" aria-labelledby="h-story">
+<span class="mod-label">06 · Story — standalone (only in grids A–D; in E/F stories live inside module 02)</span>
+<div class="split">
+<figure class="media split-media ar-3-2"><img src="./img/smile-page.jpg" alt="A cut page — the first work"></figure>
+<div class="split-text stack-tight">
+<span class="meta">Story · [date]</span>
+<h2 id="h-story" class="title">[Yu.Pi — how it started]</h2>
+<p class="small secondary" style="margin: 0">[Up to 150 words. Teaser opening line that pulls you into the story of the first volume he cut…]</p>
+<a href="#" class="small" style="margin-top: var(--space-2)">Read the story →</a>
+</div>
+</div>
+</section>
+</sc-if>
+
+<section class="section" aria-labelledby="h-vol" style="background: var(--color-gallery-bg-raised); border-top: 1px solid var(--color-gallery-border-default); border-bottom: 1px solid var(--color-gallery-border-default)">
+<div class="container" style="padding-block: var(--space-24)">
+<span class="mod-label">07 · Volume for Value — give a volume, counter</span>
+<div class="split rev">
+<figure class="media split-media ar-3-2"><img src="./img/volumes-stack.jpg" alt="A stack of Hebrew Encyclopedia volumes" style="object-position: center 40%"></figure>
+<div class="split-text stack">
+<div class="stack-tight">
+<span class="meta">Side room</span>
+<h2 id="h-vol" class="headline">Volume for Value</h2>
+<p class="secondary" style="margin: 0">Is there a Hebrew Encyclopedia gathering dust on your shelf? Give it back. Your name goes on the certificate of the work cut from it.</p>
+</div>
+<div style="display: flex; align-items: baseline; gap: var(--space-3)"><span class="counter">[312]</span><span class="small muted">volumes given so far</span></div>
+<a href="./volume-for-value.html" class="btn btn--primary btn--inline" style="align-self: flex-start">Give a volume</a>
+</div>
+</div>
+</div>
+</section>
+
+
+<section class="container section" aria-label="Bespoke">
+<span class="mod-label">08 · Special projects — a hint, no price</span>
+<a href="#" class="tease">
+<span class="stack-tight"><span class="meta">Bespoke</span><span class="title">[Something large is being cut for a hotel lobby.]</span></span>
+<span class="small secondary" style="display: flex; align-items: center; gap: var(--space-4)">Talk to the studio <span class="arrow" aria-hidden="true">→</span></span>
+</a>
+</section>
+
+</main>
+
+<footer class="join" style="{{joinStyle}}" aria-labelledby="h-news">
+<div class="container join-inner">
+<span class="mod-label">09 · Footer = invitation to join the list (ground colour in Tweaks)</span>
+<span class="join-sign" aria-hidden="true">[Etamar's signature]</span>
+<h2 id="h-news" class="join-title">See new works first</h2>
+<p class="join-quote">“[I only write when a new work leaves the table — a few times a year, never more.]”</p>
+<span class="small join-by">Etamar Beglikter</span>
+<form class="join-form" onSubmit="{{noop}}">
+<label class="join-field"><span>Name</span><input type="text" aria-label="Name"></label>
+<label class="join-field"><span>Email</span><input type="email" aria-label="Email"></label>
+<button type="submit" class="join-btn">Subscribe</button>
+</form>
+</div>
+<div class="container join-foot small">
+<span class="wordmark">Etamar Begli<span class="k">k</span>ter</span>
+<span>Studio, Tel Aviv · visits by appointment</span>
+<span class="join-links"><a href="#">Shipping</a><a href="#">Returns</a><a href="#">Certificate</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">WhatsApp</a><a href="#">Instagram</a><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Accessibility</a></span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;labels&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;section&quot;:&quot;Sketch&quot;},&quot;gridLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;A · 3 columns (DFTION)&quot;,&quot;B · Feature + text (Katerio)&quot;,&quot;C · Masonry, 2 columns&quot;,&quot;D · Masonry, 3 columns&quot;,&quot;E · B + stories row&quot;,&quot;F · B, mirrored B + stories&quot;],&quot;default&quot;:&quot;E · B + stories row&quot;,&quot;section&quot;:&quot;New works grid&quot;},&quot;storyPair&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Equal pair, text below&quot;,&quot;Small + large, text on image&quot;,&quot;Image + text side by side&quot;],&quot;default&quot;:&quot;Equal pair, text below&quot;,&quot;section&quot;:&quot;New works grid&quot;},&quot;wsDetail&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;section&quot;:&quot;Workshop&quot;},&quot;footerBg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#FF625C&quot;,&quot;#FFD8D5&quot;,&quot;#E9E6E0&quot;,&quot;#161514&quot;],&quot;default&quot;:&quot;#FF625C&quot;,&quot;section&quot;:&quot;Footer&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:7600}}">
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { i: 0 };
+}
+renderVals() {
+const slides = [
+{ img: './img/brainless-1.jpg', alt: 'Brainless — two encyclopedia volumes cut into facing profiles', eyebrow: 'New · Autumn 2026', title: 'Lost words. Found homes.', sub: 'One-of-one works cut from the Hebrew Encyclopedia.', cta: 'See the works' },
+{ img: './img/install-close.jpg', alt: 'Cut encyclopedia pieces on the studio floor', eyebrow: 'Volume for Value', title: 'Give a volume. Keep the story.', sub: 'Bring your old encyclopedia back to life — your name goes on the certificate.', cta: 'Give a volume' },
+{ img: './img/leaders-group.jpg', alt: 'Three portrait busts cut from encyclopedia volumes', eyebrow: 'Personal commission', title: 'Have an entry in mind?', sub: 'A name, a place, a memory — cut from its own volume.', cta: 'Commission your own' }
+];
+const i = this.state.i;
+const n = slides.length;
+return {
+labelsClass: (this.props.labels ?? true) ? '' : 'hide-labels',
+gA: String(this.props.gridLayout ?? 'E').startsWith('A'),
+gB: String(this.props.gridLayout ?? '').startsWith('B'),
+gC: String(this.props.gridLayout ?? '').startsWith('C'),
+gD: String(this.props.gridLayout ?? '').startsWith('D'),
+gE: String(this.props.gridLayout ?? 'E').startsWith('E'),
+gF: String(this.props.gridLayout ?? '').startsWith('F'),
+spEqual: String(this.props.storyPair ?? 'Equal').startsWith('Equal'),
+spDuo: String(this.props.storyPair ?? '').startsWith('Small'),
+spSide: String(this.props.storyPair ?? '').startsWith('Image'),
+joinStyle: (() => { const bg = this.props.footerBg ?? '#FF625C'; const dark = bg === '#161514'; return 'background:' + bg + ';color:' + (dark ? '#F4F2EE' : '#161514') + ';--join-ink:' + (dark ? '#F4F2EE' : '#161514') + ';--join-on-ink:' + (dark ? '#161514' : '#FFFFFF'); })(),
+wsDetail: !!this.props.wsDetail,
+storyAlone: !/^[EF]/.test(String(this.props.gridLayout ?? 'E')),
+slide: slides[i],
+c0: i === 0 ? 'on' : '', c1: i === 1 ? 'on' : '', c2: i === 2 ? 'on' : '',
+dots: slides.map((s, k) => ({ cls: k === i ? 'on' : '' })),
+prev: () => this.setState({ i: (i - 1 + n) % n }),
+next: () => this.setState({ i: (i + 1) % n }),
+noop: (e) => { if (e && e.preventDefault) e.preventDefault(); }
+};
+}
+}
+</script>
+<script src="./dc-lite.js"></script>
+</body>
+</html>
