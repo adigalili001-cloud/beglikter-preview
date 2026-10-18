@@ -11,8 +11,63 @@
 <body>
 <x-dc>
 <helmet>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;1,400&amp;family=Noto+Sans+Hebrew:wght@300;400;500;600&amp;family=Frank+Ruhl+Libre:wght@500;700&amp;display=swap" rel="stylesheet">
-<style>body{margin:0}</style>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;1,400&amp;family=Noto+Sans+Hebrew:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.vb-top{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,4fr) minmax(0,4fr);column-gap:32px;padding-block:40px 64px;align-items:stretch}
+.vb-cause{display:flex;flex-direction:column;gap:20px;min-width:0}
+.vb-n{font-size:200px;font-weight:600;line-height:.8;letter-spacing:-.06em;color:var(--neutral-900);font-variant-numeric:tabular-nums}
+.vb-n-l{display:flex;gap:10px;align-items:center;margin-top:12px}
+.vb-n-l .dot{width:10px;height:10px;border-radius:999px;background:var(--red-dot);display:inline-block}
+.vb-h1{margin:8px 0 0;font-size:32px;font-weight:500;line-height:1.1;letter-spacing:-.02em;max-width:20ch}
+.vb-q{margin:auto 0 0;padding-top:16px;border-top:1px solid var(--neutral-900);display:flex;flex-direction:column;gap:8px}
+.vb-q p{margin:0;font-size:19px;line-height:1.38;font-style:italic;color:var(--neutral-800);max-width:38ch}
+.vb-photo{margin:0;background:var(--neutral-100);overflow:hidden;min-height:600px;position:relative}
+.vb-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.vb-form{display:flex;flex-direction:column;gap:22px;padding:4px 0 0}
+.vb-form h2{margin:0;font-size:24px;font-weight:500;letter-spacing:-.01em}
+.vb-chips{display:flex;flex-wrap:wrap;gap:8px}
+.vb-chip{min-height:44px;padding:0 16px;border:1px solid var(--neutral-300);background:#fff;font:inherit;font-size:15px;cursor:pointer;color:inherit}
+.vb-chip:hover{border-color:var(--neutral-700)}
+.vb-chip.on{background:var(--neutral-900);border-color:var(--neutral-900);color:#fff}
+.vb-fields{display:flex;flex-direction:column;gap:20px}
+.vb-fields .v4v-line{margin-top:0}
+.vb-fields .v4v-line input{font-size:24px;font-weight:500}
+.vb-fl .v4v-line-label{opacity:0;transform:translateY(8px);transition:opacity .18s,transform .18s}
+.vb-fl:focus-within .v4v-line-label,.vb-fl:has(input:not(:placeholder-shown)) .v4v-line-label{opacity:1;transform:none}
+.vb-fl input:focus::placeholder{color:transparent}
+.vb-peek{border:0;background:none;padding:0 0 0 32px;font:inherit;font-size:14px;color:var(--neutral-700);text-decoration:underline;text-underline-offset:4px;cursor:pointer;align-self:flex-start;min-height:44px}
+.vb-label{margin-left:32px;background:#fff;border:1px solid var(--neutral-300);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.vb-label-t{font-size:16px;font-weight:500}
+.vb-cta{width:100%;cursor:pointer;margin-top:auto}
+.vb-more{padding-block:96px;display:flex;flex-direction:column;gap:96px;border-top:1px solid var(--neutral-300)}
+.vb-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.vb-stat{border-top:2px solid var(--neutral-900);padding-top:16px;display:flex;flex-direction:column;gap:6px}
+.vb-stat-row{display:flex;align-items:center;gap:16px;will-change:transform,opacity}
+.vb-ic{width:44px;height:44px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.vb-stat b{font-size:64px;font-weight:600;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.vb-saved{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.vb-s{margin:0;display:flex;flex-direction:column;gap:10px}
+.vb-s .img{aspect-ratio:4/5;background:var(--neutral-100);overflow:hidden;position:relative}
+.vb-s img{width:100%;height:100%;object-fit:cover;display:block}
+.vb-s .tag{position:absolute;left:10px;top:10px;background:#fff;padding:4px 8px;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+.vb-big{margin:0;font-size:56px;font-weight:500;line-height:1.05;letter-spacing:-.03em;max-width:22ch}
+.vb-reels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.vb-reel{position:relative;aspect-ratio:9/16;overflow:hidden;display:flex;align-items:flex-end;text-decoration:none;color:#fff;background:var(--neutral-700)}
+.vb-reel:hover{color:#fff}
+.vb-sil{position:absolute;inset:0;width:100%;height:100%;display:block;background-size:cover;background-repeat:no-repeat}
+.vb-reel::after{content:"";position:absolute;inset:auto 0 0 0;height:55%;background:linear-gradient(to top,rgba(22,21,20,.78),rgba(22,21,20,0))}
+.vb-reel-bar{position:absolute;left:10px;right:10px;top:10px;height:2px;background:rgba(255,255,255,.35)}
+.vb-reel-bar i{display:block;height:100%;background:#fff}
+.vb-play{position:absolute;left:50%;top:42%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:999px;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;transition:transform .2s}
+.vb-play svg{width:22px;height:22px;fill:var(--neutral-900);margin-left:3px}
+.vb-reel:hover .vb-play{transform:scale(1.08)}
+.vb-reel-cap{position:relative;z-index:1;padding:14px;display:flex;flex-direction:column;gap:4px}
+.vb-reel-cap b{font-size:15px;font-weight:600}
+.vb-reel-cap span{font-size:13px;line-height:1.35;opacity:.9}
+@media (max-width:1023px){.vb-top{grid-template-columns:1fr 1fr;row-gap:24px}.vb-cause{grid-column:1 / -1}.vb-photo{min-height:420px}.vb-saved{grid-template-columns:repeat(2,minmax(0,1fr))}.vb-reels{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.vb-top{grid-template-columns:1fr}.vb-n{font-size:120px}.vb-h1{font-size:30px}.vb-photo{min-height:300px}.vb-stats{grid-template-columns:1fr}.vb-big{font-size:34px}}
+</style>
 </helmet>
 <div class="page">
 <header class="site-header">
@@ -22,133 +77,196 @@
 </div>
 </header>
 
-<main class="container v4v-wrap">
+<main class="container">
+<div class="vb-top">
 
-<div class="v4v">
-
-<aside class="v4v-visual" aria-hidden="true">
-<img class="v4v-photo" src="./img/volumes-stack.jpg" alt="">
-<div class="v4v-shelf v4v-shelf--live">
-<sc-for list="{{shelfSpines}}" as="s" hint-placeholder-count="12"><span class="v4v-shelf-spine {{s.cls}}"></span></sc-for>
+<section class="vb-cause" aria-labelledby="vb-title">
+<h1 id="vb-title" class="headline">Volume for Value</h1>
+<div>
+<div class="vb-n" data-count="top">0</div>
+<div class="vb-n-l"><span class="dot" aria-hidden="true"></span><span class="meta" style="color: var(--neutral-900)">volumes rescued so far</span></div>
 </div>
-<div class="v4v-visual-cap">
-<span class="meta" style="color: rgba(255,255,255,.75)">Volume for Value · [312] volumes given so far</span>
-<span class="v4v-visual-line">{{visualLine}}</span>
-</div>
-</aside>
+<p class="vb-h1">The Hebrew Encyclopedia is leaving our homes. Bring it to the studio instead.</p>
+<blockquote class="vb-q">
+<p>“Thirty-two volumes that explained the world to three generations. I don’t want them pulped. I want them on a wall.”</p>
+<span class="small secondary">Etamar Beglikter</span>
+</blockquote>
+</section>
 
-<section class="v4v-panel">
+<figure class="vb-photo">
+<sc-if value="{{ph.field}}" hint-placeholder-val="{{ true }}"><img src="./img/install-field.jpg" alt="Etamar Beglikter among thousands of cut encyclopedia pages" style="object-position: 55% 50%"></sc-if>
+<sc-if value="{{ph.close}}" hint-placeholder-val="{{ false }}"><img src="./img/install-close.jpg" alt="Cut encyclopedia pages piled on the floor"></sc-if>
+<sc-if value="{{ph.spine}}" hint-placeholder-val="{{ false }}"><img src="./img/cartoon-figure.jpg" alt="An encyclopedia volume cut into a figure"></sc-if>
+<sc-if value="{{ph.stack}}" hint-placeholder-val="{{ false }}"><img src="./img/volumes-stack.jpg" alt="A stack of encyclopedia volumes"></sc-if>
+<sc-if value="{{ph.smile}}" hint-placeholder-val="{{ false }}"><img src="./img/smile-green.jpg" alt="A green encyclopedia cover cut into a smile" style="object-position: 40% 50%"></sc-if>
+<sc-if value="{{ph.brainless}}" hint-placeholder-val="{{ false }}"><img src="./img/brainless-1.jpg" alt="Two encyclopedia volumes cut into a head in profile" style="object-position: 45% 50%"></sc-if>
+</figure>
 
+<section class="vb-form" aria-labelledby="vb-form-h">
 <sc-if value="{{editing}}" hint-placeholder-val="{{ true }}">
-<div class="v4v-form">
+<div class="vb-fields" style="gap: 24px; height: 100%">
 <div class="stack-tight">
-<h1 class="v4v-q">Give a volume.<br>Keep the story.</h1>
-<p class="v4v-help">Is there a Hebrew Encyclopedia gathering dust somewhere? Give it back. A work is cut from it, and your name goes on its certificate.</p>
+<h2 id="vb-form-h">Rescue a volume</h2>
+<p class="small secondary" style="margin: 0">Any volume, any condition. Collected in Tel Aviv or dropped at the studio.</p>
 </div>
-
 <fieldset class="v4v-field">
-<legend class="v4v-line-label">How many volumes?</legend>
-<div class="v4v-seg">
-<sc-for list="{{amounts}}" as="a" hint-placeholder-count="3"><button type="button" class="v4v-seg-btn {{a.cls}}" aria-pressed="{{a.on}}" onClick="{{a.pick}}"><span class="v4v-seg-t">{{a.t}}</span><span class="small muted">{{a.d}}</span></button></sc-for>
+<legend class="v4v-line-label">How many?</legend>
+<div class="vb-chips">
+<sc-for list="{{amounts}}" as="a" hint-placeholder-count="3"><button type="button" class="vb-chip {{a.cls}}" aria-pressed="{{a.on}}" onClick="{{a.pick}}">{{a.t}}</button></sc-for>
 </div>
 </fieldset>
-
-<div class="v4v-two">
-<label class="v4v-line"><span class="v4v-line-label">Name</span><input type="text" placeholder="[ Your name ]" value="{{name}}" onInput="{{setName}}"></label>
-<label class="v4v-line"><span class="v4v-line-label">Phone</span><input type="tel" placeholder="[ 05X-XXX-XXXX ]" value="{{phone}}" onInput="{{setPhone}}"></label>
+<div class="vb-fields">
+<label class="v4v-line vb-fl"><span class="v4v-line-label">Name</span><input type="text" placeholder="Name" value="{{name}}" onInput="{{setName}}"></label>
+<label class="v4v-line vb-fl"><span class="v4v-line-label">Phone</span><input type="tel" placeholder="Phone" value="{{phone}}" onInput="{{setPhone}}"></label>
 </div>
-
-<button type="button" role="checkbox" aria-checked="{{optAria}}" class="v4v-check {{optCls}}" onClick="{{toggleOptIn}}"><span class="v4v-box" aria-hidden="true"></span><span class="small">Send me updates on WhatsApp — when my volume becomes a work, and new works. Rarely.</span></button>
-
-<div class="v4v-nav">
-<button type="button" class="btn btn--primary btn--inline" onClick="{{send}}">Give my volume</button>
-<span class="small muted">We’ll message you to arrange pickup or drop-off.</span>
-</div>
+<div class="vb-fields" style="gap: 6px">
+<label class="v4v-check {{creditCls}}"><input type="checkbox" checked="{{credit}}" onChange="{{toggleCredit}}"><span class="v4v-box" aria-hidden="true"></span><span class="small">Show my name if my volume becomes a work</span></label>
+<button type="button" class="vb-peek" aria-expanded="{{peekAria}}" onClick="{{togglePeek}}">{{peekText}}</button>
+<sc-if value="{{peek}}" hint-placeholder-val="{{ false }}">
+<div class="vb-label">
+<span class="meta">Rescued from</span>
+<span class="vb-label-t">Vol. XIV · given by {{creditName}}</span>
+<span class="small muted">Printed on the work’s label and certificate</span>
 </div>
 </sc-if>
-
+<label class="v4v-check {{optCls}}"><input type="checkbox" checked="{{optIn}}" onChange="{{toggleOptIn}}"><span class="v4v-box" aria-hidden="true"></span><span class="small">WhatsApp me when it becomes a work</span></label>
+</div>
+<button type="button" class="btn btn--primary vb-cta" onClick="{{send}}">Rescue my volume</button>
+</div>
+</sc-if>
 <sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
-<div class="v4v-done">
+<div class="vb-fields" style="gap: 16px">
 <span class="meta">Thank you{{thanksName}}</span>
-<h2 class="v4v-big">It’s coming home.</h2>
-<p class="v4v-help">We’ll message you on WhatsApp within a day to arrange how it gets to the studio.</p>
-<sc-if value="{{showLaunch}}" hint-placeholder-val="{{ true }}">
-<div class="v4v-launch">
-<span class="meta">Launch evening · Thu 26.11 · [Tel Aviv]</span>
-<span class="title">Bring it to the launch.</span>
-<p class="small secondary" style="margin: 0">[An evening in the studio-home, two rounds. The first works cut from donated volumes, and a shelf waiting for yours.]</p>
-<div class="v4v-launch-row"><a href="#" class="btn btn--primary btn--inline">Save my place</a><button type="button" class="v4v-skip" onClick="{{reset}}">Not this time</button></div>
+<span class="vb-n" style="font-size: 96px">313</span>
+<p class="small secondary" style="margin: 0">Yours is the next one. We’ll message you on WhatsApp within a day to arrange pickup.</p>
+<button type="button" class="vb-peek" style="padding-left: 0" onClick="{{reset}}">Rescue another</button>
 </div>
 </sc-if>
-</div>
-</sc-if>
-
 </section>
+
 </div>
 </main>
-<section class="container section v4v-how" aria-labelledby="h-how">
-<h2 id="h-how" class="title">How it works</h2>
-<ol class="v4v-steps">
-<li><span class="v4v-step-n">01</span><span class="v4v-step-t">You give a volume</span><span class="small secondary">[We collect it in Tel Aviv, or you bring it to the studio. Any volume, any condition.]</span></li>
-<li><span class="v4v-step-n">02</span><span class="v4v-step-t">Etamar cuts a work from it</span><span class="small secondary">[One entry from your volume becomes the shape. We send you a photo when it’s done.]</span></li>
-<li><span class="v4v-step-n">03</span><span class="v4v-step-t">Your name on the certificate</span><span class="small secondary">[Whoever takes the work home also gets the story of where its volume came from — and who gave it.]</span></li>
-</ol>
-<div class="v4v-cert-row">
-<figure class="media v4v-cert-img"><img src="./img/certificate.jpg" alt="Certificate of authenticity"></figure>
-<div class="stack v4v-faq">
-<span class="meta">Questions</span>
-<details><summary>[Do I get paid for the volume?]<span class="chev" aria-hidden="true">+</span></summary><div class="body small secondary">[Answer placeholder.]</div></details>
-<details><summary>[Can I ask for my volume to become a specific word?]<span class="chev" aria-hidden="true">+</span></summary><div class="body small secondary">[Answer placeholder — link to commission.]</div></details>
-<details><summary>[What if my set is damaged?]<span class="chev" aria-hidden="true">+</span></summary><div class="body small secondary">[Answer placeholder.]</div></details>
+
+<section class="container vb-more" aria-label="What the volumes became">
+<div class="vb-stats">
+<div class="vb-stat"><div class="vb-stat-row" data-rise="0" style="opacity:0"><svg class="vb-ic" viewBox="0 0 40 40" aria-hidden="true"><path d="M9 7h19a3 3 0 0 1 3 3v23H12a3 3 0 0 1-3-3z"></path><path d="M9 30a3 3 0 0 1 3-3h19"></path><path d="M15 7v11l3-2 3 2V7"></path></svg><b data-count="s0">0</b></div><span class="small secondary">volumes given</span></div>
+<div class="vb-stat"><div class="vb-stat-row" data-rise="1" style="opacity:0"><svg class="vb-ic" viewBox="0 0 40 40" aria-hidden="true"><path d="M6 19 20 7l14 12"></path><path d="M10 16v17h20V16"></path><path d="M17 33v-9h6v9"></path></svg><b data-count="s1">0</b></div><span class="small secondary">homes they came from</span></div>
+<div class="vb-stat"><div class="vb-stat-row" data-rise="2" style="opacity:0"><svg class="vb-ic" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"></circle><circle cx="15" cy="16" r="2.5"></circle><circle cx="25" cy="16" r="2.5"></circle><path d="M12 22c2 5 5 7 8 7s6-2 8-7"></path></svg><b data-count="s2">0</b></div><span class="small secondary">works cut from them</span></div>
+</div>
+<div class="stack">
+<div class="stack-tight"><span class="meta">Rescued</span><h2 class="title">From a shelf to a wall</h2></div>
+<div class="vb-saved">
+<figure class="vb-s"><div class="img"><img src="./img/w-now.jpg" alt="Now"><span class="tag">From Vol. VII</span></div><figcaption class="small">Now</figcaption></figure>
+<figure class="vb-s"><div class="img"><img src="./img/w-applause.jpg" alt="Applause"><span class="tag">From Vol. XXI</span></div><figcaption class="small">Applause</figcaption></figure>
+<figure class="vb-s"><div class="img"><img src="./img/cartoon-figure.jpg" alt="Cartoon Encyclopedia II"><span class="tag">From Vol. III</span></div><figcaption class="small">Cartoon Encyclopedia II</figcaption></figure>
+<figure class="vb-s"><div class="img"><img src="./img/smile-green.jpg" alt="Shalekhet"><span class="tag">From Vol. XIV</span></div><figcaption class="small">Shalekhet</figcaption></figure>
 </div>
 </div>
+<p class="vb-big">“Every volume arrives with someone’s handwriting in it, a pressed leaf, a name. That’s the part I keep.”</p>
+<sc-if value="{{showReels}}" hint-placeholder-val="{{ true }}">
+<div class="stack">
+<div class="stack-tight"><span class="meta">Later · the people behind the volumes</span><h2 class="title">“We got ours the year I was born.”</h2></div>
+<div class="vb-reels">
+<sc-for list="{{reels}}" as="r" hint-placeholder-count="5">
+<a href="#" class="vb-reel" style="{{r.bg}}" aria-label="{{r.label}}">
+<span class="vb-sil" style="{{r.bgimg}}"></span>
+<span class="vb-reel-bar" aria-hidden="true"><i style="{{r.prog}}"></i></span>
+<span class="vb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></span>
+<span class="vb-reel-cap"><b>{{r.who}}</b><span>{{r.line}}</span></span>
+</a>
+</sc-for>
+</div>
+</div>
+</sc-if>
 </section>
+
 <footer class="join" style="background:#FF625C;color:#161514;--join-ink:#161514;--join-on-ink:#FFFFFF" aria-labelledby="h-news">
 <div class="container join-inner">
 <h2 id="h-news" class="join-title">See new works first</h2>
-<p class="join-quote">“[I only write when a new work leaves the table — a few times a year, never more.]”</p>
+<p class="join-quote">“I only write when a new work leaves the table — a few times a year, never more.”</p>
 <span class="small join-by">Etamar Beglikter</span>
 <form class="join-form" action="#"><label class="join-field"><span>Name</span><input type="text" aria-label="Name"></label><label class="join-field"><span>Email</span><input type="email" aria-label="Email"></label><button type="button" class="join-btn">Subscribe</button></form>
 </div>
 <div class="container join-foot small">
 <span class="wordmark">Etamar Begli<span class="k">k</span>ter</span>
 <span>Studio, Tel Aviv · visits by appointment</span>
-<span class="join-links"><a href="./works.html">Works</a><a href="./about.html">The Artist</a><a href="./volume-for-value.html">Volume for Value</a><a href="#">Shipping</a><a href="#">Certificate</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">WhatsApp</a><a href="#">Instagram</a><a href="#">Privacy</a><a href="#">Accessibility</a></span>
+<span class="join-links"><a href="./works.html">Works</a><a href="./about.html">The Artist</a><a href="#">Contact</a><a href="#">WhatsApp</a><a href="#">Instagram</a><a href="#">Privacy</a><a href="#">Accessibility</a></span>
 </div>
 </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;launchInvite&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;section&quot;:&quot;After sending&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:2700}}">
+<script type="text/x-dc" data-dc-script data-props='{"photo":{"editor":"enum","options":["artist in the pages","sea of pages","volume spine","stacked volumes","green smile","brainless"],"default":"artist in the pages","section":"Hero image"},"showReels":{"editor":"boolean","default":true,"section":"Later modules"},"$preview":{"width":1440,"height":2400}}'>
 const AMOUNTS = [
-  { k: 'full', t: 'The whole set', d: 'All 32 volumes', n: 12 },
-  { k: 'almost', t: 'Almost the whole set', d: 'A few are missing', n: 9 },
-  { k: 'some', t: 'A few volumes', d: 'One or more', n: 3 }
+  { k: 'some', t: 'One or a few' },
+  { k: 'almost', t: 'Most of a set' },
+  { k: 'full', t: 'All 32' }
 ];
+const PHOTO_KEYS = { 'artist in the pages': 'field', 'sea of pages': 'close', 'volume spine': 'spine', 'stacked volumes': 'stack', 'green smile': 'smile', 'brainless': 'brainless' };
+const TARGET = { volumes: 312, homes: 87, works: 46 };
+const REELS = [
+  { who: 'Miriam, 74 · Haifa', line: '“My father paid for it in instalments.”', tone: '#6E6258', p: 38, img: './img/reel-1.jpg', x: 48 },
+  { who: 'Rachel, 66 · Tel Aviv', line: '“I learned English from it.”', tone: '#55605C', p: 12, img: './img/reel-2.jpg', x: 40 },
+  { who: 'Shoshana, 88 · Jaffa', line: '“It was the first thing in the house.”', tone: '#7A6A5C', p: 64, img: './img/reel-3.jpg', x: 55 },
+  { who: 'Dalia, 71 · Jerusalem', line: '“We kept it through four moves.”', tone: '#5C5A66', p: 22, img: './img/reel-4.jpg', x: 62 }
+];
+const DURATION = 1800;
+const STAT_DUR = 2600, STAT_STAGGER = 220, STATS_TOTAL = 2600 + 2 * 220;
+const statP = (ms, i) => Math.max(0, Math.min(1, (ms - i * STAT_STAGGER) / STAT_DUR));
+const easeOutQuart = (p) => 1 - Math.pow(1 - p, 4);
+const statStyle = (p) => 'opacity:' + Math.min(1, p * 2.2).toFixed(3) + ';transform:translateY(' + ((1 - easeOutQuart(p)) * 18).toFixed(2) + 'px)';
 class Component extends DCLogic {
 constructor(props) {
 super(props);
-this.state = { amount: 'some', name: '', phone: '', optIn: true, sent: false };
+this.state = { amount: 'some', name: '', phone: '', credit: false, optIn: true, peek: false, sent: false };
 }
 renderVals() {
 const st = this.state;
-const a = AMOUNTS.find(x => x.k === st.amount);
-const n = a ? a.n : 0;
+const key = PHOTO_KEYS[this.props.photo ?? 'artist in the pages'] || 'field';
+const ph = { field: false, close: false, spine: false, stack: false, smile: false, brainless: false };
+ph[key] = true;
 return {
+reels: REELS.map(r => ({ ...r, bg: 'background:' + r.tone, prog: 'width:' + r.p + '%', bgimg: 'background-image:url(' + r.img + ');background-position:' + r.x + '% 40%', label: 'Play: ' + r.who })),
+ph: ph,
+showReels: this.props.showReels ?? true,
 editing: !st.sent, sent: st.sent,
 amounts: AMOUNTS.map(x => ({ ...x, on: st.amount === x.k ? 'true' : 'false', cls: st.amount === x.k ? 'on' : '', pick: () => this.setState({ amount: x.k }) })),
-shelfSpines: Array.from({ length: 12 }, (_, i) => ({ cls: i < n ? 'on' : 'ghost' })),
-visualLine: st.sent ? 'On its way home.' : (a ? a.t : 'Your volumes'),
-name: st.name, setName: (e) => this.setState({ name: e.target.value }),
-phone: st.phone, setPhone: (e) => this.setState({ phone: e.target.value }),
-optAria: st.optIn ? 'true' : 'false', optCls: st.optIn ? 'on' : '', toggleOptIn: () => this.setState({ optIn: !st.optIn }),
+name: st.name, setName: (ev) => this.setState({ name: ev.target.value }),
+phone: st.phone, setPhone: (ev) => this.setState({ phone: ev.target.value }),
+credit: st.credit, creditCls: st.credit ? 'on' : '', toggleCredit: () => this.setState({ credit: !st.credit }),
+optIn: st.optIn, optCls: st.optIn ? 'on' : '', toggleOptIn: () => this.setState({ optIn: !st.optIn }),
+peek: st.peek, peekAria: st.peek ? 'true' : 'false', peekText: st.peek ? 'Hide example' : 'What will it look like?', togglePeek: () => this.setState({ peek: !st.peek }),
+creditName: st.name ? st.name : 'your name',
 send: () => this.setState({ sent: true }),
 reset: () => this.setState({ sent: false }),
-thanksName: st.name ? ', ' + st.name.split(' ')[0] : '',
-showLaunch: this.props.launchInvite ?? true
+thanksName: st.name ? ', ' + st.name.split(' ')[0] : ''
 };
 }
 }
 </script>
+<script>
+/* preview: ?photo=sea-of-pages etc. picks the hero image */
+(function(){var p=new URLSearchParams(location.search).get('photo');if(p){window.DC_PROPS={photo:p.replace(/-/g,' ')};}})();
+</script>
 <script src="./dc-lite.js"></script>
+<script>
+/* preview: counters animate outside the template so re-renders never reset them */
+(function(){
+var T={top:312,s0:312,s1:87,s2:46},cur={top:0,s0:0,s1:0,s2:0},rise=[0,0,0];
+function q(sel){return document.querySelectorAll(sel);}
+function apply(){
+ q('[data-count]').forEach(function(el){var v=String(cur[el.getAttribute('data-count')]);if(el.textContent!==v)el.textContent=v;});
+ q('[data-rise]').forEach(function(el){var p=rise[+el.getAttribute('data-rise')],e=1-Math.pow(1-p,4);
+  var st='opacity:'+Math.min(1,p*2.2).toFixed(3)+';transform:translateY('+((1-e)*18).toFixed(2)+'px)';if(el.getAttribute('style')!==st)el.setAttribute('style',st);});
+}
+function run(dur,step){var t0=performance.now();function f(now){var ms=now-t0;step(ms);apply();if(ms<dur+600)requestAnimationFrame(f);}requestAnimationFrame(f);}
+function startTop(){run(1800,function(ms){var p=Math.min(1,ms/1800);cur.top=Math.round(T.top*(1-Math.pow(1-p,3)));});}
+var statsOn=false;
+function checkStats(){if(statsOn)return;var el=document.querySelector('.vb-stats');if(!el)return;var r=el.getBoundingClientRect();
+ if(r.top<innerHeight*0.8&&r.bottom>0){statsOn=true;run(2600+440,function(ms){[0,1,2].forEach(function(i){var p=Math.max(0,Math.min(1,(ms-i*220)/2600));rise[i]=p;cur['s'+i]=Math.round(T['s'+i]*(1-Math.pow(1-p,4)));});});}}
+function init(){apply();startTop();checkStats();addEventListener('scroll',checkStats,{passive:true});addEventListener('resize',checkStats);
+ new MutationObserver(apply).observe(document.querySelector('x-dc')||document.body,{childList:true,subtree:true});}
+document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init):init();
+})();
+</script>
 </body>
 </html>
