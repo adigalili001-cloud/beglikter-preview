@@ -1,2 +1,6 @@
 /* preview build: hide internal sketch labels */
 .mod-label{display:none!important}
+.plan-toggle{position:fixed;left:16px;bottom:16px;z-index:999;display:flex;align-items:center;gap:2px;padding:4px;background:#161514;border-radius:999px;font:500 12px/1 Schibsted Grotesk,system-ui,sans-serif;box-shadow:0 4px 16px rgba(0,0,0,.18)}
+.plan-toggle .plan-k{color:#8A867F;padding:0 8px 0 10px;letter-spacing:.06em;text-transform:uppercase;font-size:10px}
+.plan-toggle a{color:#F4F2EE;text-decoration:none;padding:8px 12px;border-radius:999px}
+.plan-toggle a[aria-current]{background:#F4F2EE;color:#161514}
