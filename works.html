@@ -6,52 +6,79 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="./preview.css">
-<link rel="stylesheet" href="./site.css">
+<link rel="stylesheet" href="./site-v2.css">
 </head>
 <body>
 <x-dc>
 <helmet>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;1,400&amp;family=Noto+Sans+Hebrew:wght@300;400;500&amp;display=swap" rel="stylesheet">
-<style>body{margin:0}</style>
+<style>body{margin:0}
+/* list <-> gallery pairing: hovering a series in the list lights its works in the grid (others recede), and hovering a work lights its series in the list */
+.wk-tile{transition:opacity .25s ease,filter .25s ease}
+.wk-group a[data-s]{position:relative;transition:color .2s}
+.wk-group a[data-s]::before{content:'';position:absolute;left:-14px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--red-dot);transform:scale(0);transition:transform .2s ease}
+.wk-group a.is-lit,.wk-group a[data-s]:hover{color:var(--color-gallery-text-primary)}
+.wk:has(.wk-side a[data-s="brainless"]:hover) .wk-tile:not([data-s="brainless"]){opacity:.18;filter:grayscale(1)}
+.wk:has(.wk-tile[data-s="brainless"]:hover) .wk-tile:not([data-s="brainless"]){opacity:.45}
+.wk:has(.wk-tile[data-s="brainless"]:hover) .wk-side a[data-s="brainless"],.wk-side a[data-s="brainless"]:hover{color:var(--color-gallery-text-primary)}
+.wk:has(.wk-tile[data-s="brainless"]:hover) .wk-side a[data-s="brainless"]::before,.wk-side a[data-s="brainless"]:hover::before{transform:scale(1)}
+.wk:has(.wk-side a[data-s="cartoon"]:hover) .wk-tile:not([data-s="cartoon"]){opacity:.18;filter:grayscale(1)}
+.wk:has(.wk-tile[data-s="cartoon"]:hover) .wk-tile:not([data-s="cartoon"]){opacity:.45}
+.wk:has(.wk-tile[data-s="cartoon"]:hover) .wk-side a[data-s="cartoon"],.wk-side a[data-s="cartoon"]:hover{color:var(--color-gallery-text-primary)}
+.wk:has(.wk-tile[data-s="cartoon"]:hover) .wk-side a[data-s="cartoon"]::before,.wk-side a[data-s="cartoon"]:hover::before{transform:scale(1)}
+.wk:has(.wk-side a[data-s="greatest"]:hover) .wk-tile:not([data-s="greatest"]){opacity:.18;filter:grayscale(1)}
+.wk:has(.wk-tile[data-s="greatest"]:hover) .wk-tile:not([data-s="greatest"]){opacity:.45}
+.wk:has(.wk-tile[data-s="greatest"]:hover) .wk-side a[data-s="greatest"],.wk-side a[data-s="greatest"]:hover{color:var(--color-gallery-text-primary)}
+.wk:has(.wk-tile[data-s="greatest"]:hover) .wk-side a[data-s="greatest"]::before,.wk-side a[data-s="greatest"]:hover::before{transform:scale(1)}
+.wk:has(.wk-side a[data-s="shalekhet"]:hover) .wk-tile:not([data-s="shalekhet"]){opacity:.18;filter:grayscale(1)}
+.wk:has(.wk-tile[data-s="shalekhet"]:hover) .wk-tile:not([data-s="shalekhet"]){opacity:.45}
+.wk:has(.wk-tile[data-s="shalekhet"]:hover) .wk-side a[data-s="shalekhet"],.wk-side a[data-s="shalekhet"]:hover{color:var(--color-gallery-text-primary)}
+.wk:has(.wk-tile[data-s="shalekhet"]:hover) .wk-side a[data-s="shalekhet"]::before,.wk-side a[data-s="shalekhet"]:hover::before{transform:scale(1)}
+.wk:has(.wk-side a[data-s="values"]:hover) .wk-tile:not([data-s="values"]){opacity:.18;filter:grayscale(1)}
+.wk:has(.wk-tile[data-s="values"]:hover) .wk-tile:not([data-s="values"]){opacity:.45}
+.wk:has(.wk-tile[data-s="values"]:hover) .wk-side a[data-s="values"],.wk-side a[data-s="values"]:hover{color:var(--color-gallery-text-primary)}
+.wk:has(.wk-tile[data-s="values"]:hover) .wk-side a[data-s="values"]::before,.wk-side a[data-s="values"]:hover::before{transform:scale(1)}
+.wk:has(.wk-side a[data-s="yofi"]:hover) .wk-tile:not([data-s="yofi"]){opacity:.18;filter:grayscale(1)}
+.wk:has(.wk-tile[data-s="yofi"]:hover) .wk-tile:not([data-s="yofi"]){opacity:.45}
+.wk:has(.wk-tile[data-s="yofi"]:hover) .wk-side a[data-s="yofi"],.wk-side a[data-s="yofi"]:hover{color:var(--color-gallery-text-primary)}
+.wk:has(.wk-tile[data-s="yofi"]:hover) .wk-side a[data-s="yofi"]::before,.wk-side a[data-s="yofi"]:hover::before{transform:scale(1)}
+</style>
 </helmet>
 <div class="page" style="{{rootStyle}}">
 <header class="site-header">
 <div class="container">
 <a href="./" class="wordmark">Etamar Begli<span class="k">k</span>ter</a>
-<nav aria-label="Main" class="nav"><a href="./works.html" aria-current="page">Works</a><a href="./about.html">The Artist</a><a href="./volume-for-value.html">Volume for Value</a><a href="./index.html#bespoke">Bespoke</a><a href="#" class="lang" lang="he" aria-label="Switch to Hebrew">עברית</a></nav>
+<nav aria-label="Main" class="nav"><a href="./works.html" aria-current="page">Works</a><a href="./about.html">The Artist</a><a href="./volume-for-value.html">Volume for Value</a><a href="#">Press</a><a href="#" class="lang" lang="he" aria-label="Switch to Hebrew">עברית</a></nav>
 </div>
 </header>
 <main class="container wk">
 <aside class="wk-side" aria-label="Filter works">
 <h1 class="title wk-title">Works</h1>
-<div class="wk-group"><span class="wk-h">Show</span><span class="wk-rule" aria-hidden="true"></span>
-<a href="#" aria-current="true">All</a><a href="#">Available</a><a href="#">Sold</a></div>
-<div class="wk-group"><span class="wk-h">Series</span>
-<a href="#">Words</a><a href="#">Brainless</a><a href="#">Nation's Greatest</a><a href="#">Cartoon Encyclopedia</a><a href="#">Shalekhet</a><a href="#">Yu.Pi</a></div>
-<div class="wk-group"><span class="wk-h">By volume</span>
-<a href="#">[Vol. I–VIII]</a><a href="#">[Vol. IX–XVI]</a><a href="#">[Vol. XVII–XXXII]</a></div>
-<div class="wk-group"><a href="./work.html#commission">Commission your own</a><a href="./volume-for-value.html">Volume for Value</a><a href="./about.html">The artist</a></div>
+<div class="wk-group"><span class="wk-h"><a href="#" aria-current="true" style="display: inline !important">All</a></span><a href="#">Available</a></div>
+<div class="wk-group"><span class="wk-h">Series</span><a href="#" data-s="values">Values<br></a><a href="#" data-s="brainless" style="display: inline !important">Brainless</a><a href="#" data-s="greatest">Nation's Greatest</a><a href="#" data-s="cartoon">Cartoon Encyclopedia</a><a href="#" data-s="shalekhet">Shalekhet</a><a href="#" data-s="yofi">Yo.Fi</a></div>
+
+
 </aside>
 <section class="wk-grid" aria-label="All works">
-<a href="./work.html" class="wk-tile wk-big"><img src="./img/w-now.jpg" alt="Now"><span class="wk-cap"><span>Now</span><span>[₪ —]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/w-applause.jpg" alt="Applause"><span class="wk-cap"><span>Applause</span><span>[₪ —]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/w-no-beyond.jpg" alt="No Beyond"><span class="wk-cap"><span>No Beyond</span><span>[₪ —]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/w-white-cow.jpg" alt="White Cow"><span class="wk-cap"><span>White Cow</span><span>[₪ —]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/w-wow.jpg" alt="Wow"><span class="wk-cap"><span>[Wow]</span><span>[₪ —]</span></span></a>
-<a href="./work.html" class="wk-tile wk-big"><img src="./img/brainless-1.jpg" alt="Brainless I"><span class="wk-cap"><span>Brainless I</span><span>[₪2,500]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/leaders-glasses.jpg" alt="Nation's Greatest"><span class="wk-cap"><span>Nation's Greatest</span><span>[₪2,500]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/cartoon-figure.jpg" alt="Cartoon Encyclopedia II"><span class="wk-cap"><span>Cartoon Encyclopedia II</span><span>[₪2,500]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/smile-green.jpg" alt="Shalekhet · sold"><span class="wk-cap"><span>Shalekhet · sold</span><span>[₪2,500]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/cartoon-mouse.jpg" alt="Cartoon Encyclopedia I"><span class="wk-cap"><span>Cartoon Encyclopedia I</span><span>[₪2,500]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/profiles.jpg" alt="Brainless — profiles"><span class="wk-cap"><span>Brainless — profiles</span><span>[₪2,500]</span></span></a>
-<a href="./work.html" class="wk-tile wk-big"><img src="./img/leaders-group.jpg" alt="Nation's Greatest — three"><span class="wk-cap"><span>Nation's Greatest — three</span><span>[₪2,500]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/cartoon-green.jpg" alt="Cartoon Encyclopedia III"><span class="wk-cap"><span>Cartoon Encyclopedia III</span><span>[₪2,500]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/cartoon-open.jpg" alt="Cartoon Encyclopedia IV"><span class="wk-cap"><span>Cartoon Encyclopedia IV</span><span>[₪2,500]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/brainless-2.jpg" alt="Brainless II"><span class="wk-cap"><span>Brainless II</span><span>[₪2,500]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/smile-page.jpg" alt="Yu.Pi"><span class="wk-cap"><span>Yu.Pi</span><span>[₪2,500]</span></span></a>
-<a href="./work.html" class="wk-tile wk-big"><img src="./img/volumes-stack.jpg" alt="Volume for Value"><span class="wk-cap"><span>Volume for Value</span><span>[₪2,500]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/install-close.jpg" alt="Fragments"><span class="wk-cap"><span>Fragments</span><span>[₪2,500]</span></span></a>
-<a href="./work.html" class="wk-tile"><img src="./img/cartoon-figure.jpg" alt="Cartoon Encyclopedia V"><span class="wk-cap"><span>Cartoon Encyclopedia V</span><span>[₪2,500]</span></span></a>
+<a href="./work.html" data-s="values" class="wk-tile has-hover-info wk-big"><img src="./img/w-now.jpg" alt="Now"><span class="hover-info"><b class="hi-t">Now</b><span class="hi-d">The Hebrew word for now, cut so it reads from both sides.</span><span class="hi-foot"><span class="hi-y">[year]</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="values" class="wk-tile has-hover-info"><img src="./img/w-applause.jpg" alt="Applause"><span class="hover-info"><b class="hi-t">Applause</b><span class="hi-d">Hands raised, cut from the pages that told us whom to clap for.</span><span class="hi-foot"><span class="hi-y">[year]</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="values" class="wk-tile has-hover-info"><img src="./img/w-no-beyond.jpg" alt="No Beyond"><span class="hover-info"><b class="hi-t">No Beyond</b><span class="hi-d">An entry with nowhere left to go.</span><span class="hi-foot"><span class="hi-y">[year]</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="values" class="wk-tile has-hover-info"><img src="./img/w-white-cow.jpg" alt="White Cow"><span class="hover-info"><b class="hi-t">White Cow</b><span class="hi-d">A white cow, cut free of the page that described it.</span><span class="hi-foot"><span class="hi-y">[year]</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="values" class="wk-tile has-hover-info"><img src="./img/w-wow.jpg" alt="Wow"><span class="hover-info"><b class="hi-t">Wow</b><span class="hi-d">Three letters of surprise, lifted out of a thousand pages of facts.</span><span class="hi-foot"><span class="hi-y">[year]</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="brainless" class="wk-tile has-hover-info wk-big"><img src="./img/brainless-1.jpg" alt="Brainless I"><span class="hover-info"><b class="hi-t">Brainless I</b><span class="hi-d">Two heads, cut from the encyclopedia that was supposed to fill them.</span><span class="hi-foot"><span class="hi-y">2008</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="greatest" class="wk-tile has-hover-info"><img src="./img/leaders-glasses.jpg" alt="Nation's Greatest"><span class="hover-info"><b class="hi-t">Nation's Greatest</b><span class="hi-d">A nation’s greatest, carved back into the book that made them great.</span><span class="hi-foot"><span class="hi-y">2010</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="cartoon" class="wk-tile has-hover-info"><img src="./img/cartoon-figure.jpg" alt="Cartoon Encyclopedia II"><span class="hover-info"><b class="hi-t">Cartoon Encyclopedia II</b><span class="hi-d">A cartoon figure steps out of a very serious page.</span><span class="hi-foot"><span class="hi-y">[year]</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="shalekhet" class="wk-tile has-hover-info"><img src="./img/smile-green.jpg" alt="Shalekhet · sold"><span class="hover-info"><b class="hi-t">Shalekhet</b><span class="hi-d">Fallen leaves, one entry at a time.</span><span class="hi-foot"><span class="hi-y">[year] · <span class="hi-sold"><span class="dot dot--sold" aria-hidden="true"></span>Sold</span></span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="cartoon" class="wk-tile has-hover-info"><img src="./img/cartoon-mouse.jpg" alt="Cartoon Encyclopedia I"><span class="hover-info"><b class="hi-t">Cartoon Encyclopedia I</b><span class="hi-d">A mouse from the cartoon page, cut loose from its caption.</span><span class="hi-foot"><span class="hi-y">[year]</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="brainless" class="wk-tile has-hover-info"><img src="./img/profiles.jpg" alt="Brainless — profiles"><span class="hover-info"><b class="hi-t">Brainless — profiles</b><span class="hi-d">The same two heads, seen from the side.</span><span class="hi-foot"><span class="hi-y">2008</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="greatest" class="wk-tile has-hover-info wk-big"><img src="./img/leaders-group.jpg" alt="Nation's Greatest — three"><span class="hover-info"><b class="hi-t">Nation's Greatest — three</b><span class="hi-d">Three leaders, one volume, no room for anyone else.</span><span class="hi-foot"><span class="hi-y">2010</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="cartoon" class="wk-tile has-hover-info"><img src="./img/cartoon-green.jpg" alt="Cartoon Encyclopedia III"><span class="hover-info"><b class="hi-t">Cartoon Encyclopedia III</b><span class="hi-d">The cover keeps the face; the pages keep everything else.</span><span class="hi-foot"><span class="hi-y">[year]</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="cartoon" class="wk-tile has-hover-info"><img src="./img/cartoon-open.jpg" alt="Cartoon Encyclopedia IV"><span class="hover-info"><b class="hi-t">Cartoon Encyclopedia IV</b><span class="hi-d">An open volume, and a drawing climbing out of it.</span><span class="hi-foot"><span class="hi-y">[year]</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="brainless" class="wk-tile has-hover-info"><img src="./img/brainless-2.jpg" alt="Brainless II"><span class="hover-info"><b class="hi-t">Brainless II</b><span class="hi-d">Three-quarter view: the depth of a thousand cut pages.</span><span class="hi-foot"><span class="hi-y">2008</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="yofi" class="wk-tile has-hover-info"><img src="./img/w-yf.jpg" alt="Y.F." style="object-position: 30% center"><span class="hover-info"><b class="hi-t">Y.F.</b><span class="hi-d">The editor’s initials, cut from his own volume — read aloud, yofi: beauty.</span><span class="hi-foot"><span class="hi-y">[year]</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" class="wk-tile has-hover-info wk-big"><img src="./img/volumes-stack.jpg" alt="Volume for Value"><span class="hover-info"><b class="hi-t">Volume for Value</b><span class="hi-d">The raw material: volumes given back by the people who grew up with them.</span><span class="hi-foot"><span class="hi-y">[year]</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" class="wk-tile has-hover-info"><img src="./img/install-close.jpg" alt="Fragments"><span class="hover-info"><b class="hi-t">Fragments</b><span class="hi-d">What is left on the studio floor after a work is cut.</span><span class="hi-foot"><span class="hi-y">[year]</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
+<a href="./work.html" data-s="cartoon" class="wk-tile has-hover-info"><img src="./img/cartoon-figure.jpg" alt="Cartoon Encyclopedia V"><span class="hover-info"><b class="hi-t">Cartoon Encyclopedia V</b><span class="hi-d">A standing figure, cut from an open volume.</span><span class="hi-foot"><span class="hi-y">[year]</span><svg class="hi-arrow" width="28" height="14" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M1 7h25M20 1l6 6-6 6"></path></svg></span></span></a>
 </section>
 </main>
 <footer class="join" style="background:#FF625C;color:#161514;--join-ink:#161514;--join-on-ink:#FFFFFF" aria-labelledby="h-news">
@@ -70,7 +97,26 @@
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;backdrop&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#C9CFC6&quot;,&quot;#E9E6E0&quot;,&quot;#D9D4CB&quot;,&quot;#FFFFFF&quot;],&quot;default&quot;:&quot;#C9CFC6&quot;,&quot;section&quot;:&quot;Photography backdrop&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:3100}}">
+// sticky header: hides while scrolling down, comes back on pause or scroll up (shared snippet, same in every page board)
+function bgHeaderAutoHide() {
+  if (typeof document === 'undefined') return function () {};
+  var last = new WeakMap(), timer = null;
+  function onScroll(e) {
+    var root = (e.target === document || !e.target.querySelectorAll) ? document : e.target;
+    var y = root === document ? (document.scrollingElement || document.documentElement).scrollTop : root.scrollTop;
+    var prev = last.get(root) || 0; last.set(root, y);
+    var hs = root.querySelectorAll('.site-header'); if (!hs.length) return;
+    var hide = y > prev && y > 160;
+    hs.forEach(function (h) { h.classList.toggle('is-hidden', hide); });
+    clearTimeout(timer);
+    timer = setTimeout(function () { hs.forEach(function (h) { h.classList.remove('is-hidden'); }); }, 700);
+  }
+  document.addEventListener('scroll', onScroll, { capture: true, passive: true });
+  return function () { document.removeEventListener('scroll', onScroll, { capture: true }); clearTimeout(timer); };
+}
 class Component extends DCLogic {
+componentDidMount() { this._hdrOff = bgHeaderAutoHide(); }
+componentWillUnmount() { if (this._hdrOff) this._hdrOff(); }
 renderVals() {
 const bg = this.props.backdrop ?? '#C9CFC6';
 return { rootStyle: '--wk-backdrop:' + bg };

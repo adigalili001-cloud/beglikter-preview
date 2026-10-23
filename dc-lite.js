@@ -15,11 +15,12 @@ function process(node,scope){
     if(v){process(n,scope);n.replaceWith(...Array.from(n.childNodes));}else n.remove();continue;}
   if(tag==='sc-for'){const m=(n.getAttribute('list')||'').match(ONE);const list=(m?evalExpr(m[1],scope):[])||[];const as=n.getAttribute('as')||'item';
     const frag=document.createDocumentFragment();
-    list.forEach((item,i)=>{const wrap=document.createElement('div');wrap.innerHTML=n.innerHTML;const sc=Object.create(scope);sc[as]=item;sc.index=i;process(wrap,sc);frag.append(...Array.from(wrap.childNodes));});
+    list.forEach((item,i)=>{const wrap=document.createElement('template');wrap.innerHTML=n.innerHTML;const sc=Object.create(scope);sc[as]=item;sc.index=i;process(wrap.content,sc);frag.append(...Array.from(wrap.content.childNodes));});
     n.replaceWith(frag);continue;}
   for(const a of Array.from(n.attributes)){
    if(a.name.startsWith('hint-')){n.removeAttribute(a.name);continue;}
    if(!a.value.includes('{{'))continue;
+   if(a.name==='ref'){const m=a.value.match(ONE);const fn=m?evalExpr(m[1],scope):null;n.removeAttribute('ref');if(typeof fn==='function')(window.__dcRefs=window.__dcRefs||[]).push([fn,n]);continue;}
    if(a.name.startsWith('on')){const m=a.value.match(ONE);const fn=m?evalExpr(m[1],scope):null;n.removeAttribute(a.name);
      if(typeof fn==='function'){let ev=a.name.slice(2);n.addEventListener(ev,fn);}continue;}
    const m=a.value.match(ONE);
@@ -37,14 +38,16 @@ function boot(){
  let props={};try{const d=JSON.parse(sEl.getAttribute('data-props')||'{}');for(const k in d){if(k[0]!=='$')props[k]=d[k].default;}}catch(e){}
  Object.assign(props,window.DC_PROPS||{});
  const Comp=Function('DCLogic',sEl.textContent+'\n;return Component;')(DCLogic);
- const c=new Comp(props);c.props=props;
+ const c=new Comp(props);c.props=props;if(typeof window.DC_PATCH==='function')window.DC_PATCH(c);
  function render(){
   const ae=document.activeElement;let key=null,sel=null;
   if(ae&&host.contains(ae)&&(ae.tagName==='INPUT'||ae.tagName==='TEXTAREA')){key=ae.id?('#'+ae.id):(ae.getAttribute('placeholder')?'[placeholder="'+ae.getAttribute('placeholder').replace(/"/g,'\\"')+'"]':null);try{sel=ae.selectionStart;}catch(e){}}
   const openDetails=Array.from(host.querySelectorAll('details')).map(d=>d.open);
-  const wrap=document.createElement('div');wrap.innerHTML=tpl;
-  process(wrap,Object.assign(Object.create(null),c.renderVals()));
-  host.replaceChildren(...Array.from(wrap.childNodes));
+  /* inert <template>: {{holes}} in src attributes are never requested before they are filled */
+  const wrap=document.createElement('template');wrap.innerHTML=tpl;
+  process(wrap.content,Object.assign(Object.create(null),c.renderVals()));
+  host.replaceChildren(wrap.content);
+  (window.__dcRefs||[]).splice(0).forEach(([fn,el])=>{try{fn(el);}catch(e){}});
   host.querySelectorAll('details').forEach((d,i)=>{if(openDetails[i])d.open=true;});
   if(key){const el=host.querySelector(key);if(el){el.focus();try{el.setSelectionRange(sel,sel);}catch(e){}}}
  }

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="./preview.css">
-<link rel="stylesheet" href="./site.css">
+<link rel="stylesheet" href="./site-v2.css">
 </head>
 <body>
 <x-dc>
@@ -17,6 +17,13 @@ body{margin:0}
 .vb-top{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,4fr) minmax(0,4fr);column-gap:32px;padding-block:40px 64px;align-items:stretch}
 .vb-cause{display:flex;flex-direction:column;gap:20px;min-width:0}
 .vb-n{font-size:200px;font-weight:600;line-height:.8;letter-spacing:-.06em;color:var(--neutral-900);font-variant-numeric:tabular-nums}
+/* odometer digits: each place is a 0-9 strip in a 1em window; the new digit pushes the old one up from below */
+.vb-odo{display:inline-flex;vertical-align:top}
+.vb-col{display:inline-block;height:1em;line-height:1;overflow:hidden}
+.vb-strip{display:block;will-change:transform}
+.vb-strip span{display:block;height:1em;line-height:1}
+.vb-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.vb-n,.vb-stat b{position:relative}
 .vb-n-l{display:flex;gap:10px;align-items:center;margin-top:12px}
 .vb-n-l .dot{width:10px;height:10px;border-radius:999px;background:var(--red-dot);display:inline-block}
 .vb-h1{margin:8px 0 0;font-size:32px;font-weight:500;line-height:1.1;letter-spacing:-.02em;max-width:20ch}
@@ -27,9 +34,13 @@ body{margin:0}
 .vb-form{display:flex;flex-direction:column;gap:22px;padding:4px 0 0}
 .vb-form h2{margin:0;font-size:24px;font-weight:500;letter-spacing:-.01em}
 .vb-chips{display:flex;flex-wrap:wrap;gap:8px}
-.vb-chip{min-height:44px;padding:0 16px;border:1px solid var(--neutral-300);background:#fff;font:inherit;font-size:15px;cursor:pointer;color:inherit}
+.vb-chip{min-height:44px;padding:0 16px;border:1px solid var(--neutral-300);transition:border-color .15s;background:#fff;font:inherit;font-size:15px;cursor:pointer;color:inherit}
 .vb-chip:hover{border-color:var(--neutral-700)}
 .vb-chip.on{background:var(--neutral-900);border-color:var(--neutral-900);color:#fff}
+.vb-chip--sw{width:64px;padding:4px;background:#fff;border-color:transparent} /* swatches only: no outline until hover / selected */
+.vb-chip--sw i{display:block;width:100%;height:100%;min-height:34px}
+.vb-chip--sw.on{background:#fff;border-color:var(--neutral-900);box-shadow:inset 0 0 0 1px var(--neutral-900)}
+.vb-sel{color:var(--neutral-900);margin-left:6px}
 .vb-fields{display:flex;flex-direction:column;gap:20px}
 .vb-fields .v4v-line{margin-top:0}
 .vb-fields .v4v-line input{font-size:24px;font-weight:500}
@@ -41,11 +52,43 @@ body{margin:0}
 .vb-label-t{font-size:16px;font-weight:500}
 .vb-cta{width:100%;cursor:pointer;margin-top:auto}
 .vb-more{padding-block:96px;display:flex;flex-direction:column;gap:96px;border-top:1px solid var(--neutral-300)}
-.vb-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
-.vb-stat{border-top:2px solid var(--neutral-900);padding-top:16px;display:flex;flex-direction:column;gap:6px}
-.vb-stat-row{display:flex;align-items:center;gap:16px;will-change:transform,opacity}
-.vb-ic{width:44px;height:44px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.vb-stat b{font-size:64px;font-weight:600;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+/* narrow centred measure - same 1040px as the CV lists on About, so the site has one fixed narrow width to reuse */
+.vb-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:72px;row-gap:72px}
+/* equal columns; icon + number and the label are centred inside each one */
+.vb-stats .vb-stat{align-items:center;text-align:center}
+.vb-stats .vb-stat-row{justify-content:center}
+/* reserve the final digit count, so the row doesn't re-centre while 74 rolls up to 124 */
+.vb-stat:nth-child(1) b{min-width:3ch}.vb-stat:nth-child(2) b,.vb-stat:nth-child(3) b{min-width:2ch}
+.vb-stat{border-top:3px solid var(--neutral-900);padding-top:36px;display:flex;flex-direction:column;gap:18px}
+.vb-stat .small{font-size:26px}
+.vb-stat-row{display:flex;align-items:center;gap:18px;will-change:transform,opacity}
+/* each stat takes one of the three encyclopedia cover colours (same as the form swatches) */
+.vb-stat:nth-child(1){--sc:#1F3A2C}.vb-stat:nth-child(2){--sc:#7E9A6E}.vb-stat:nth-child(3){--sc:#B3A47A}
+.vb-stat-row{color:var(--sc)}
+.vb-ic{width:1em;height:1em;font-size:144px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.vb-stat b{font-size:144px;font-weight:600;letter-spacing:-.045em;line-height:.9;font-variant-numeric:tabular-nums}
+@media (max-width:1023px){.vb-stats{column-gap:36px}.vb-stat b,.vb-ic{font-size:96px}.vb-stat .small{font-size:19px}}
+.vb-yf{display:grid;grid-template-columns:minmax(0,5fr) auto minmax(0,7fr);column-gap:var(--grid-gutter);align-items:start}
+.vb-yf figure{margin:0;display:flex;flex-direction:column;gap:10px}
+.vb-yf-page{aspect-ratio:4/5;background:#F6F3EC;border:1px solid var(--neutral-300);padding:28px 26px;box-sizing:border-box;display:flex;flex-direction:column;gap:9px}
+.vb-yf-head{font-size:15px;font-weight:600}
+.vb-yf-page i{display:block;height:3px;background:var(--neutral-300)}
+.vb-yf-page i.s{width:45%}
+.vb-yf-page i.d{opacity:.45}
+.vb-yf-next{margin-top:10px;opacity:.45}
+.vb-yf-sig{align-self:flex-end;margin-top:4px;font-size:15px;font-weight:600;padding:2px 6px;outline:1.5px solid var(--ix-accent);outline-offset:2px}
+.vb-yf-arrow{font-size:32px;line-height:1;color:var(--neutral-500);align-self:center;padding-bottom:40px}
+.vb-yf-photo{aspect-ratio:1400/975;background:var(--neutral-100);overflow:hidden}
+.vb-yf-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.vb-yf-img{aspect-ratio:1800/1013;background:#DADADA;overflow:hidden}
+.vb-yf-img img{display:block;width:100%;height:100%;object-fit:cover}
+.vb-yf-work .vb-yf-text{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--grid-gutter);row-gap:var(--space-4);margin-top:var(--space-6)}
+.vb-yf-work .vb-yf-lead{grid-column:1 / -1}
+.vb-yf-text{display:flex;flex-direction:column;gap:var(--space-4);padding-top:4px}
+.vb-yf-text p{margin:0;max-width:46ch;color:var(--neutral-800)}
+.vb-yf-text .vb-yf-lead{max-width:40ch;font-size:var(--size-body-l);line-height:1.4;color:var(--neutral-900)}
+@media (max-width:1023px){.vb-yf{grid-template-columns:1fr;row-gap:var(--space-8)}.vb-yf-entry{max-width:none}.vb-yf-arrow{display:none}}
+@media (max-width:640px){.vb-yf-work .vb-yf-text{grid-template-columns:1fr}}
 .vb-saved{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 .vb-s{margin:0;display:flex;flex-direction:column;gap:10px}
 .vb-s .img{aspect-ratio:4/5;background:var(--neutral-100);overflow:hidden;position:relative}
@@ -55,7 +98,7 @@ body{margin:0}
 .vb-reels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 .vb-reel{position:relative;aspect-ratio:9/16;overflow:hidden;display:flex;align-items:flex-end;text-decoration:none;color:#fff;background:var(--neutral-700)}
 .vb-reel:hover{color:#fff}
-.vb-sil{position:absolute;inset:0;width:100%;height:100%;display:block;background-size:cover;background-repeat:no-repeat}
+.vb-sil{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .vb-reel::after{content:"";position:absolute;inset:auto 0 0 0;height:55%;background:linear-gradient(to top,rgba(22,21,20,.78),rgba(22,21,20,0))}
 .vb-reel-bar{position:absolute;left:10px;right:10px;top:10px;height:2px;background:rgba(255,255,255,.35)}
 .vb-reel-bar i{display:block;height:100%;background:#fff}
@@ -67,29 +110,31 @@ body{margin:0}
 .vb-reel-cap span{font-size:13px;line-height:1.35;opacity:.9}
 @media (max-width:1023px){.vb-top{grid-template-columns:1fr 1fr;row-gap:24px}.vb-cause{grid-column:1 / -1}.vb-photo{min-height:420px}.vb-saved{grid-template-columns:repeat(2,minmax(0,1fr))}.vb-reels{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){.vb-top{grid-template-columns:1fr}.vb-n{font-size:120px}.vb-h1{font-size:30px}.vb-photo{min-height:300px}.vb-stats{grid-template-columns:1fr}.vb-big{font-size:34px}}
+.vb-form.ix-box{padding:var(--ix-pad)}
+.vb-chip:focus-visible,.vb-chip--sw:focus-visible{outline:2px solid var(--ix-accent);outline-offset:2px}
 </style>
 </helmet>
 <div class="page">
 <header class="site-header">
 <div class="container">
 <a href="./" class="wordmark">Etamar Begli<span class="k">k</span>ter</a>
-<nav aria-label="Main" class="nav"><a href="./works.html">Works</a><a href="./about.html">The Artist</a><a href="./volume-for-value.html" aria-current="page">Volume for Value</a><a href="./index.html#bespoke">Bespoke</a><a href="#" class="lang" lang="he" aria-label="Switch to Hebrew">עברית</a></nav>
+<nav aria-label="Main" class="nav"><a href="./works.html">Works</a><a href="./about.html">The Artist</a><a href="./volume-for-value.html" aria-current="page">Volume for Value</a><a href="#">Press</a><a href="#" class="lang" lang="he" aria-label="Switch to Hebrew">עברית</a></nav>
 </div>
 </header>
 
 <main class="container">
 <div class="vb-top">
 
-<section class="vb-cause" aria-labelledby="vb-title">
-<h1 id="vb-title" class="headline">Volume for Value</h1>
+<section class="vb-cause" aria-labelledby="vb-title" style="gap: 24px">
+<h1 id="vb-title" class="headline"><img class="v4v-logo" src="./img/v4v-logo.png" alt="Volume for Value" style="width: 312px; height: 180px"></h1>
 <div>
-<div class="vb-n" data-count="top">0</div>
-<div class="vb-n-l"><span class="dot" aria-hidden="true"></span><span class="meta" style="color: var(--neutral-900)">volumes rescued so far</span></div>
+<div class="vb-n" ref="{{countRef}}"><span class="vb-sr">{{count}}</span><span class="vb-odo" aria-hidden="true"><sc-for list="{{odoCount}}" as="d" hint-placeholder-count="3"><span class="vb-col"><span class="vb-strip" style="{{d.s}}"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></span></span></sc-for></span></div>
+<div class="vb-n-l"><span class="meta" style="color: var(--neutral-900)">VOLUMES ROLLED SO FAR</span></div>
 </div>
-<p class="vb-h1">The Hebrew Encyclopedia is leaving our homes. Bring it to the studio instead.</p>
-<blockquote class="vb-q">
-<p>“Thirty-two volumes that explained the world to three generations. I don’t want them pulped. I want them on a wall.”</p>
-<span class="small secondary">Etamar Beglikter</span>
+<p class="vb-h1" style="display: flex; gap: 12px; margin-top: 60px">The Hebrew Encyclopedia is leaving our homes. Bring it to the studio instead.</p>
+<blockquote class="vb-q" style="border-style: none; padding-top: 0px; display: flex; gap: 12px">
+<p><span style="font-style: normal">Free your old encyclopedias from the shelf. Pass them forward - the studio will give them a new Value through art.</span></p>
+
 </blockquote>
 </section>
 
@@ -102,13 +147,27 @@ body{margin:0}
 <sc-if value="{{ph.brainless}}" hint-placeholder-val="{{ false }}"><img src="./img/brainless-1.jpg" alt="Two encyclopedia volumes cut into a head in profile" style="object-position: 45% 50%"></sc-if>
 </figure>
 
-<section class="vb-form" aria-labelledby="vb-form-h">
+<section class="vb-form ix-box" aria-labelledby="vb-form-h">
 <sc-if value="{{editing}}" hint-placeholder-val="{{ true }}">
 <div class="vb-fields" style="gap: 24px; height: 100%">
 <div class="stack-tight">
-<h2 id="vb-form-h">Rescue a volume</h2>
-<p class="small secondary" style="margin: 0">Any volume, any condition. Collected in Tel Aviv or dropped at the studio.</p>
+<h2 id="vb-form-h">Let your volumes roll.</h2>
+
 </div>
+<fieldset class="v4v-field">
+<legend class="v4v-line-label">COVER COLOUR<span class="vb-sel">{{colourName}}</span></legend>
+<div class="vb-chips">
+<sc-for list="{{colours}}" as="c" hint-placeholder-count="3"><button type="button" class="vb-chip vb-chip--sw {{c.cls}}" aria-pressed="{{c.on}}" onClick="{{c.pick}}" aria-label="{{c.t}}" style="width: 56px"><i style="{{c.bg}}" aria-hidden="true"></i></button></sc-for>
+</div>
+</fieldset>
+<sc-if value="{{showJacket}}" hint-placeholder-val="{{ true }}">
+<fieldset class="v4v-field">
+<legend class="v4v-line-label">Dust jacket</legend>
+<div class="vb-chips">
+<sc-for list="{{jackets}}" as="j" hint-placeholder-count="2"><button type="button" class="vb-chip {{j.cls}}" aria-pressed="{{j.on}}" onClick="{{j.pick}}">{{j.t}}</button></sc-for>
+</div>
+</fieldset>
+</sc-if>
 <fieldset class="v4v-field">
 <legend class="v4v-line-label">How many?</legend>
 <div class="vb-chips">
@@ -120,8 +179,8 @@ body{margin:0}
 <label class="v4v-line vb-fl"><span class="v4v-line-label">Phone</span><input type="tel" placeholder="Phone" value="{{phone}}" onInput="{{setPhone}}"></label>
 </div>
 <div class="vb-fields" style="gap: 6px">
-<label class="v4v-check {{creditCls}}"><input type="checkbox" checked="{{credit}}" onChange="{{toggleCredit}}"><span class="v4v-box" aria-hidden="true"></span><span class="small">Show my name if my volume becomes a work</span></label>
-<button type="button" class="vb-peek" aria-expanded="{{peekAria}}" onClick="{{togglePeek}}">{{peekText}}</button>
+<label class="v4v-check {{creditCls}}" style="gap: 12px; padding-top: 16px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px"><input type="checkbox" checked="{{credit}}" onChange="{{toggleCredit}}"><span class="v4v-box" aria-hidden="true"></span><span class="small">Show my name if my volume becomes a work</span></label>
+
 <sc-if value="{{peek}}" hint-placeholder-val="{{ false }}">
 <div class="vb-label">
 <span class="meta">Rescued from</span>
@@ -129,9 +188,9 @@ body{margin:0}
 <span class="small muted">Printed on the work’s label and certificate</span>
 </div>
 </sc-if>
-<label class="v4v-check {{optCls}}"><input type="checkbox" checked="{{optIn}}" onChange="{{toggleOptIn}}"><span class="v4v-box" aria-hidden="true"></span><span class="small">WhatsApp me when it becomes a work</span></label>
+
 </div>
-<button type="button" class="btn btn--primary vb-cta" onClick="{{send}}">Rescue my volume</button>
+<div class="small secondary" style="margin: 0"></div><button type="button" class="btn btn--primary vb-cta" onClick="{{send}}">Keep them rolling</button><div style="font-size: 14px; line-height: 1.45; color: rgb(74, 71, 67); text-align: center">Collected in Tel Aviv or dropped at the studio.</div>
 </div>
 </sc-if>
 <sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
@@ -147,19 +206,29 @@ body{margin:0}
 </div>
 </main>
 
-<section class="container vb-more" aria-label="What the volumes became">
-<div class="vb-stats">
-<div class="vb-stat"><div class="vb-stat-row" data-rise="0" style="opacity:0"><svg class="vb-ic" viewBox="0 0 40 40" aria-hidden="true"><path d="M9 7h19a3 3 0 0 1 3 3v23H12a3 3 0 0 1-3-3z"></path><path d="M9 30a3 3 0 0 1 3-3h19"></path><path d="M15 7v11l3-2 3 2V7"></path></svg><b data-count="s0">0</b></div><span class="small secondary">volumes given</span></div>
-<div class="vb-stat"><div class="vb-stat-row" data-rise="1" style="opacity:0"><svg class="vb-ic" viewBox="0 0 40 40" aria-hidden="true"><path d="M6 19 20 7l14 12"></path><path d="M10 16v17h20V16"></path><path d="M17 33v-9h6v9"></path></svg><b data-count="s1">0</b></div><span class="small secondary">homes they came from</span></div>
-<div class="vb-stat"><div class="vb-stat-row" data-rise="2" style="opacity:0"><svg class="vb-ic" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"></circle><circle cx="15" cy="16" r="2.5"></circle><circle cx="25" cy="16" r="2.5"></circle><path d="M12 22c2 5 5 7 8 7s6-2 8-7"></path></svg><b data-count="s2">0</b></div><span class="small secondary">works cut from them</span></div>
+<section class="container vb-more" aria-label="What the volumes became" style="border-style: none">
+<div class="vb-stats" ref="{{statsRef}}" style="padding-right: 0px; padding-left: 0px; margin-top: 80px; margin-bottom: 80px">
+<div class="vb-stat" style="border-style: none"><div class="vb-stat-row" style="{{st0}}"><svg class="vb-ic" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 17h24v16H8z"></path><path d="M8 17 3 11h11l6 6"></path><path d="M32 17l5-6H26l-6 6"></path><path d="M20 17v16"></path></svg><b><span class="vb-sr">{{statVolumes}}</span><span class="vb-odo" aria-hidden="true"><sc-for list="{{odo0}}" as="d" hint-placeholder-count="3"><span class="vb-col"><span class="vb-strip" style="{{d.s}}"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></span></span></sc-for></span></b></div><span class="small secondary">Found along the way</span></div>
+<div class="vb-stat" style="border-style: none"><div class="vb-stat-row" style="{{st1}}"><svg class="vb-ic" viewBox="0 0 40 40" aria-hidden="true"><path d="M6 19 20 7l14 12"></path><path d="M10 16v17h20V16"></path><path d="M17 33v-9h6v9"></path></svg><b><span class="vb-sr">{{statHomes}}</span><span class="vb-odo" aria-hidden="true"><sc-for list="{{odo1}}" as="d" hint-placeholder-count="3"><span class="vb-col"><span class="vb-strip" style="{{d.s}}"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></span></span></sc-for></span></b></div><span class="small secondary">Volume rollers</span></div>
+<div class="vb-stat" style="border-style: none"><div class="vb-stat-row" style="{{st2}}"><svg class="vb-ic" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"></circle><circle cx="15" cy="16" r="2.5"></circle><circle cx="25" cy="16" r="2.5"></circle><path d="M12 22c2 5 5 7 8 7s6-2 8-7"></path></svg><b><span class="vb-sr">{{statWorks}}</span><span class="vb-odo" aria-hidden="true"><sc-for list="{{odo2}}" as="d" hint-placeholder-count="3"><span class="vb-col"><span class="vb-strip" style="{{d.s}}"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></span></span></sc-for></span></b></div><span class="small secondary">Artworks with new value</span></div>
 </div>
 <div class="stack">
-<div class="stack-tight"><span class="meta">Rescued</span><h2 class="title">From a shelf to a wall</h2></div>
-<div class="vb-saved">
-<figure class="vb-s"><div class="img"><img src="./img/w-now.jpg" alt="Now"><span class="tag">From Vol. VII</span></div><figcaption class="small">Now</figcaption></figure>
-<figure class="vb-s"><div class="img"><img src="./img/w-applause.jpg" alt="Applause"><span class="tag">From Vol. XXI</span></div><figcaption class="small">Applause</figcaption></figure>
-<figure class="vb-s"><div class="img"><img src="./img/cartoon-figure.jpg" alt="Cartoon Encyclopedia II"><span class="tag">From Vol. III</span></div><figcaption class="small">Cartoon Encyclopedia II</figcaption></figure>
-<figure class="vb-s"><div class="img"><img src="./img/smile-green.jpg" alt="Shalekhet"><span class="tag">From Vol. XIV</span></div><figcaption class="small">Shalekhet</figcaption></figure>
+<div class="stack-tight"><span class="meta">One entry, two values</span><h2 class="title">Yo.Fi.</h2></div>
+<div class="vb-yf">
+<figure class="vb-yf-entry" aria-label="The end of an entry in the Hebrew Encyclopedia, signed with the initials of its editor">
+<div class="vb-yf-photo"><img src="./img/yf-spread.jpg" alt="An open volume of the Hebrew Encyclopedia: an entry signed י. פ., with Yona Fischer’s handwriting at the foot of the page"></div>
+<figcaption class="small secondary">Every entry is signed. <bdi lang="he">י. פ.</bdi> is Yona Fischer, one of the encyclopedia’s editors — here with his handwriting at the foot of the page.</figcaption>
+</figure>
+<span class="vb-yf-arrow" aria-hidden="true">→</span>
+<figure class="vb-yf-work">
+<div class="vb-yf-img"><img src="./img/w-yf-double.jpg" alt="Y.F. — the word יופי, doubled, cut from the layered pages of an encyclopedia volume"></div>
+<figcaption class="small secondary">Y.F. · [year] · cut from Vol. [ ] of the Hebrew Encyclopedia</figcaption>
+<div class="vb-yf-text">
+<p class="vb-yf-lead">Etamar cut the volume down until only the signature was left. The editor who signed the knowledge became the object itself — and read aloud, <bdi lang="he">י.פ.</bdi> is <i>yofi</i>: beauty.</p>
+<p>In Hebrew, <b lang="he" dir="rtl">ערך</b> <i>(erech)</i> is an entry — a unit of information. It is also value — worth, capital, a charge something carries.</p>
+<p>That is the whole move of the work, distilled: take an entry out of the encyclopedia and turn the paper into the value itself. Cultural, and economic.</p>
+</div>
+</figure>
 </div>
 </div>
 <p class="vb-big">“Every volume arrives with someone’s handwriting in it, a pressed leaf, a name. That’s the part I keep.”</p>
@@ -169,7 +238,7 @@ body{margin:0}
 <div class="vb-reels">
 <sc-for list="{{reels}}" as="r" hint-placeholder-count="5">
 <a href="#" class="vb-reel" style="{{r.bg}}" aria-label="{{r.label}}">
-<span class="vb-sil" style="{{r.bgimg}}"></span>
+<img class="vb-sil" src="{{r.img}}" alt="" style="{{r.pos}}">
 <span class="vb-reel-bar" aria-hidden="true"><i style="{{r.prog}}"></i></span>
 <span class="vb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></span>
 <span class="vb-reel-cap"><b>{{r.who}}</b><span>{{r.line}}</span></span>
@@ -195,40 +264,163 @@ body{margin:0}
 </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"photo":{"editor":"enum","options":["artist in the pages","sea of pages","volume spine","stacked volumes","green smile","brainless"],"default":"artist in the pages","section":"Hero image"},"showReels":{"editor":"boolean","default":true,"section":"Later modules"},"$preview":{"width":1440,"height":2400}}'>
+<script type="text/x-dc" data-dc-script data-props='{"photo":{"editor":"enum","options":["artist in the pages","sea of pages","volume spine","stacked volumes","green smile","brainless"],"default":"artist in the pages","section":"Hero image"},"showReels":{"editor":"boolean","default":true,"section":"Later modules"},"showJacket":{"editor":"boolean","default":true,"section":"Form"},"$preview":{"width":1440,"height":2400}}'>
 const AMOUNTS = [
   { k: 'some', t: 'One or a few' },
   { k: 'almost', t: 'Most of a set' },
   { k: 'full', t: 'All 32' }
 ];
+const COLOURS = [
+  { k: 'dark', t: 'Dark green', hex: '#1F3A2C' },
+  { k: 'light', t: 'Light green', hex: '#7E9A6E' },
+  { k: 'khaki', t: 'Khaki', hex: '#B3A47A' }
+];
+const JACKETS = [
+  { k: 'with', t: 'With jacket' },
+  { k: 'without', t: 'Without jacket' }
+];
 const PHOTO_KEYS = { 'artist in the pages': 'field', 'sea of pages': 'close', 'volume spine': 'spine', 'stacked volumes': 'stack', 'green smile': 'smile', 'brainless': 'brainless' };
-const TARGET = { volumes: 312, homes: 87, works: 46 };
+const TARGET = { volumes: 312, street: 124, homes: 87, works: 46 }; // [street = volumes found on the street / by the bins — placeholder]
 const REELS = [
   { who: 'Miriam, 74 · Haifa', line: '“My father paid for it in instalments.”', tone: '#6E6258', p: 38, img: './img/reel-1.jpg', x: 48 },
   { who: 'Rachel, 66 · Tel Aviv', line: '“I learned English from it.”', tone: '#55605C', p: 12, img: './img/reel-2.jpg', x: 40 },
   { who: 'Shoshana, 88 · Jaffa', line: '“It was the first thing in the house.”', tone: '#7A6A5C', p: 64, img: './img/reel-3.jpg', x: 55 },
   { who: 'Dalia, 71 · Jerusalem', line: '“We kept it through four moves.”', tone: '#5C5A66', p: 22, img: './img/reel-4.jpg', x: 62 }
 ];
-const DURATION = 1800;
-const STAT_DUR = 2600, STAT_STAGGER = 220, STATS_TOTAL = 2600 + 2 * 220;
+// main counter: ~1s roll over the last ~40 numbers, braking hard at the end
+const DURATION = 1000, ROLL = 40;
+const easeOutQuint = (p) => 1 - Math.pow(1 - p, 5);
+// small stats: one number flips (target-1 → target), slow, one soft bounce back; 1/3 s between items
+const STAT_DUR = 2000, STAT_STAGGER = 330, STATS_TOTAL = STAT_DUR + 2 * STAT_STAGGER;
 const statP = (ms, i) => Math.max(0, Math.min(1, (ms - i * STAT_STAGGER) / STAT_DUR));
-const easeOutQuart = (p) => 1 - Math.pow(1 - p, 4);
-const statStyle = (p) => 'opacity:' + Math.min(1, p * 2.2).toFixed(3) + ';transform:translateY(' + ((1 - easeOutQuart(p)) * 18).toFixed(2) + 'px)';
+const easeOutBack = (p) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
+// each stat rolls up through its last numbers (from ~60% of the target) and settles with ease-out
+// small stats: only the last 2 numbers change (122 -> 124). A very soft ease-out carries the last digit
+// slightly past its place (momentum), then it settles back slowly.
+const STAT_STEPS = 2, STAT_OVER = 0.06, STAT_UNDER = 0.5, STAT_GLIDE = 0.7; // overshoot, in digit heights
+const statFrom = (target) => Math.max(Math.pow(10, String(target).length - 1), target - STAT_STEPS);
+const statEase = (p) => {
+  const k = STAT_GLIDE; // glide out and slightly past the target...
+  if (p < k) { const q = p / k; return 1 - Math.pow(1 - q, 4); }
+  // ...then one slow spring bounce: drop through the target and sink a little below it (ease-in-out, ~270ms),
+  // then rise back and rest (ease-in-out, ~330ms). Returned as a multiple of STAT_OVER: 1 -> -STAT_UNDER -> 0.
+  const q = (p - k) / (1 - k), io = (x) => 0.5 - 0.5 * Math.cos(Math.PI * x);
+  if (q < 0.45) return 1 - (1 + STAT_UNDER) * io(q / 0.45);
+  return -STAT_UNDER * (1 - io((q - 0.45) / 0.55));
+};
+const statRaw = (target, p) => {
+  const from = statFrom(target), span = target - from;
+  if (p < STAT_GLIDE) return from + (span + STAT_OVER) * statEase(p);
+  return target + STAT_OVER * statEase(p);
+};
+const statVal = (target, p) => Math.round(statRaw(target, p));
+// odometer: continuous value -> one translateY per digit place. A place only moves while every place
+// below it is on 9 and rolling over, so carries push the next digit up exactly like a mechanical counter.
+const odo = (v, digits) => {
+  const out = [];
+  for (let k = digits - 1; k >= 0; k--) {
+    const unit = Math.pow(10, k);
+    const whole = Math.floor(v / unit);
+    const below = v - whole * unit;           // what the lower places show
+    const carry = Math.max(0, below - (unit - 1)); // 0..1 while lower places go 9 -> 0
+    const pos = (whole % 10) + (k === 0 ? (v - Math.floor(v)) : carry);
+    out.push({ s: 'transform:translateY(' + (-pos).toFixed(4) + 'em)' });
+  }
+  return out;
+};
+const statStyle = (p) => 'opacity:' + Math.min(1, p * 4).toFixed(3) + ';transform:translateY(' + ((1 - easeOutBack(p)) * 10).toFixed(2) + 'px)';
+// sticky header: hides while scrolling down, comes back on pause or scroll up (shared snippet, same in every page board)
+function bgHeaderAutoHide() {
+  if (typeof document === 'undefined') return function () {};
+  var last = new WeakMap(), timer = null;
+  function onScroll(e) {
+    var root = (e.target === document || !e.target.querySelectorAll) ? document : e.target;
+    var y = root === document ? (document.scrollingElement || document.documentElement).scrollTop : root.scrollTop;
+    var prev = last.get(root) || 0; last.set(root, y);
+    var hs = root.querySelectorAll('.site-header'); if (!hs.length) return;
+    var hide = y > prev && y > 160;
+    hs.forEach(function (h) { h.classList.toggle('is-hidden', hide); });
+    clearTimeout(timer);
+    timer = setTimeout(function () { hs.forEach(function (h) { h.classList.remove('is-hidden'); }); }, 700);
+  }
+  document.addEventListener('scroll', onScroll, { capture: true, passive: true });
+  return function () { document.removeEventListener('scroll', onScroll, { capture: true }); clearTimeout(timer); };
+}
 class Component extends DCLogic {
 constructor(props) {
 super(props);
-this.state = { amount: 'some', name: '', phone: '', credit: false, optIn: true, peek: false, sent: false };
+this.state = { amount: null, colour: null, jacket: null, name: '', phone: '', credit: false, optIn: true, peek: false, sent: false, t: 0, el2: 0 };
+this.setCountEl = (el) => {
+if (!el || this.cio) return;
+if (typeof IntersectionObserver === 'undefined') { this.startCount(); return; }
+this.cio = new IntersectionObserver((entries) => {
+entries.forEach(en => { if (en.isIntersecting) this.startCount(); else { if (this.raf) cancelAnimationFrame(this.raf); this.setState({ t: 0 }); } });
+}, { threshold: 0.6 });
+this.cio.observe(el);
+};
+this.setStatsEl = (el) => {
+if (!el || this.io) return;
+if (typeof IntersectionObserver === 'undefined') { this.startStats(); return; }
+// replays every time the row comes back into view; resets while out of view
+this.io = new IntersectionObserver((entries) => {
+entries.forEach(en => { if (en.isIntersecting) this.startStats(); else { if (this.raf2) cancelAnimationFrame(this.raf2); this.setState({ el2: 0 }); } });
+}, { threshold: 0.5 });
+this.io.observe(el);
+};
 }
+startStats() {
+if (this.raf2) cancelAnimationFrame(this.raf2);
+const start = performance.now();
+const tick = (now) => {
+const el2 = now - start;
+this.setState({ el2 });
+if (el2 < STATS_TOTAL) this.raf2 = requestAnimationFrame(tick);
+};
+this.raf2 = requestAnimationFrame(tick);
+}
+componentDidMount() {
+this._hdrOff = bgHeaderAutoHide();
+}
+// the main counter rolls whenever it comes into view (and again each time it re-enters), not just once at load —
+// on the canvas an artboard mounts long before anyone looks at it, so a load-time roll was already over.
+startCount() {
+if (this.raf) cancelAnimationFrame(this.raf);
+const start = performance.now();
+const tick = (now) => {
+const t = Math.min(1, (now - start) / DURATION);
+this.setState({ t });
+if (t < 1) this.raf = requestAnimationFrame(tick);
+};
+this.raf = requestAnimationFrame(tick);
+}
+componentWillUnmount() {
+if (this._hdrOff) this._hdrOff(); if (this.raf) cancelAnimationFrame(this.raf); if (this.raf2) cancelAnimationFrame(this.raf2); if (this.io) this.io.disconnect(); if (this.cio) this.cio.disconnect(); }
 renderVals() {
 const st = this.state;
+const e = easeOutQuint(st.t);
 const key = PHOTO_KEYS[this.props.photo ?? 'artist in the pages'] || 'field';
 const ph = { field: false, close: false, spine: false, stack: false, smile: false, brainless: false };
 ph[key] = true;
 return {
-reels: REELS.map(r => ({ ...r, bg: 'background:' + r.tone, prog: 'width:' + r.p + '%', bgimg: 'background-image:url(' + r.img + ');background-position:' + r.x + '% 40%', label: 'Play: ' + r.who })),
+count: Math.round(TARGET.volumes - ROLL + ROLL * e),
+odoCount: odo(TARGET.volumes - ROLL + ROLL * e, String(TARGET.volumes).length),
+odo0: odo(statRaw(TARGET.street, statP(st.el2, 0)), String(TARGET.street).length),
+odo1: odo(statRaw(TARGET.homes, statP(st.el2, 1)), String(TARGET.homes).length),
+odo2: odo(statRaw(TARGET.works, statP(st.el2, 2)), String(TARGET.works).length),
+statVolumes: statVal(TARGET.street, statP(st.el2, 0)),
+statHomes: statVal(TARGET.homes, statP(st.el2, 1)),
+statWorks: statVal(TARGET.works, statP(st.el2, 2)),
+st0: statStyle(statP(st.el2, 0)), st1: statStyle(statP(st.el2, 1)), st2: statStyle(statP(st.el2, 2)),
+statsRef: this.setStatsEl,
+countRef: this.setCountEl,
+reels: REELS.map(r => ({ ...r, bg: 'background:' + r.tone, prog: 'width:' + r.p + '%', pos: 'object-position:' + r.x + '% 40%', label: 'Play: ' + r.who })),
 ph: ph,
 showReels: this.props.showReels ?? true,
 editing: !st.sent, sent: st.sent,
+colours: COLOURS.map(x => ({ ...x, bg: 'background:' + x.hex, on: st.colour === x.k ? 'true' : 'false', cls: st.colour === x.k ? 'on' : '', pick: () => this.setState({ colour: x.k }) })),
+jackets: JACKETS.map(x => ({ ...x, on: st.jacket === x.k ? 'true' : 'false', cls: st.jacket === x.k ? 'on' : '', pick: () => this.setState({ jacket: x.k }) })),
+showJacket: this.props.showJacket ?? true,
+colourName: (() => { const c = COLOURS.find(x => x.k === st.colour); return c ? '· ' + c.t : ''; })(),
 amounts: AMOUNTS.map(x => ({ ...x, on: st.amount === x.k ? 'true' : 'false', cls: st.amount === x.k ? 'on' : '', pick: () => this.setState({ amount: x.k }) })),
 name: st.name, setName: (ev) => this.setState({ name: ev.target.value }),
 phone: st.phone, setPhone: (ev) => this.setState({ phone: ev.target.value }),
@@ -237,7 +429,7 @@ optIn: st.optIn, optCls: st.optIn ? 'on' : '', toggleOptIn: () => this.setState(
 peek: st.peek, peekAria: st.peek ? 'true' : 'false', peekText: st.peek ? 'Hide example' : 'What will it look like?', togglePeek: () => this.setState({ peek: !st.peek }),
 creditName: st.name ? st.name : 'your name',
 send: () => this.setState({ sent: true }),
-reset: () => this.setState({ sent: false }),
+reset: () => this.setState({ sent: false, amount: null, colour: null, jacket: null }),
 thanksName: st.name ? ', ' + st.name.split(' ')[0] : ''
 };
 }
@@ -246,27 +438,21 @@ thanksName: st.name ? ', ' + st.name.split(' ')[0] : ''
 <script>
 /* preview: ?photo=sea-of-pages etc. picks the hero image */
 (function(){var p=new URLSearchParams(location.search).get('photo');if(p){window.DC_PROPS={photo:p.replace(/-/g,' ')};}})();
+/* preview: dc-lite re-creates the DOM on every frame of a counter, so IntersectionObserver refs go stale.
+   Same behaviour, driven by a scroll check that always reads the live DOM: roll on entering view, reset on leaving. */
+window.DC_PATCH=function(c){
+ c.setCountEl=function(){};c.setStatsEl=function(){};
+ var inC=false,inS=false;
+ function vis(el,f){if(!el)return false;var r=el.getBoundingClientRect(),h=Math.max(1,r.height);var shown=Math.min(r.bottom,innerHeight)-Math.max(r.top,0);return shown/Math.min(h,innerHeight)>=f;}
+ function chk(){
+  var a=vis(document.querySelector('.vb-cause .vb-n')||document.querySelector('.vb-n'),0.6);
+  if(a&&!inC){inC=true;c.startCount();}else if(!a&&inC){inC=false;if(c.raf)cancelAnimationFrame(c.raf);c.setState({t:0});}
+  var b=vis(document.querySelector('.vb-stats'),0.5);
+  if(b&&!inS){inS=true;c.startStats();}else if(!b&&inS){inS=false;if(c.raf2)cancelAnimationFrame(c.raf2);c.setState({el2:0});}
+ }
+ var md=c.componentDidMount;c.componentDidMount=function(){md&&md.call(c);addEventListener('scroll',chk,{passive:true});addEventListener('resize',chk);requestAnimationFrame(chk);};
+};
 </script>
 <script src="./dc-lite.js"></script>
-<script>
-/* preview: counters animate outside the template so re-renders never reset them */
-(function(){
-var T={top:312,s0:312,s1:87,s2:46},cur={top:0,s0:0,s1:0,s2:0},rise=[0,0,0];
-function q(sel){return document.querySelectorAll(sel);}
-function apply(){
- q('[data-count]').forEach(function(el){var v=String(cur[el.getAttribute('data-count')]);if(el.textContent!==v)el.textContent=v;});
- q('[data-rise]').forEach(function(el){var p=rise[+el.getAttribute('data-rise')],e=1-Math.pow(1-p,4);
-  var st='opacity:'+Math.min(1,p*2.2).toFixed(3)+';transform:translateY('+((1-e)*18).toFixed(2)+'px)';if(el.getAttribute('style')!==st)el.setAttribute('style',st);});
-}
-function run(dur,step){var t0=performance.now();function f(now){var ms=now-t0;step(ms);apply();if(ms<dur+600)requestAnimationFrame(f);}requestAnimationFrame(f);}
-function startTop(){run(1800,function(ms){var p=Math.min(1,ms/1800);cur.top=Math.round(T.top*(1-Math.pow(1-p,3)));});}
-var statsOn=false;
-function checkStats(){if(statsOn)return;var el=document.querySelector('.vb-stats');if(!el)return;var r=el.getBoundingClientRect();
- if(r.top<innerHeight*0.8&&r.bottom>0){statsOn=true;run(2600+440,function(ms){[0,1,2].forEach(function(i){var p=Math.max(0,Math.min(1,(ms-i*220)/2600));rise[i]=p;cur['s'+i]=Math.round(T['s'+i]*(1-Math.pow(1-p,4)));});});}}
-function init(){apply();startTop();checkStats();addEventListener('scroll',checkStats,{passive:true});addEventListener('resize',checkStats);
- new MutationObserver(apply).observe(document.querySelector('x-dc')||document.body,{childList:true,subtree:true});}
-document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init):init();
-})();
-</script>
 </body>
 </html>
