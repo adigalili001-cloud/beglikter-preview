@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Press — Etamar Beglikter</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="./preview.css">
+<link rel="stylesheet" href="./site-v2.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;1,400&amp;family=Noto+Sans+Hebrew:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.pr-head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--grid-gutter);padding-block:var(--space-16) 0;align-items:end}
+.pr-head-t{grid-column:1 / span 7;display:flex;flex-direction:column;gap:var(--space-4)}
+.pr-h1{margin:0;font-size:var(--size-display);font-weight:600;line-height:.95;letter-spacing:-.035em}
+.pr-head-p{grid-column:9 / span 4;margin:0;color:var(--neutral-700)}
+.pr-kit{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--grid-gutter);padding:var(--space-8) 0;border-top:1px solid var(--neutral-900);border-bottom:1px solid var(--neutral-900)}
+.pr-kit-t{grid-column:1 / span 4;display:flex;flex-direction:column;gap:var(--space-3)}
+.pr-kit-t .title{margin:0}
+.pr-kit-list{grid-column:6 / span 7;margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;column-gap:var(--grid-gutter)}
+.pr-kit-list li{border-top:1px solid var(--neutral-300)}
+.pr-kit-list li:nth-child(-n+2){border-top:0}
+.pr-dl{display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);min-height:56px;text-decoration:none;color:inherit}
+.pr-dl b{font-weight:500}
+.pr-dl span{font-size:var(--size-small);color:var(--neutral-700)}
+.pr-dl svg{width:18px;height:18px;flex:0 0 auto;stroke:currentColor;stroke-width:1.5;fill:none}
+.pr-dl:hover b{text-decoration:underline;text-underline-offset:4px}
+.pr-feat{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--grid-gutter);align-items:stretch;text-decoration:none;color:inherit}
+.pr-feat-img{grid-column:1 / span 5;margin:0;min-height:520px;position:relative;overflow:hidden;background:var(--neutral-100)}
+.pr-feat-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pr-feat-t{grid-column:7 / span 6;display:flex;flex-direction:column;justify-content:space-between;gap:var(--space-8);padding-block:var(--space-2)}
+.pr-feat-q{margin:0;font-size:var(--size-headline);font-weight:500;line-height:1.08;letter-spacing:-.02em;max-width:22ch}
+.pr-src{display:flex;flex-direction:column;gap:var(--space-1);padding-top:var(--space-4);border-top:1px solid var(--neutral-900)}
+.pr-src b{font-size:var(--size-body-l);font-weight:500}
+.pr-read{margin-top:var(--space-3);font-size:var(--size-small);text-decoration:underline;text-underline-offset:4px}
+.pr-feat:hover .pr-read{color:var(--neutral-700)}
+.pr-tag{display:inline-block;font-size:var(--size-meta);font-weight:500;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--neutral-900);padding:3px 8px;white-space:nowrap}
+.pr-bar{display:flex;justify-content:space-between;align-items:end;gap:var(--space-6);flex-wrap:wrap;margin-bottom:var(--space-6)}
+.pr-bar .title{margin:0}
+.pr-filters{display:flex;gap:0}
+.pr-f{min-height:44px;padding:0 18px;margin-left:-1px;border:1px solid var(--neutral-300);background:#fff;font:inherit;font-size:15px;color:inherit;cursor:pointer;position:relative}
+.pr-f:first-child{margin-left:0}
+.pr-f:hover{z-index:1;border-color:var(--neutral-500)}
+.pr-f.on{z-index:2;border-color:var(--neutral-900);box-shadow:inset 0 0 0 1px var(--neutral-900)}
+.pr-f i{font-style:normal;color:var(--neutral-500);margin-left:6px;font-size:13px}
+.pr-list{margin:0;padding:0;list-style:none;border-top:1px solid var(--neutral-900)}
+.pr-row{display:grid;grid-template-columns:72px 150px minmax(0,1fr) minmax(0,.7fr) 48px 32px;gap:var(--grid-gutter);align-items:center;min-height:76px;padding-block:var(--space-3);border-bottom:1px solid var(--neutral-300);text-decoration:none;color:inherit}
+.pr-row:hover{background:var(--neutral-50)}
+.pr-row:hover .pr-arrow{transform:translate(3px,-3px)}
+.pr-y{font-variant-numeric:tabular-nums;color:var(--neutral-700)}
+.pr-title{font-size:var(--size-body-l);font-weight:500;line-height:1.25}
+.pr-out{font-size:var(--size-small);color:var(--neutral-700)}
+.pr-lang{font-size:var(--size-meta);letter-spacing:.08em;color:var(--neutral-700)}
+.pr-arrow{width:18px;height:18px;stroke:currentColor;stroke-width:1.5;fill:none;transition:transform .2s;justify-self:end}
+.pr-videos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--image-gap)}
+.pr-vid{display:flex;flex-direction:column;gap:var(--space-3);text-decoration:none;color:inherit;border:0;background:none;padding:0;font:inherit;text-align:left;cursor:pointer}
+.pr-vid-img{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--neutral-800)}
+.pr-vid-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .3s}
+.pr-vid:hover .pr-vid-img img{opacity:1}
+.pr-play{position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:999px;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center}
+.pr-play svg{width:22px;height:22px;fill:var(--neutral-900);margin-left:3px}
+.pr-dur{position:absolute;right:10px;bottom:10px;background:rgba(22,21,20,.8);color:#fff;font-size:12px;padding:3px 7px;font-variant-numeric:tabular-nums}
+.pr-vid b{font-weight:500}
+.pr-modal{position:fixed;inset:0;z-index:50;background:rgba(22,21,20,.82);display:flex;align-items:center;justify-content:center;padding:var(--grid-margin)}
+.pr-modal-box{width:min(1100px,100%);display:flex;flex-direction:column;gap:var(--space-3);color:#fff}
+.pr-modal-frame{aspect-ratio:16/9;background:#000;display:flex;align-items:center;justify-content:center;font-size:var(--size-small);color:rgba(255,255,255,.7)}
+.pr-close{align-self:flex-end;min-height:44px;padding:0 14px;border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;font:inherit;cursor:pointer}
+.pr-empty{padding:var(--space-8) 0;color:var(--neutral-700)}
+.prk{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--grid-gutter);row-gap:var(--space-8)}
+.prk-head{grid-column:1 / -1;display:flex;justify-content:space-between;align-items:flex-end;gap:var(--space-8);flex-wrap:wrap;padding-bottom:var(--space-6);border-bottom:1px solid var(--ix-line)}
+.prk-title{margin:4px 0 0;font-size:var(--size-headline);font-weight:600;line-height:1;letter-spacing:-.025em}
+.prk-cards{grid-column:1 / -1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0;padding:0;list-style:none}
+.prk-cards .ix-card{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;column-gap:16px;min-height:0;padding:14px 14px 14px 16px}
+.prk-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.prk-txt .ix-card-t{font-size:17px}
+.prk-thumb{display:flex;gap:4px;height:56px}
+.prk-thumb img{height:56px;width:56px;object-fit:cover;display:block}
+.prk-thumb .pg{width:44px;height:56px;border:1px solid var(--ix-line);background:#fff;display:flex;flex-direction:column;gap:4px;padding:8px 7px;box-sizing:border-box}
+.prk-thumb .pg i{display:block;height:2px;background:var(--neutral-300)}
+.prk-thumb .pg i:nth-child(3n){width:60%}
+.prk-thumb .logo{height:40px;width:auto;align-self:center}
+.prk-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.prk-kind{font-size:var(--size-meta);letter-spacing:.08em;text-transform:uppercase;color:var(--neutral-500)}
+.pk-txt{margin:0;font-size:13px;line-height:1.5;color:var(--neutral-800);display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.pk-imgs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.pk-imgs img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.pk-rows{margin:0;padding:0;list-style:none;font-size:12px}
+.pk-rows li{display:flex;gap:10px;padding:5px 0;border-bottom:1px solid var(--ix-line)}
+.pk-rows b{font-weight:500;min-width:36px;color:var(--neutral-700)}
+.pk-logo{display:block;width:120px;height:auto}
+.pk-cap{display:block;margin-top:8px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--neutral-500)}
+.prk-label{display:flex;flex-direction:column;gap:4px;padding:var(--space-4) 0;border-top:1px solid var(--neutral-900);margin-bottom:var(--space-6)}
+@media (max-width:1023px){.prk-cards{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.prk-cards{grid-template-columns:1fr}}
+/* texts & press — two livelier views */
+.pv-label{display:flex;flex-direction:column;gap:4px;padding:var(--space-4) 0;border-top:1px solid var(--neutral-900);margin:var(--space-16) 0 var(--space-6)}
+.pv-masonry{columns:4;column-gap:20px;padding:28px;background:var(--ix-ground);border:1px solid var(--ix-line)}
+.pv-masonry > li{break-inside:avoid;margin:0 0 20px;list-style:none}
+.pv-card{padding:0;gap:0;overflow:hidden}
+.pv-card .pv-img{display:block;position:relative;background:var(--neutral-100);overflow:hidden}
+.pv-card .pv-img.ar-1-1{aspect-ratio:1/1}.pv-card .pv-img.ar-16-10{aspect-ratio:16/10}.pv-card .pv-img.ar-3-2{aspect-ratio:3/2}.pv-card .pv-img.ar-3-4{aspect-ratio:3/4}.pv-card .pv-img.ar-4-3{aspect-ratio:4/3}.pv-card .pv-img.ar-4-5{aspect-ratio:4/5}
+.pv-card .pv-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.pv-card:hover .pv-img img{transform:scale(1.03)}
+.pv-body{display:flex;flex-direction:column;gap:10px;padding:20px 20px 18px}
+.pv-meta{display:flex;gap:8px;align-items:center;font-size:var(--size-meta);letter-spacing:.06em;color:var(--neutral-700)}
+.pv-ttl{font-size:20px;font-weight:600;line-height:1.2;letter-spacing:-.01em}
+.pv-out{font-size:var(--size-small);color:var(--neutral-700)}
+.pv-ex{margin:0;font-size:13px;line-height:1.5;color:var(--neutral-700)}
+.pv-foot{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:13px}
+.pv-foot .pv-go{text-decoration:underline;text-underline-offset:4px}
+.pv-foot .pv-lang{font-size:var(--size-meta);letter-spacing:.08em;color:var(--neutral-500)}
+.pv-play{position:absolute;left:50%;top:50%;width:48px;height:48px;margin:-24px 0 0 -24px;border-radius:999px;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center}
+.pv-play svg{width:18px;height:18px;fill:var(--neutral-900);margin-left:2px}
+.pv-straight{display:flex;flex-direction:column;gap:var(--space-8)}
+.pv-side{display:flex;align-items:baseline;gap:12px}
+.pv-grid{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--grid-gutter);row-gap:40px}
+.pv-tile{display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;padding-top:18px;border-top:4px double var(--neutral-500)}
+.pv-tile .pv-img{display:block;position:relative;aspect-ratio:16/7;overflow:hidden;background:var(--neutral-100)}
+.pv-tile .pv-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pv-tile .pv-ttl{font-size:17px;font-weight:500}
+.pv-tile:hover .pv-ttl{text-decoration:underline;text-underline-offset:4px}
+.pv-tile .pv-meta .pr-tag{font-size:10px;padding:2px 6px}
+@media (max-width:1023px){.pv-masonry{columns:2}.pv-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.pv-masonry{columns:1;padding:16px}.pv-grid{grid-template-columns:1fr}}
+@media (max-width:1023px){
+.pr-head-t,.pr-head-p,.pr-kit-t,.pr-kit-list,.pr-feat-img,.pr-feat-t{grid-column:1 / -1}
+.pr-head-p{margin-top:var(--space-6)}
+.pr-kit-list{margin-top:var(--space-6)}
+.pr-feat-img{min-height:360px;margin-bottom:var(--space-6)}
+.pr-videos{grid-template-columns:1fr 1fr}
+.pr-row{grid-template-columns:56px minmax(0,1fr) 32px;row-gap:var(--space-1)}
+.pr-row .pr-tag{grid-column:2;grid-row:1;justify-self:start}
+.pr-row .pr-y{grid-row:1 / span 3}
+.pr-row .pr-title{grid-column:2}
+.pr-row .pr-out{grid-column:2}
+.pr-row .pr-lang{display:none}
+.pr-row .pr-arrow{grid-column:3;grid-row:1 / span 3}
+}
+@media (max-width:640px){
+.pr-h1{font-size:48px}
+.pr-kit-list{grid-template-columns:1fr}
+.pr-kit-list li:nth-child(2){border-top:1px solid var(--neutral-300)}
+.pr-videos{grid-template-columns:1fr}
+.pr-filters{flex-wrap:wrap}
+}
+/* 23.10 — head: big title + press kit side by side; the kit reads as an interactive zone */
+.prh{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--grid-gutter);row-gap:var(--space-8);padding-block:var(--space-16) 0;align-items:stretch}
+.prh-t{grid-column:1 / span 5;display:flex;flex-direction:column;gap:var(--space-6);justify-content:space-between}
+.prh-h1{margin:0;font-size:72px;font-weight:600;line-height:.95;letter-spacing:-.035em}
+.prh-p{margin:0;color:var(--neutral-700);max-width:40ch}
+.prh-kit{grid-column:6 / -1;padding:28px;display:flex;flex-direction:column;gap:20px}
+.prh-kit-top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.prh-kit-top h2{margin:2px 0 0;font-size:var(--size-title);font-weight:600;letter-spacing:-.015em;line-height:1}
+.prh-cards{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.prh-cards .ix-card{display:grid;grid-template-columns:44px minmax(0,1fr) 40px;align-items:center;column-gap:14px;padding:14px 14px 14px 14px;cursor:pointer}
+.prh-cards .ix-card:hover{transform:translateY(-2px)}
+.prh-ic{width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--prh-tint);color:var(--neutral-900)}
+.prh-ic svg{width:22px;height:22px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.prh-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.prh-txt .ix-card-t{font-size:17px}
+.prh-txt .ix-card-d{font-size:13px}
+.prh-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-top:4px;font-size:var(--size-small)}
+.prh-foot a{display:inline-flex;align-items:center;gap:8px;min-height:44px}
+.prh-foot svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.5;fill:none}
+@media (max-width:1023px){.prh-t,.prh-kit{grid-column:1 / -1}}
+@media (max-width:640px){.prh-h1{font-size:44px}.prh-cards{grid-template-columns:1fr}.prh-kit{padding:16px}}
+/* 23.10 — press kit from Figma (Design System › press kit, node 92:6) */
+.pk2{display:grid;grid-template-columns:400px 1px minmax(0,1fr);column-gap:56px;align-items:stretch;padding-block:var(--space-12)}
+.pk2-l{display:flex;flex-direction:column;gap:22px;min-width:0}
+.pk2-h{margin:0;font-size:124px;font-weight:700;line-height:1.07;letter-spacing:-.02em;color:#000}
+.pk2-p{margin:0;font-size:17px;line-height:1.3;color:#6F6B65;max-width:30ch}
+.pk2-btn{display:inline-flex;align-items:baseline;gap:8px;align-self:flex-start;background:#000;color:#fff;padding:12px 20px;text-decoration:none;line-height:1.13}
+.pk2-btn:hover{background:var(--neutral-800);color:#fff}
+.pk2-btn b{font-size:21px;font-weight:600}
+.pk2-btn span{font-size:17px}
+.pk2-rule{display:block;width:1px;background:var(--neutral-900)}
+.pk2-grid{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;align-content:center}
+.pk2-card{display:flex;flex-direction:column;gap:18px;height:100%;box-sizing:border-box;padding:16px;border:1px solid #C8C4BC;background:#fff;text-decoration:none;color:inherit;transition:background .2s,border-color .2s}
+.pk2-top{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:36px}
+.pk2-t{font-size:22px;font-weight:600;line-height:1.13;color:#000}
+.pk2-m{display:flex;flex-direction:column;gap:6px;font-size:17px;line-height:1.13;color:#6F6B65;transition:color .2s}
+.pk2-dl{flex:0 0 auto;width:36px;height:36px;border-radius:7px;background:rgba(255,98,92,.22);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.pk2-dl svg{width:20px;height:20px;stroke:#FF625C;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.pk2-card:hover,.pk2-card:focus-visible{background:rgba(255,98,92,.1);border-color:#FF625C;color:inherit;outline:none}
+.pk2-card:focus-visible{box-shadow:0 0 0 2px #FF625C}
+.pk2-card:hover .pk2-dl,.pk2-card:focus-visible .pk2-dl{opacity:1}
+.pk2-card:hover .pk2-m,.pk2-card:focus-visible .pk2-m{color:#161514}
+@media (hover:none){.pk2-dl{opacity:1}}
+@media (max-width:1023px){.pk2{grid-template-columns:1fr;row-gap:var(--space-8)}.pk2-rule{display:none}.pk2-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}}
+@media (max-width:640px){.pk2-h{font-size:72px}.pk2-grid{grid-template-columns:1fr}}
+</style>
+</helmet>
+<div class="page">
+
+<header class="site-header">
+<div class="container">
+<a href="./" class="wordmark">Etamar Begli<span class="k">k</span>ter</a>
+<nav aria-label="Main" class="nav"><a href="./works.html">Works</a><a href="./about.html">The Artist</a><a href="./volume-for-value.html">Volume for Value</a><a href="./press.html" aria-current="page">Press</a><a href="#" class="lang" lang="he" aria-label="Switch to Hebrew">עברית</a></nav>
+</div>
+</header>
+
+
+
+<sc-if value="{{playing}}" hint-placeholder-val="{{ false }}">
+<div class="pr-modal" onClick="{{closeVideo}}">
+<div class="pr-modal-box">
+<button type="button" class="pr-close" onClick="{{closeVideo}}">Close ✕</button>
+<div class="pr-modal-frame">[YouTube embed — {{playingTitle}}]</div>
+<span class="small">{{playingTitle}}</span>
+</div>
+</div>
+</sc-if>
+
+<main>
+
+<section class="container prh" aria-labelledby="pr-h1">
+<div class="prh-t">
+<div class="stack-tight">
+<span class="meta">Press &amp; Texts</span>
+<h1 id="pr-h1" class="prh-h1">Written, said and filmed about the work.</h1>
+</div>
+<p class="prh-p">Curatorial essays, reviews, interviews and films — in Hebrew and English. Writing about Etamar? Everything you need is in the press kit.</p>
+</div>
+
+</section><section class="container prh" aria-labelledby="pr-h1">
+
+
+</section><section class="container pk2" aria-labelledby="pk2-h" style="background-color: #fafaf8">
+<div class="pk2-l">
+<h2 id="pk2-h" class="pk2-h" style="font-size: 96px">Press<br>kit</h2>
+<p class="pk2-p">Curatorial essays, reviews, interviews and films — in Hebrew and English.</p>
+<a href="#" class="pk2-btn"><b>Download all</b><span>(ZIP 126 MB)</span></a>
+</div>
+<span class="pk2-rule" aria-hidden="true"></span>
+<ul class="pk2-grid">
+<sc-for list="{{pk2}}" as="k" hint-placeholder-count="6"><li><a href="#" class="pk2-card" aria-label="Download {{k.t}}">
+<span class="pk2-top"><span class="pk2-t">{{k.t}}</span><span class="pk2-dl" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M10 3v9.5M5.8 8.6 10 12.8l4.2-4.2M4 16.5h12"></path></svg></span></span>
+<span class="pk2-m"><span>{{k.lang}}</span><span>{{k.d}}</span></span>
+</a></li></sc-for>
+</ul>
+</section>
+
+
+
+<section class="container section" aria-label="Featured text">
+<a href="#" class="pr-feat">
+<figure class="pr-feat-img"><img src="./img/leaders-group.jpg" alt="Nation’s Greatest — three leaders cut from the encyclopedia"></figure>
+<div class="pr-feat-t">
+<div class="stack-tight"><span class="meta">Featured text</span></div>
+<p class="pr-feat-q" style="font-size: 52px">“[An opening line from the curatorial essay — the sentence that makes you want to read the rest.]”</p>
+<div class="pr-src">
+<span><span class="pr-tag">Curatorial text</span></span>
+<b style="margin-top: var(--space-3)">Yona Fischer</b>
+<span class="small secondary">Ele Gam Ele — Beglikter &amp; Hofstetter · Artists’ House, Tel Aviv · 2022</span>
+<span class="pr-read">Read the full text <span aria-hidden="true">→</span></span>
+</div>
+</div>
+</a>
+</section>
+
+<section class="container section" aria-labelledby="pr-all">
+<div class="pr-bar">
+<h2 id="pr-all" class="title">All texts &amp; press</h2>
+<div class="pr-filters" role="group" aria-label="Filter by type">
+<sc-for list="{{filters}}" as="f" hint-placeholder-count="4"><button type="button" class="pr-f {{f.cls}}" aria-pressed="{{f.on}}" onClick="{{f.pick}}">{{f.t}}<i>{{f.n}}</i></button></sc-for>
+</div>
+</div>
+<ul class="pv-masonry" style="border-style: none; background-color: #ffffff; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="9"><li><a href="#" class="ix-card pv-card" onClick="{{r.open}}">
+<span class="pv-img {{r.arCls}}"><sc-if value="{{r.im_cartoon_open}}" hint-placeholder-val="{{ false }}"><img src="./img/cartoon-open.jpg" alt=""></sc-if><sc-if value="{{r.im_install_field}}" hint-placeholder-val="{{ false }}"><img src="./img/install-field.jpg" alt=""></sc-if><sc-if value="{{r.im_leaders_group}}" hint-placeholder-val="{{ false }}"><img src="./img/leaders-group.jpg" alt=""></sc-if><sc-if value="{{r.im_profiles}}" hint-placeholder-val="{{ false }}"><img src="./img/profiles.jpg" alt=""></sc-if><sc-if value="{{r.im_volumes_stack}}" hint-placeholder-val="{{ false }}"><img src="./img/volumes-stack.jpg" alt=""></sc-if><sc-if value="{{r.im_w_applause}}" hint-placeholder-val="{{ false }}"><img src="./img/w-applause.jpg" alt=""></sc-if><sc-if value="{{r.im_w_artist_prints}}" hint-placeholder-val="{{ false }}"><img src="./img/w-artist-prints.jpg" alt=""></sc-if><sc-if value="{{r.im_w_no_beyond}}" hint-placeholder-val="{{ false }}"><img src="./img/w-no-beyond.jpg" alt=""></sc-if><sc-if value="{{r.im_w_studio_at_work}}" hint-placeholder-val="{{ false }}"><img src="./img/w-studio-at-work.jpg" alt=""></sc-if><sc-if value="{{r.im_w_white_cow}}" hint-placeholder-val="{{ false }}"><img src="./img/w-white-cow.jpg" alt=""></sc-if><sc-if value="{{r.isVideo}}" hint-placeholder-val="{{ false }}"><span class="pv-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></span></sc-if></span>
+<span class="pv-body">
+<span class="pv-meta"><span class="pr-tag">{{r.type}}</span><span>{{r.y}}</span></span>
+<span class="pv-ttl">{{r.t}}</span>
+<span class="pv-out">{{r.o}}</span>
+<span class="pv-ex">{{r.ex}}</span>
+<span class="pv-foot"><span class="pv-go">{{r.cta}}</span><span class="pv-lang">{{r.lang}}</span></span>
+</span>
+</a></li></sc-for>
+</ul>
+<sc-if value="{{noRows}}" hint-placeholder-val="{{ false }}"><p class="pr-empty">Nothing here yet.</p></sc-if>
+
+</section>
+
+<sc-if value="{{showVideos}}" hint-placeholder-val="{{ true }}">
+<section class="container section" aria-labelledby="pr-watch">
+<div class="pr-bar"><h2 id="pr-watch" class="title">Watch</h2><a href="#" class="small">YouTube channel →</a></div>
+<div class="pr-videos">
+<sc-for list="{{videos}}" as="v" hint-placeholder-count="3"><button type="button" class="pr-vid" onClick="{{v.open}}" aria-label="{{v.label}}"><span class="pr-vid-img"><sc-if value="{{v.im_cartoon_open}}" hint-placeholder-val="{{ false }}"><img src="./img/cartoon-open.jpg" alt=""></sc-if><sc-if value="{{v.im_install_field}}" hint-placeholder-val="{{ false }}"><img src="./img/install-field.jpg" alt=""></sc-if><sc-if value="{{v.im_leaders_group}}" hint-placeholder-val="{{ false }}"><img src="./img/leaders-group.jpg" alt=""></sc-if><sc-if value="{{v.im_profiles}}" hint-placeholder-val="{{ false }}"><img src="./img/profiles.jpg" alt=""></sc-if><sc-if value="{{v.im_volumes_stack}}" hint-placeholder-val="{{ false }}"><img src="./img/volumes-stack.jpg" alt=""></sc-if><sc-if value="{{v.im_w_applause}}" hint-placeholder-val="{{ false }}"><img src="./img/w-applause.jpg" alt=""></sc-if><sc-if value="{{v.im_w_artist_prints}}" hint-placeholder-val="{{ false }}"><img src="./img/w-artist-prints.jpg" alt=""></sc-if><sc-if value="{{v.im_w_no_beyond}}" hint-placeholder-val="{{ false }}"><img src="./img/w-no-beyond.jpg" alt=""></sc-if><sc-if value="{{v.im_w_studio_at_work}}" hint-placeholder-val="{{ false }}"><img src="./img/w-studio-at-work.jpg" alt=""></sc-if><sc-if value="{{v.im_w_white_cow}}" hint-placeholder-val="{{ false }}"><img src="./img/w-white-cow.jpg" alt=""></sc-if><span class="pr-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></span><span class="pr-dur">{{v.dur}}</span></span><span style="display: flex; flex-direction: column; gap: 2px"><b>{{v.t}}</b><span class="small secondary">{{v.o}}</span></span></button></sc-for>
+</div>
+</section>
+</sc-if>
+
+</main><footer class="join" style="background:#FF625C;color:#161514;--join-ink:#161514;--join-on-ink:#FFFFFF" aria-labelledby="h-news">
+<div class="container join-inner">
+<h2 id="h-news" class="join-title">See new works first</h2>
+<p class="join-quote">“[I only write when a new work leaves the table — a few times a year, never more.]”</p>
+<span class="small join-by">Etamar Beglikter</span>
+<form class="join-form" action="#"><label class="join-field"><span>Name</span><input type="text" aria-label="Name"></label><label class="join-field"><span>Email</span><input type="email" aria-label="Email"></label><button type="button" class="join-btn">Subscribe</button></form>
+</div>
+<div class="container join-foot small">
+<span class="wordmark">Etamar Begli<span class="k">k</span>ter</span>
+<span>Studio, Tel Aviv · visits by appointment</span>
+<span class="join-links"><a href="./works.html">Works</a><a href="./about.html">The Artist</a><a href="./volume-for-value.html">Volume for Value</a><a href="./press.html" aria-current="page">Press</a><a href="#">Shipping</a><a href="#">Certificate</a><a href="#">FAQ</a><a href="#">Contact</a><a href="#">WhatsApp</a><a href="#">Instagram</a><a href="#">Privacy</a><a href="#">Accessibility</a></span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"kitTint":{"editor":"color","options":["#DCE7E4","#E4E8F2","#EFE7DA","#F4F2EE"],"default":"#DCE7E4","section":"Press kit zone"},"showVideos":{"editor":"boolean","default":true,"section":"Sections"},"$preview":{"width":1440,"height":6600}}'>
+const PK2 = [
+  { t: 'Bio - Short', lang: 'He | En', d: '80 words' },
+  { t: 'CV', lang: 'He | En', d: 'Exhibitions, collections' },
+  { t: 'Works', lang: '24 images', d: 'With credits' },
+  { t: 'Bio - Long', lang: 'He | En', d: '400 words' },
+  { t: 'Artist portraits', lang: '6 photos', d: 'With photo credit' },
+  { t: 'Volume for Value', lang: 'He | En', d: 'Logo + one-page summary' }
+];
+const KIT = [
+  { t: 'Short bio', d: 'EN · HE · 80 words', kind: 'Text', pv: 'text', peek: 'Etamar Beglikter (b. 1977) cuts the Hebrew Encyclopedia — the pride of every Israeli living room — until only the word an entry was meant to explain is left standing. His works are held by the Israel Museum, the Knesset Art Collection and MUZA.' },
+  { t: 'Long bio', d: 'EN · HE · 400 words', kind: 'Text', pv: 'text', peek: 'Etamar Beglikter found his first volume of the Hebrew Encyclopedia on a Tel Aviv sidewalk, next to the recycling bins. He took it home, opened it on the table and started to cut. Twenty years later he is still cutting — one entry at a time…' },
+  { t: 'CV', d: 'PDF · exhibitions, collections', kind: 'PDF', pv: 'cv' },
+  { t: 'Selected images', d: 'ZIP · [24] works, with credits', kind: 'Images', pv: 'imgs' },
+  { t: 'Artist portraits', d: 'ZIP · [6] photos, credit [photographer]', kind: 'Images', pv: 'portraits' },
+  { t: 'Volume for Value', d: 'Logo + one-page summary', kind: 'Project', pv: 'logo' }
+];
+const ITEMS = [
+  { y: '[2026]', type: 'Curatorial text', k: 'text', t: 'Erasing an Entry', img: './img/w-no-beyond.jpg', ar: '4/5', ex: 'A new body of work in which whole entries disappear — and what is left of them stays on the wall.', o: 'Shira Friedman · Musrara Gallery, Jerusalem', lang: 'HE · EN' },
+  { y: '2025', type: 'Press', k: 'press', t: '[Headline of the article on 100% Beglikter]', img: './img/w-applause.jpg', ar: '1/1', ex: 'On the occasion of 100% Beglikter at Keren Bargil Gallery: a visit to the studio and the table where the volumes are cut.', o: '[Outlet]', lang: 'HE' },
+  { y: '2022', type: 'Curatorial text', k: 'text', t: 'Ele Gam Ele — Beglikter & Hofstetter', img: './img/leaders-group.jpg', ar: '3/2', ex: 'Two artists, two generations, one question: what do we keep from the books that raised us?', o: 'Yona Fischer · Artists’ House, Tel Aviv', lang: 'HE · EN' },
+  { y: '[year]', type: 'Review', k: 'press', t: 'A special kind of ‘culture disruption’', img: './img/profiles.jpg', ar: '4/5', ex: 'A review of the encyclopedia works — humour and grief cut from the same page.', o: 'Dr. Baruch Blich · [outlet]', lang: 'HE' },
+  { y: '[year]', type: 'Video', k: 'video', t: '[Studio visit — how a volume becomes a work]', img: './img/w-studio-at-work.jpg', ar: '16/10', ex: 'Six minutes at the cutting table, from a closed volume to a single word.', o: '[Channel] · 6:40', lang: 'HE · EN subs' },
+  { y: '[year]', type: 'Catalogue', k: 'text', t: 'Tel Aviv Biennale of Crafts & Design', img: './img/w-white-cow.jpg', ar: '4/3', ex: 'Catalogue entry for the works shown at MUZA — Eretz Israel Museum.', o: 'MUZA — Eretz Israel Museum', lang: 'HE · EN' },
+  { y: '[year]', type: 'Catalogue', k: 'text', t: '100 Years of Dada', img: './img/cartoon-open.jpg', ar: '1/1', ex: 'Catalogue text on the encyclopedia as a ready-made, for the centenary exhibition in Ein Hod.', o: 'Janco-Dada Museum, Ein Hod', lang: 'HE · EN' },
+  { y: '[year]', type: 'Interview', k: 'press', t: '[Interview headline]', img: './img/w-artist-prints.jpg', ar: '3/4', ex: 'A conversation about sidewalks, recycling bins and the knowledge nobody wanted to keep.', o: '[Radio / podcast]', lang: 'HE' },
+  { y: '[year]', type: 'Video', k: 'video', t: '[TV item on Volume for Value]', img: './img/volumes-stack.jpg', ar: '16/10', ex: 'How the public started giving their encyclopedias back to the studio.', o: '[Channel] · 3:15', lang: 'HE' }
+];
+const VIDEOS = [
+  { t: '[Studio visit — how a volume becomes a work]', o: '[Channel] · [year]', dur: '6:40', img: './img/w-studio-at-work.jpg' },
+  { t: '[TV item on Volume for Value]', o: '[Channel] · [year]', dur: '3:15', img: './img/volumes-stack.jpg' },
+  { t: '[Exhibition walk-through — Ele Gam Ele]', o: '[Artists’ House] · 2022', dur: '4:02', img: './img/install-field.jpg' }
+];
+const FILTERS = [
+  { k: 'all', t: 'All' },
+  { k: 'text', t: 'Curatorial texts' },
+  { k: 'press', t: 'Press' },
+  { k: 'video', t: 'Video' }
+];
+const EXT = 'M6 3h9v9M15 3 4 14';
+const PLAY = 'M6 4v10l8-5z';
+// sticky header: hides while scrolling down, comes back on pause or scroll up (shared snippet, same in every page board)
+// images are placed as static <img> tags (switched by these flags) so the canvas always resolves them
+function IMGFLAGS(src) { var f = String(src || '').replace(/^.*\/img\//, '').replace(/\.jpg$/, ''); var o = {}; o.im_cartoon_open = f === 'cartoon-open'; o.im_install_field = f === 'install-field'; o.im_leaders_group = f === 'leaders-group'; o.im_profiles = f === 'profiles'; o.im_volumes_stack = f === 'volumes-stack'; o.im_w_applause = f === 'w-applause'; o.im_w_artist_prints = f === 'w-artist-prints'; o.im_w_no_beyond = f === 'w-no-beyond'; o.im_w_studio_at_work = f === 'w-studio-at-work'; o.im_w_white_cow = f === 'w-white-cow'; return o; }
+function bgHeaderAutoHide() {
+  if (typeof document === 'undefined') return function () {};
+  var last = new WeakMap(), timer = null;
+  function onScroll(e) {
+    var root = (e.target === document || !e.target.querySelectorAll) ? document : e.target;
+    var y = root === document ? (document.scrollingElement || document.documentElement).scrollTop : root.scrollTop;
+    var prev = last.get(root) || 0; last.set(root, y);
+    var hs = root.querySelectorAll('.site-header'); if (!hs.length) return;
+    var hide = y > prev && y > 160;
+    hs.forEach(function (h) { h.classList.toggle('is-hidden', hide); });
+    clearTimeout(timer);
+    timer = setTimeout(function () { hs.forEach(function (h) { h.classList.remove('is-hidden'); }); }, 700);
+  }
+  document.addEventListener('scroll', onScroll, { capture: true, passive: true });
+  return function () { document.removeEventListener('scroll', onScroll, { capture: true }); clearTimeout(timer); };
+}
+class Component extends DCLogic {
+componentDidMount() { this._hdrOff = bgHeaderAutoHide(); }
+componentWillUnmount() { if (this._hdrOff) this._hdrOff(); }
+constructor(props) {
+super(props);
+this.state = { f: 'all', playing: null };
+}
+renderVals() {
+const st = this.state;
+const shown = ITEMS.filter(x => st.f === 'all' || x.k === st.f);
+const open = (title) => (ev) => { if (ev && ev.preventDefault) ev.preventDefault(); this.setState({ playing: title }); };
+return {
+kit: KIT.map(k => ({ ...k, peek: k.peek || '', isText: k.pv === 'text', isImgs: k.pv === 'imgs', isPortraits: k.pv === 'portraits', isCv: k.pv === 'cv', isLogo: k.pv === 'logo', is_text: k.pv === 'text', is_cv: k.pv === 'cv', is_imgs: k.pv === 'imgs', is_portraits: k.pv === 'portraits', is_logo: k.pv === 'logo' })),
+pk2: PK2,
+kitStyle: '--prh-tint:' + (this.props.kitTint ?? '#DCE7E4') + ';background:' + (this.props.kitTint ?? '#DCE7E4'),
+filters: FILTERS.map(x => ({ ...x, n: x.k === 'all' ? ITEMS.length : ITEMS.filter(i => i.k === x.k).length, on: st.f === x.k ? 'true' : 'false', cls: st.f === x.k ? 'on' : '', pick: () => this.setState({ f: x.k }) })),
+rowCount: shown.length,
+rows: shown.map(x => ({ ...x, ...IMGFLAGS(x.img), arCls: 'ar-' + (x.ar || '4/3').replace('/', '-'), isVideo: x.k === 'video', cta: x.k === 'video' ? 'Watch' : 'Read', icon: x.k === 'video' ? PLAY : EXT, open: x.k === 'video' ? open(x.t) : (ev) => { if (ev && ev.preventDefault) ev.preventDefault(); } })),
+noRows: shown.length === 0,
+showVideos: this.props.showVideos ?? true,
+videos: VIDEOS.map(v => ({ ...v, ...IMGFLAGS(v.img), label: 'Play: ' + v.t, open: open(v.t) })),
+playing: !!st.playing,
+playingTitle: st.playing || '',
+closeVideo: (ev) => { if (ev && ev.target !== ev.currentTarget) return; this.setState({ playing: null }); }
+};
+}
+}
+</script>
+<script src="./dc-lite.js"></script>
+</body>
+</html>

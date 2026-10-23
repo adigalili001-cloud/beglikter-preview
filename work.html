@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="./preview.css">
-<link rel="stylesheet" href="./site.css">
+<link rel="stylesheet" href="./site-v2.css">
 </head>
 <body>
 <x-dc>
@@ -21,7 +21,7 @@ body{margin:0}
 <header class="site-header">
 <div class="container">
 <a href="./" class="wordmark">Etamar Begli<span class="k">k</span>ter</a>
-<nav aria-label="Main" class="nav"><a href="./works.html" aria-current="page">Works</a><a href="./about.html">The Artist</a><a href="./volume-for-value.html">Volume for Value</a><a href="./index.html#bespoke">Bespoke</a><a href="#" class="lang" lang="he" aria-label="Switch to Hebrew">עברית</a></nav>
+<nav aria-label="Main" class="nav"><a href="./works.html" aria-current="page">Works</a><a href="./about.html">The Artist</a><a href="./volume-for-value.html">Volume for Value</a><a href="./press.html">Press</a><a href="#" class="lang" lang="he" aria-label="Switch to Hebrew">עברית</a></nav>
 </div>
 </header>
 
@@ -185,9 +185,27 @@ body{margin:0}
 </footer>
 </div>
 </x-dc>
-<nav class="plan-toggle" aria-label="Compare work page versions"><span class="plan-k">Work page</span><a href="./work.html" aria-current="page">Plan A · shop</a><a href="./work-c.html">Plan C · story</a></nav>
 <script type="text/x-dc" data-dc-script data-props="{&quot;visitor&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Abroad&quot;,&quot;Israel&quot;],&quot;default&quot;:&quot;Israel&quot;,&quot;section&quot;:&quot;State&quot;},&quot;inquiryState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Button&quot;,&quot;Form open&quot;,&quot;Sent&quot;],&quot;default&quot;:&quot;Button&quot;,&quot;section&quot;:&quot;State&quot;},&quot;latinFont&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Schibsted Grotesk&quot;,&quot;Instrument Sans&quot;,&quot;Inter Tight&quot;,&quot;IBM Plex Sans&quot;],&quot;default&quot;:&quot;Schibsted Grotesk&quot;,&quot;section&quot;:&quot;Type&quot;},&quot;headline&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:32,&quot;max&quot;:88,&quot;step&quot;:2,&quot;unit&quot;:&quot;px&quot;,&quot;default&quot;:48,&quot;section&quot;:&quot;Type&quot;},&quot;pageBg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#FFFFFF&quot;,&quot;#F4F2EE&quot;,&quot;#E9E6E0&quot;],&quot;default&quot;:&quot;#FFFFFF&quot;,&quot;section&quot;:&quot;Colour&quot;},&quot;panelBg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#FFFFFF&quot;,&quot;#F4F2EE&quot;,&quot;#E9E6E0&quot;],&quot;default&quot;:&quot;#FFFFFF&quot;,&quot;section&quot;:&quot;Colour&quot;},&quot;ink&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#161514&quot;,&quot;#2A2826&quot;,&quot;#4A4743&quot;],&quot;default&quot;:&quot;#161514&quot;,&quot;section&quot;:&quot;Colour&quot;},&quot;soldRed&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#FF625C&quot;,&quot;#D2231C&quot;,&quot;#E5482F&quot;],&quot;default&quot;:&quot;#FF625C&quot;,&quot;section&quot;:&quot;Colour&quot;},&quot;split&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;6 / 6&quot;,&quot;7 / 5&quot;,&quot;8 / 4&quot;],&quot;default&quot;:&quot;7 / 5&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;margin&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:16,&quot;max&quot;:96,&quot;step&quot;:8,&quot;unit&quot;:&quot;px&quot;,&quot;default&quot;:32,&quot;section&quot;:&quot;Layout&quot;},&quot;panelPad&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:24,&quot;max&quot;:96,&quot;step&quot;:8,&quot;unit&quot;:&quot;px&quot;,&quot;default&quot;:48,&quot;section&quot;:&quot;Layout&quot;},&quot;imageGap&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;min&quot;:0,&quot;max&quot;:24,&quot;step&quot;:2,&quot;unit&quot;:&quot;px&quot;,&quot;default&quot;:8,&quot;section&quot;:&quot;Layout&quot;},&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:3200}}">
+// sticky header: hides while scrolling down, comes back on pause or scroll up (shared snippet, same in every page board)
+function bgHeaderAutoHide() {
+  if (typeof document === 'undefined') return function () {};
+  var last = new WeakMap(), timer = null;
+  function onScroll(e) {
+    var root = (e.target === document || !e.target.querySelectorAll) ? document : e.target;
+    var y = root === document ? (document.scrollingElement || document.documentElement).scrollTop : root.scrollTop;
+    var prev = last.get(root) || 0; last.set(root, y);
+    var hs = root.querySelectorAll('.site-header'); if (!hs.length) return;
+    var hide = y > prev && y > 160;
+    hs.forEach(function (h) { h.classList.toggle('is-hidden', hide); });
+    clearTimeout(timer);
+    timer = setTimeout(function () { hs.forEach(function (h) { h.classList.remove('is-hidden'); }); }, 700);
+  }
+  document.addEventListener('scroll', onScroll, { capture: true, passive: true });
+  return function () { document.removeEventListener('scroll', onScroll, { capture: true }); clearTimeout(timer); };
+}
 class Component extends DCLogic {
+componentDidMount() { this._hdrOff = bgHeaderAutoHide(); }
+componentWillUnmount() { if (this._hdrOff) this._hdrOff(); }
 constructor(props) {
 super(props);
 this.state = { mode: null };
