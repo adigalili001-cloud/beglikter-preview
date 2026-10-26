@@ -42,14 +42,14 @@
   /* ---- Spacing (Figma: Spacing, 4px base) ---- */
   --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
   --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px;
-  --space-24: 96px; --space-36: 144px; --space-54: 216px;
+  --space-24: 96px; --space-32: 128px; --space-36: 144px; --space-48: 192px; --space-54: 216px;
   --radius-none: 0px; --radius-full: 999px;
 
   /* ---- Grid (Figma: Foundations › 04 Grid) ---- */
   --grid-columns: 12;
   --grid-margin: var(--space-8);   /* 32 desktop */
   --grid-gutter: var(--space-6);   /* 24 desktop */
-  --page-max: 1440px;
+  --page-max: 1440px;   /* back to the Vercel width (22.10): content capped at 1440 and centred, so wide screens get wider side margins. 'none' = full width. */
   --gallery-span: 7;               /* artwork page: images take 7 of 12 */
 
   /* ---- Typography (Figma: Typography + text styles) ---- */
@@ -61,19 +61,20 @@
   /* ---- Derived layout tokens (always built from the scale) ---- */
   --panel-pad: var(--space-16);
   --stack-gap: var(--space-8);
-  --section-gap: var(--space-24);
+  --section-gap: var(--space-48);   /* space between page sections — doubled 19.10 (was space-24 · 96). Change here to change every page. */
   --image-gap: var(--space-2);
   --header-h: 72px;
+  --header-slide: .35s;
   --control-h: 56px;
 }
 
 /* Tablet */
 @media (max-width: 1023px){
-  :root{ --grid-margin: var(--space-6); --grid-gutter: var(--space-4); --panel-pad: var(--space-12); --section-gap: var(--space-16); --size-headline: 40px; }
+  :root{ --grid-margin: var(--space-6); --grid-gutter: var(--space-4); --panel-pad: var(--space-12); --section-gap: var(--space-32); --size-headline: 40px; }
 }
 /* Mobile — Figma: 4 columns · margin 16 · gutter 12 */
 @media (max-width: 640px){
-  :root{ --grid-columns: 4; --grid-margin: var(--space-4); --grid-gutter: var(--space-3); --panel-pad: var(--space-6); --section-gap: var(--space-16); --header-h: 56px; --size-headline: 36px; --size-title: 24px; --control-h: 52px; }
+  :root{ --grid-columns: 4; --grid-margin: var(--space-4); --grid-gutter: var(--space-3); --panel-pad: var(--space-6); --section-gap: var(--space-32); --header-h: 56px; --size-headline: 36px; --size-title: 24px; --control-h: 52px; }
 }
 
 /* ---------- Base ---------- */
@@ -92,7 +93,10 @@ a:hover{color:var(--color-gallery-text-secondary)}
 .section{margin-top:var(--section-gap)}
 
 /* ---------- Header / footer ---------- */
-.site-header{border-bottom:1px solid var(--color-gallery-border-default)}
+/* 22.10: sticky header. Hides while you scroll down, returns when you pause or scroll up (JS adds .is-hidden). */
+.site-header{position:sticky;top:0;z-index:50;background:var(--color-gallery-bg-page);border-bottom:1px solid var(--color-gallery-border-default);transition:transform var(--header-slide) cubic-bezier(.2,.7,.2,1)}
+.site-header.is-hidden{transform:translateY(-100%)}
+@media (prefers-reduced-motion: reduce){ .site-header{transition:none} }
 .site-header .container{height:var(--header-h);display:flex;align-items:center;justify-content:space-between;gap:var(--space-6)}
 .wordmark{font-family:var(--font-latin);font-weight:500;font-size:20px;letter-spacing:-0.01em;text-transform:uppercase;text-decoration:none}
 .wordmark .k{display:inline-block;transform:translateY(0.14em)}
@@ -457,7 +461,7 @@ a.tile:hover > img{transform:scale(1.03)}
 .ws-facts dd{margin:var(--space-2) 0 0;font-size:var(--size-body-l);font-weight:500}
 
 /* Footer = join the list (16.10) — coloured ground, never black by default */
-.join{color:var(--join-ink)}
+.join{color:var(--join-ink);margin-top:var(--section-gap)}  /* 23.10: one fixed gap above the footer on every page — the same section gap as between page sections */
 .join .mod-label{align-self:center}
 .join-inner{display:flex;flex-direction:column;align-items:center;text-align:center;padding-block:var(--space-24) var(--space-16)}
 .join-sign{font-family:'Brush Script MT','Segoe Script',cursive;font-size:44px;line-height:1;opacity:.85;transform:rotate(-6deg);margin-bottom:var(--space-8)}
@@ -786,8 +790,6 @@ a.tile:hover > img{transform:scale(1.03)}
 .wpb-sticky .wpb-ctl{width:100%;box-sizing:border-box;align-self:stretch}
 /* 18.10 — figure captions: hidden, soft fade-in on hover after a pause (no slide) */
 .wp-fig{position:relative;gap:0}
-.wp-fig figcaption{position:absolute;left:12px;bottom:12px;max-width:calc(100% - 24px);padding:6px 10px;background:rgba(255,255,255,.92);color:var(--color-gallery-text-secondary);opacity:0;transition:opacity .45s ease 0s;pointer-events:none}
-.wp-fig:hover figcaption{opacity:1;transition:opacity .6s ease 1.2s}
 /* 18.10 — A: story column pinned and always fits one screen; gallery scrolls with the page */
 .wpa-right{align-self:stretch}
 .wpa-sticky{position:sticky;top:96px;padding-top:0;max-height:calc(100vh - 120px);overflow:hidden;display:flex;flex-direction:column}
@@ -824,3 +826,161 @@ a.tile:hover > img{transform:scale(1.03)}
   .wpa2-first .wp-img{height:auto;aspect-ratio:4/5}
 }
 .wpb-scroll{scroll-snap-type:none;scroll-behavior:auto;overscroll-behavior-x:contain}
+
+/* ===== Home v2 — one merged "fresh off the shelf" grid (hg-*) ===== */
+.hg{display:grid;gap:var(--image-gap)}
+.hg > *{min-width:0;min-height:0}
+.hg-i1{grid-area:i1}.hg-i2{grid-area:i2}.hg-i3{grid-area:i3}.hg-i4{grid-area:i4}.hg-i5{grid-area:i5}.hg-i6{grid-area:i6}
+.hg-t1{grid-area:t1}.hg-t2{grid-area:t2}.hg-t3{grid-area:t3}
+.hg-text{padding:var(--space-8);color:inherit}
+.hg-text .tile-quote{font-size:var(--size-title);line-height:1.15;letter-spacing:-.015em}
+.hg-foot{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4)}
+.hg-more{color:var(--color-gallery-text-secondary)}
+.hg-arrow{flex:0 0 auto;color:var(--color-gallery-text-primary);transition:transform .35s ease}
+.hg-to-left .hg-foot{flex-direction:row-reverse}
+.hg-to-up .hg-foot{order:-1;flex-direction:row-reverse;justify-content:flex-end;align-items:flex-start}
+.hg-to-down .hg-foot{flex-direction:row-reverse;justify-content:flex-end;align-items:flex-end}
+.hg-to-right:hover .hg-arrow{transform:translateX(6px)}
+.hg-to-left:hover .hg-arrow{transform:translateX(-6px)}
+.hg-to-up:hover .hg-arrow{transform:translateY(-6px)}
+.hg-to-down:hover .hg-arrow{transform:translateY(6px)}
+/* 1 · feature + two notes — 6 img / 2 text */
+.hg--v1{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:300px 360px 420px;
+  grid-template-areas:"i1 i1 t1 i2" "i1 i1 i3 i4" "i5 t2 i6 i6"}
+/* 2 · three notes at the edges — 5 img / 3 text */
+.hg--v2{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:320px 340px 400px;
+  grid-template-areas:"i1 i1 t1 i2" "i1 i1 i3 i3" "t2 i4 i5 t3"}
+/* 3 · diagonal 3x3 — 6 img / 3 text */
+.hg--v3{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:380px 340px 380px;
+  grid-template-areas:"t1 i1 i2" "i3 t2 i4" "i5 i6 t3"}
+/* 4 · staggered columns — 6 img / 2 text, vertical arrows */
+.hg--v4{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(6,140px);
+  grid-template-areas:"i1 i2 t2 i5" "i1 i2 t2 i5" "i1 i2 i4 i5" "i1 i3 i4 i6" "t1 i3 i4 i6" "t1 i3 i4 i6"}
+/* 5 · two bands — 6 img / 3 text */
+.hg--v5{grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:400px 320px;
+  grid-template-areas:"i1 i1 t1 i2 i3 i3" "i4 t2 i5 i5 t3 i6"}
+.hg--v5 .hg-text,.hg--v4 .hg-text{padding:var(--space-6)}
+.hg--v4 .hg-text .tile-quote{font-size:var(--size-body-l);line-height:1.25}
+.hg--v5 .hg-text .tile-quote{font-size:var(--size-body-l);line-height:1.25}
+/* 6–8 · keep the top trio (Home grid E), solve the bottom row */
+.hg--v6,.hg--v7,.hg--v8{grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:300px 420px 440px}
+.hg--v6{grid-template-areas:"i1 i1 i1 i1 i1 i1 t1 t1 t1 t1 t1 t1" "i1 i1 i1 i1 i1 i1 i2 i2 i2 i3 i3 i3" "i4 i4 i4 i4 i4 i4 i4 i4 t2 t2 t2 t2"}
+.hg--v7{grid-template-areas:"i1 i1 i1 i1 i1 i1 t1 t1 t1 t1 t1 t1" "i1 i1 i1 i1 i1 i1 i2 i2 i2 i3 i3 i3" "t2 t2 t2 i4 i4 i4 i4 i4 i4 i4 i4 i4"}
+.hg--v8{grid-template-areas:"i1 i1 i1 i1 i1 i1 t1 t1 t1 t1 t1 t1" "i1 i1 i1 i1 i1 i1 i2 i2 i2 i3 i3 i3" "i5 i5 i5 t2 t2 t2 i4 i4 i4 i4 i4 i4"}
+.hg-text--big .tile-quote{font-size:var(--size-headline);line-height:1.02;letter-spacing:-.02em}
+/* study board */
+.hgs{padding-block:var(--space-16)}
+.hgs-row{margin-top:var(--space-16);padding-top:var(--space-6);border-top:1px solid var(--color-gallery-border-strong)}
+.hgs-head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-6);margin-bottom:var(--space-6)}
+.hgs-head .title{margin:0}
+@media (max-width:720px){
+  .hg{grid-template-columns:1fr 1fr !important;grid-template-rows:none !important;grid-template-areas:none !important;grid-auto-rows:auto}
+  .hg > *{grid-area:auto !important;aspect-ratio:4/5}
+  .hg > .tile:has(+ .hg-text){grid-column:1 / -1 !important;aspect-ratio:4/3}
+  .hg > .hg-text{grid-column:1 / -1 !important;aspect-ratio:auto;padding:var(--space-6)}
+  .hg-text .hg-foot{order:-1;flex-direction:row-reverse;justify-content:flex-end}
+  .hg-to-right .hg-arrow{transform:rotate(-90deg)}
+  .hg-to-left .hg-arrow{transform:rotate(90deg)}
+  .hg-to-down .hg-arrow{transform:rotate(180deg)}
+}
+
+/* ===== Component · hover label — the work's name appears after a pause =====
+   One component for every image that names its work: work-page gallery (figcaption)
+   and the home grid (.has-hover-label > .hover-label). Tune the tokens to change it everywhere. */
+:root{
+  --hover-label-delay: 1.2s;   /* how long the pointer rests before the label shows */
+  --hover-label-in: .6s;       /* fade in */
+  --hover-label-out: .45s;     /* fade out, no delay */
+  --hover-label-bg: rgba(255,255,255,.92);
+}
+.hover-label,.wp-fig figcaption{position:absolute;left:12px;bottom:12px;z-index:1;max-width:calc(100% - 24px);padding:6px 10px;background:var(--hover-label-bg);color:var(--color-gallery-text-secondary);font-size:var(--size-meta);font-weight:400;letter-spacing:.02em;line-height:1.3;text-transform:none;text-shadow:none;opacity:0;transition:opacity var(--hover-label-out) ease 0s;pointer-events:none}
+.has-hover-label:hover .hover-label,.has-hover-label:focus-visible .hover-label,.wp-fig:hover figcaption{opacity:1;transition:opacity var(--hover-label-in) ease var(--hover-label-delay)}
+.hg-to-right .hg-foot,.hg-to-left .hg-foot{justify-content:flex-end}   /* arrow alone: sits on the side it points to */
+
+/* ===== Volume for Value mark (placeholder until the real logo) ===== */
+:root{ --v4v-logo-w: 380px; }
+.v4v-logo{display:block;width:100%;max-width:var(--v4v-logo-w);height:auto}
+h1 .v4v-logo,h2 .v4v-logo{margin:0}
+
+/* ===== Testimonials — "What others say" (quote carousel; each quote links to its article) ===== */
+.ts-media{position:relative;overflow:hidden;min-height:640px}
+.ts-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease}
+.ts-img.on{opacity:1}
+.ts-side{justify-content:space-between;gap:var(--space-8)}
+.ts-top{display:flex;justify-content:space-between;align-items:baseline;width:100%}
+.ts-q{margin:0}
+.ts-src{display:flex;flex-direction:column;gap:var(--space-1);text-decoration:none;color:inherit;padding-top:var(--space-4);border-top:1px solid var(--color-gallery-border-strong);min-width:280px}
+.ts-who{font-size:var(--size-body-l);font-weight:500}
+.ts-tag{display:flex;align-items:center;gap:var(--space-3);margin-top:var(--space-2)}
+.ts-type{font-size:var(--size-meta);font-weight:500;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--color-gallery-border-strong);padding:3px 8px}
+.ts-read{margin-top:var(--space-3);text-decoration:underline;text-underline-offset:4px}
+.ts-src:hover .ts-read{color:var(--color-gallery-text-secondary)}
+.ts-ctl{display:flex;align-items:center;gap:var(--space-4)}
+.ts-btn{width:var(--control-h);height:var(--control-h);display:flex;align-items:center;justify-content:center;border:1px solid var(--color-gallery-border-default);background:transparent;color:inherit;cursor:pointer}
+.ts-btn:hover{border-color:var(--color-gallery-border-strong)}
+.ts-dots{display:flex;gap:var(--space-2)}
+.ts-dots span{width:24px;height:2px;background:var(--color-gallery-border-default)}
+.ts-dots span.on{background:var(--color-gallery-text-primary)}
+@media (max-width:1023px){.ts-media{min-height:0;aspect-ratio:4/3}}
+
+/* ===== Interactive surfaces — one language for every place you act (22.10) =====
+   Used by: Press kit (cards + preview), Volume for Value form. Change the tokens to restyle all of them. */
+:root{
+  --ix-bg: #FFFFFF;
+  --ix-ground: var(--neutral-50);            /* the tray the cards sit in */
+  --ix-line: var(--neutral-300);
+  --ix-line-strong: var(--neutral-900);
+  --ix-radius: 0px;
+  --ix-pad: var(--space-8);
+  --ix-shadow: none;                         /* 22.10: no shadows — contour only */
+  --ix-shadow-hover: none;
+  --ix-hover: #F6F4F0;                       /* soft warm tint on hover */
+  --ix-line-hover: var(--neutral-500);
+  --ix-accent: #007D4B;                      /* same green as the V4V note toggle */
+  --ix-accent-soft: #ECF3EC;
+  --ix-icon: var(--neutral-500);
+  --ix-icon-bg: var(--neutral-100);
+}
+.ix-box{background:var(--ix-bg);border:1px solid var(--ix-line);border-radius:var(--ix-radius);box-shadow:var(--ix-shadow);padding:var(--ix-pad)}
+.ix-box--tray{background:var(--ix-ground)}
+.ix-card{position:relative;display:flex;flex-direction:column;gap:6px;padding:20px 20px 18px;background:var(--ix-bg);border:1px solid var(--ix-line);border-radius:var(--ix-radius);text-decoration:none;color:inherit;transition:border-color .2s,box-shadow .2s,transform .2s}
+.ix-card:hover,.ix-card:focus-visible{border-color:var(--ix-line-hover);background:var(--ix-hover);box-shadow:var(--ix-shadow-hover);outline:none}
+.ix-card:focus-visible{outline:2px solid var(--ix-accent);outline-offset:2px}
+.ix-card-t{font-size:var(--size-body-l);font-weight:500;line-height:1.2}
+.ix-card-d{font-size:var(--size-small);color:var(--neutral-700)}
+.ix-dl{position:relative;width:40px;height:40px;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;color:var(--ix-icon);border-radius:999px;background:var(--ix-icon-bg);transition:color .2s,background .2s}
+.ix-dl svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ix-card:hover .ix-dl,.ix-card:focus-visible .ix-dl{color:#fff;background:var(--ix-accent)}
+.ix-peek{position:absolute;left:12px;right:12px;bottom:calc(100% + 10px);z-index:5;background:var(--ix-bg);border:1px solid var(--ix-line-hover);box-shadow:var(--ix-shadow-hover);padding:14px;opacity:0;transform:translateY(6px);pointer-events:none;transition:opacity .2s ease 0s,transform .2s ease 0s}
+.ix-peek::after{content:"";position:absolute;left:28px;top:100%;border:7px solid transparent;border-top-color:var(--ix-line-hover)}
+@media (hover:hover){.ix-card:hover .ix-peek{opacity:1;transform:none;transition:opacity .25s ease .35s,transform .25s ease .35s}}
+@media (hover:none){.ix-peek{display:none}}
+
+
+/* ===== Component · hover info — zoom at once, info card after a pause (23.10) =====
+   Works index and the home grid. The image grows as soon as the pointer is on it;
+   if the pointer rests ~2 s, a card with the work's name, a one-line teaser and year + arrow fades in.
+   The whole tile is the link to the work page. The card grows with its content. Tune the tokens here. */
+:root{
+  --hover-zoom: 1.06;           /* how much the image grows */
+  --hover-zoom-time: .8s;
+  --hover-info-delay: 2s;       /* rest time before the card shows */
+  --hover-info-in: .5s;
+  --hover-info-out: .3s;
+  --hover-info-bg: rgba(255,255,255,.96);
+  --hover-info-w: 320px;        /* max width; height follows the text */
+}
+.has-hover-info > img{transition:transform var(--hover-zoom-time) cubic-bezier(.2,.7,.2,1)}
+.has-hover-info:hover > img,.has-hover-info:focus-visible > img{transform:scale(var(--hover-zoom))}
+.hover-info{position:absolute;left:12px;bottom:12px;z-index:1;width:max-content;max-width:min(var(--hover-info-w),calc(100% - 24px));box-sizing:border-box;padding:14px 16px;background:var(--hover-info-bg);color:var(--color-gallery-text-primary);display:flex;flex-direction:column;gap:4px;text-align:left;opacity:0;transform:translateY(6px);transition:opacity var(--hover-info-out) ease 0s,transform var(--hover-info-out) ease 0s;pointer-events:none}
+.has-hover-info:hover .hover-info,.has-hover-info:focus-visible .hover-info{opacity:1;transform:none;transition:opacity var(--hover-info-in) ease var(--hover-info-delay),transform var(--hover-info-in) ease var(--hover-info-delay)}
+.hi-t{font-size:var(--size-body);font-weight:500;line-height:1.25}
+.hi-d{font-size:var(--size-small);line-height:1.4;color:var(--color-gallery-text-secondary)}
+.hi-foot{display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);margin-top:6px;font-size:var(--size-meta);color:var(--color-gallery-text-muted)}
+.hi-y{display:inline-flex;align-items:center;gap:6px}
+.hi-sold{display:inline-flex;align-items:center;gap:6px}
+.hi-arrow{color:var(--color-gallery-text-primary);transition:transform .3s ease}
+.has-hover-info:hover .hi-arrow{transform:translateX(3px)}
+.wk-tile.has-hover-info > img{mix-blend-mode:multiply}
+@media (hover: none){ .hover-info{display:none} .has-hover-info:hover > img{transform:none} }
+@media (prefers-reduced-motion: reduce){ .has-hover-info > img{transition:none} .has-hover-info:hover > img{transform:none} }

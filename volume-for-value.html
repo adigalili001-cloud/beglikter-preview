@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Volume for Value — Etamar Beglikter</title>
+<title>Volume for Value — Concept B, The Cause</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="./preview.css">
-<link rel="stylesheet" href="./site-v2.css">
+<link rel="stylesheet" href="./site.css">
 </head>
 <body>
 <x-dc>
@@ -266,9 +266,8 @@ body{margin:0}
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"photo":{"editor":"enum","options":["artist in the pages","sea of pages","volume spine","stacked volumes","green smile","brainless"],"default":"artist in the pages","section":"Hero image"},"showReels":{"editor":"boolean","default":true,"section":"Later modules"},"showJacket":{"editor":"boolean","default":true,"section":"Form"},"$preview":{"width":1440,"height":2400}}'>
 const AMOUNTS = [
-  { k: 'some', t: 'One or a few' },
-  { k: 'almost', t: 'Most of a set' },
-  { k: 'full', t: 'All 32' }
+  { k: 'some', t: 'A few volumes' },
+  { k: 'set', t: 'A whole set, or most' }
 ];
 const COLOURS = [
   { k: 'dark', t: 'Dark green', hex: '#1F3A2C' },
@@ -434,24 +433,6 @@ thanksName: st.name ? ', ' + st.name.split(' ')[0] : ''
 };
 }
 }
-</script>
-<script>
-/* preview: ?photo=sea-of-pages etc. picks the hero image */
-(function(){var p=new URLSearchParams(location.search).get('photo');if(p){window.DC_PROPS={photo:p.replace(/-/g,' ')};}})();
-/* preview: dc-lite re-creates the DOM on every frame of a counter, so IntersectionObserver refs go stale.
-   Same behaviour, driven by a scroll check that always reads the live DOM: roll on entering view, reset on leaving. */
-window.DC_PATCH=function(c){
- c.setCountEl=function(){};c.setStatsEl=function(){};
- var inC=false,inS=false;
- function vis(el,f){if(!el)return false;var r=el.getBoundingClientRect(),h=Math.max(1,r.height);var shown=Math.min(r.bottom,innerHeight)-Math.max(r.top,0);return shown/Math.min(h,innerHeight)>=f;}
- function chk(){
-  var a=vis(document.querySelector('.vb-cause .vb-n')||document.querySelector('.vb-n'),0.6);
-  if(a&&!inC){inC=true;c.startCount();}else if(!a&&inC){inC=false;if(c.raf)cancelAnimationFrame(c.raf);c.setState({t:0});}
-  var b=vis(document.querySelector('.vb-stats'),0.5);
-  if(b&&!inS){inS=true;c.startStats();}else if(!b&&inS){inS=false;if(c.raf2)cancelAnimationFrame(c.raf2);c.setState({el2:0});}
- }
- var md=c.componentDidMount;c.componentDidMount=function(){md&&md.call(c);addEventListener('scroll',chk,{passive:true});addEventListener('resize',chk);requestAnimationFrame(chk);};
-};
 </script>
 <script src="./dc-lite.js"></script>
 </body>
