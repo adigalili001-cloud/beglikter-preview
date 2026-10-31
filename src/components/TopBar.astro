@@ -53,7 +53,8 @@ const links = [
   .menu-button, .mobile-menu { display: none; }
   .menu-button { color: var(--color-gallery-icon-strong); width: 28px; height: 28px; }
 
-  @media (max-width: 599px) {
+  /* The full nav needs ~720px; below that it collapses into the menu button */
+  @media (max-width: 719px) {
     .nav { display: none; }
     .menu-button { display: block; }
     .mobile-menu:not([hidden]) {
