@@ -1,0 +1,16 @@
+{
+  "name": "beglikter-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "tokens": "node scripts/build-tokens.mjs",
+    "dev": "astro dev",
+    "build": "npm run tokens && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource/schibsted-grotesk": "^5.3.0",
+    "astro": "^5.18.2",
+    "sharp": "^0.35.5"
+  }
+}

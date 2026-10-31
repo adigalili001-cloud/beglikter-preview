@@ -1,0 +1,7 @@
+[
+  { "id": "books", "label": "Books", "order": 1 },
+  { "id": "video", "label": "Video", "order": 2 },
+  { "id": "installation", "label": "Installation", "order": 3 },
+  { "id": "sculpture", "label": "Sculpture", "order": 4 },
+  { "id": "drawing", "label": "Drawing", "order": 5 }
+]

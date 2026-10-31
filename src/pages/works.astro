@@ -1,0 +1,205 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import FilterChip from '../components/FilterChip.astro';
+import WorkCard from '../components/WorkCard.astro';
+
+const works = (await getCollection('works', ({ data }) => data.published)).sort((a, b) => {
+  const ao = a.data.order ?? Infinity, bo = b.data.order ?? Infinity;
+  return ao !== bo ? ao - bo : b.data.year - a.data.year;
+});
+
+// Only categories that at least one published work uses get a chip, in the order set in categories.json
+const used = new Set(works.flatMap((w) => w.data.categories.map((c) => c.id)));
+const categories = (await getCollection('categories'))
+  .filter((c) => used.has(c.id))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+<Base title="Works" current="Works">
+  <main class="works">
+    <div class="header">
+      <h1 class="t-page-title">Works</h1>
+      <div class="filters" role="group" aria-label="Filter works by category">
+        <FilterChip label="All" value="" removable={false} />
+        {categories.map((c) => <FilterChip label={c.data.label} value={c.id} />)}
+      </div>
+    </div>
+
+    <section class="gallery-area" aria-label="Works">
+      <div class="gallery" tabindex="0">
+        {works.map((w) => <WorkCard work={w} />)}
+      </div>
+
+      <!-- Figma: scroller (start cap · track · thumb · next arrow) -->
+      <div class="scroller" aria-hidden="false">
+        <button class="scroller-start" type="button" aria-label="Back to first work">
+          <svg width="4" height="14" viewBox="0 0 4 14" fill="none" aria-hidden="true"><path d="M1.49929 0.0460815L1.72736 7.46581L1.49929 13.4686" stroke="currentColor" stroke-width="3" /></svg>
+        </button>
+        <div class="scroller-track"><div class="scroller-thumb"></div></div>
+        <button class="scroller-next" type="button" aria-label="Next works">
+          <svg width="11" height="16" viewBox="0 0 11 16" fill="none" aria-hidden="true"><path d="M1.01282 1.10645L8.34493 7.81769L1.01282 14.5289" stroke="currentColor" stroke-width="3" /></svg>
+        </button>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<style>
+  .works { display: flex; flex-direction: column; gap: var(--section-gap); }
+  h1 { margin: 0; white-space: nowrap; }
+
+  /* Header: desktop = title left, filters right on one row; tablet/mobile = stacked */
+  .header { display: flex; align-items: center; gap: var(--header-gap); }
+  .filters { flex: 1; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
+  @media (max-width: 1023px) {
+    .header { flex-direction: column; align-items: flex-start; }
+    .filters { justify-content: flex-start; margin-inline: calc(-1 * var(--chip-pad-x)); }
+  }
+
+  /* Gallery: one horizontal strip that bleeds to the right edge of the window */
+  .gallery-area { display: flex; flex-direction: column; gap: var(--gallery-scroller-gap); }
+  .gallery {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gallery-gap);
+    overflow-x: auto;
+    margin-right: calc(-1 * var(--margin-x));
+    padding-right: var(--margin-x);
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .gallery::-webkit-scrollbar { display: none; }
+  .gallery > :global(*) { scroll-snap-align: start; }
+  .gallery > :global([hidden]) { display: none; }
+
+  /* Scroller */
+  .scroller { display: flex; align-items: center; gap: var(--space-4); color: var(--color-gallery-icon-default); }
+  .scroller.is-static { visibility: hidden; }
+  .scroller button { display: grid; place-items: center; min-width: 24px; min-height: 24px; }
+  .scroller button:disabled { cursor: default; }
+  .scroller-next:disabled { opacity: 0.3; }
+  .scroller-track { position: relative; flex: 1; height: 24px; cursor: pointer; touch-action: none; }
+  .scroller-track::before {
+    content: ''; position: absolute; inset: 50% 0 auto; height: var(--stroke-hairline);
+    background: var(--color-gallery-indicator-track);
+  }
+  .scroller-thumb {
+    position: absolute; top: 50%; left: 0; height: var(--stroke-bold); transform: translateY(-50%);
+    background: var(--color-gallery-indicator-active); cursor: grab;
+  }
+  .scroller-thumb:active { cursor: grabbing; }
+
+  @media (max-width: 599px) {
+    .gallery-area { gap: var(--gallery-scroller-gap-mobile); }
+  }
+</style>
+
+<script>
+  const gallery = document.querySelector<HTMLElement>('.gallery')!;
+  const cards = [...gallery.querySelectorAll<HTMLElement>('.work-card')];
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip')];
+  const scroller = document.querySelector<HTMLElement>('.scroller')!;
+  const track = scroller.querySelector<HTMLElement>('.scroller-track')!;
+  const thumb = scroller.querySelector<HTMLElement>('.scroller-thumb')!;
+  const startBtn = scroller.querySelector<HTMLButtonElement>('.scroller-start')!;
+  const nextBtn = scroller.querySelector<HTMLButtonElement>('.scroller-next')!;
+
+  /* ---------- Filtering: several categories can be on; a work shows if it has ANY of them ---------- */
+  const selected = new Set(
+    (new URLSearchParams(location.search).get('filter') ?? '').split(',').filter(Boolean),
+  );
+
+  function applyFilter() {
+    for (const chip of chips) {
+      const v = chip.dataset.filter!;
+      chip.setAttribute('aria-pressed', String(v === '' ? selected.size === 0 : selected.has(v)));
+    }
+    for (const card of cards) {
+      const cats = card.dataset.categories!.split(' ');
+      card.hidden = selected.size > 0 && !cats.some((c) => selected.has(c));
+    }
+    const url = new URL(location.href);
+    if (selected.size) url.searchParams.set('filter', [...selected].join(','));
+    else url.searchParams.delete('filter');
+    history.replaceState(null, '', url);
+    gallery.scrollTo({ left: 0 });
+    updateScroller();
+  }
+
+  for (const chip of chips) {
+    chip.addEventListener('click', () => {
+      const v = chip.dataset.filter!;
+      if (v === '') selected.clear();
+      else if (selected.has(v)) selected.delete(v);
+      else selected.add(v);
+      applyFilter();
+    });
+  }
+
+  /* ---------- Scroller: thumb mirrors the strip's position; drag it, click the track, or use the arrows ---------- */
+  function metrics() {
+    const max = gallery.scrollWidth - gallery.clientWidth;
+    const trackW = track.clientWidth;
+    const thumbW = Math.max(40, trackW * (gallery.clientWidth / gallery.scrollWidth));
+    return { max, trackW, thumbW };
+  }
+
+  function updateScroller() {
+    const { max, trackW, thumbW } = metrics();
+    scroller.classList.toggle('is-static', max <= 1);
+    thumb.style.width = `${thumbW}px`;
+    const p = max > 0 ? gallery.scrollLeft / max : 0;
+    thumb.style.transform = `translate(${(trackW - thumbW) * p}px, -50%)`;
+    startBtn.disabled = gallery.scrollLeft <= 1;
+    nextBtn.disabled = gallery.scrollLeft >= max - 1;
+  }
+
+  function scrollToTrackX(x: number, smooth: boolean) {
+    const { max, trackW, thumbW } = metrics();
+    const p = Math.min(1, Math.max(0, (x - thumbW / 2) / (trackW - thumbW)));
+    gallery.scrollTo({ left: p * max, behavior: smooth ? 'smooth' : 'auto' });
+  }
+
+  gallery.addEventListener('scroll', updateScroller, { passive: true });
+  new ResizeObserver(updateScroller).observe(gallery);
+
+  nextBtn.addEventListener('click', () => gallery.scrollBy({ left: gallery.clientWidth * 0.8, behavior: 'smooth' }));
+  startBtn.addEventListener('click', () => gallery.scrollTo({ left: 0, behavior: 'smooth' }));
+
+  let dragOffset: number | null = null;
+  track.addEventListener('pointerdown', (e) => {
+    const rect = track.getBoundingClientRect();
+    const thumbRect = thumb.getBoundingClientRect();
+    const onThumb = e.clientX >= thumbRect.left && e.clientX <= thumbRect.right;
+    dragOffset = onThumb ? e.clientX - thumbRect.left - thumbRect.width / 2 : 0;
+    track.setPointerCapture(e.pointerId);
+    gallery.style.scrollSnapType = 'none';
+    if (!onThumb) scrollToTrackX(e.clientX - rect.left, true);
+  });
+  track.addEventListener('pointermove', (e) => {
+    if (dragOffset === null || !track.hasPointerCapture(e.pointerId)) return;
+    scrollToTrackX(e.clientX - track.getBoundingClientRect().left - dragOffset, false);
+  });
+  const endDrag = () => { dragOffset = null; gallery.style.scrollSnapType = ''; };
+  track.addEventListener('pointerup', endDrag);
+  track.addEventListener('pointercancel', endDrag);
+
+  /* A vertical mouse wheel over the strip moves it sideways, until it reaches an end */
+  gallery.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+    const max = gallery.scrollWidth - gallery.clientWidth;
+    const atEnd = (e.deltaY > 0 && gallery.scrollLeft >= max - 1) || (e.deltaY < 0 && gallery.scrollLeft <= 0);
+    if (max <= 0 || atEnd) return;
+    e.preventDefault();
+    gallery.scrollLeft += e.deltaY;
+  }, { passive: false });
+
+  /* Arrow keys when the strip has focus */
+  gallery.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') { e.preventDefault(); gallery.scrollBy({ left: 312, behavior: 'smooth' }); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); gallery.scrollBy({ left: -312, behavior: 'smooth' }); }
+  });
+
+  applyFilter();
+</script>

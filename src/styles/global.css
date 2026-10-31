@@ -1,0 +1,52 @@
+@import './tokens.css';
+
+/* Breakpoints (match the Figma artboards): mobile < 600 · tablet 600–1023 · desktop ≥ 1024 */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--color-gallery-bg-page);
+  color: var(--color-gallery-text-primary);
+  font-family: var(--font-latin);
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: var(--stroke-regular) solid var(--color-gallery-indicator-active); outline-offset: var(--space-0-5); }
+
+/* ---- Text roles: one class per Figma text style (EN/*) ---- */
+.t-brand              { font-size: var(--type-brand-size);   font-weight: 600; line-height: 1.4; }
+.t-nav                { font-size: var(--type-nav-size);     font-weight: 400; line-height: 1.45; }
+.t-page-title         { font-size: var(--type-page-title-size); font-weight: 500; line-height: 0.94; letter-spacing: -0.03em; }
+.t-page-title-compact { font-size: var(--type-page-title-compact-size); font-weight: 700; line-height: 0.94; letter-spacing: -0.03em; }
+.t-filter             { font-size: var(--type-filter-size);  font-weight: 400; line-height: 1.5; }
+.t-filter-active      { font-size: var(--type-filter-size);  font-weight: 600; line-height: 1.5; }
+.t-work-title         { font-size: var(--type-work-title-size); font-weight: 700; line-height: 1.5; }
+.t-work-meta          { font-size: var(--type-work-meta-size);  font-weight: 400; line-height: 1.45; }
+
+/* Hebrew twins (HE/*) — V4V only */
+:lang(he) { font-family: var(--font-hebrew); letter-spacing: 0; }
+
+/* ---- Page frame ---- */
+.page {
+  --margin-x: var(--page-margin-x);
+  --section-gap: var(--page-section-gap);
+  min-height: 100vh;
+  padding: var(--page-margin-y) var(--margin-x);
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap);
+}
+@media (max-width: 599px) {
+  .page {
+    --margin-x: var(--page-margin-x-mobile);
+    --section-gap: var(--page-section-gap-mobile);
+  }
+}
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}

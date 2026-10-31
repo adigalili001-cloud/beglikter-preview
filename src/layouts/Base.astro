@@ -1,0 +1,29 @@
+---
+// Self-hosted Schibsted Grotesk — registers the family "Schibsted Grotesk", same name as the font/latin token.
+import '@fontsource/schibsted-grotesk/400.css';
+import '@fontsource/schibsted-grotesk/500.css';
+import '@fontsource/schibsted-grotesk/600.css';
+import '@fontsource/schibsted-grotesk/700.css';
+import '../styles/global.css';
+import TopBar from '../components/TopBar.astro';
+
+interface Props {
+  title: string;
+  current?: string;
+}
+const { title, current } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} — Etamar Beglikter</title>
+  </head>
+  <body>
+    <div class="page">
+      <TopBar current={current} />
+      <slot />
+    </div>
+  </body>
+</html>

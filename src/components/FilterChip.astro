@@ -1,0 +1,58 @@
+---
+/**
+ * Figma: Design System → Components → Filter chip (State = Idle / Hover / Active).
+ * Rendered as a toggle button; the page script flips aria-pressed, which drives the Active look.
+ */
+interface Props {
+  label: string;
+  value: string;          // category id, or "" for "All"
+  removable?: boolean;    // show the × when active (false for "All")
+}
+const { label, value, removable = true } = Astro.props;
+---
+<button class="chip" type="button" data-filter={value} aria-pressed="false" data-removable={removable ? '' : undefined}>
+  <span class="chip-label">{label}</span>
+  {removable && (
+    <svg class="chip-x" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" />
+    </svg>
+  )}
+</button>
+
+<style>
+  .chip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--chip-pad-y) var(--chip-pad-x);
+    border-radius: var(--radius-md);
+    white-space: nowrap;
+    /* Idle = EN/Filter */
+    font-size: var(--type-filter-size);
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-gallery-text-muted);
+  }
+  .chip-x { display: none; color: var(--color-gallery-icon-secondary); }
+
+  /* Hover */
+  .chip:hover { background: var(--color-gallery-bg-subtle); }
+
+  /* Active = EN/Filter active + active indicator */
+  .chip[aria-pressed='true'] {
+    font-weight: 600;
+    color: var(--color-gallery-text-secondary);
+    background: none;
+  }
+  .chip[aria-pressed='true'] .chip-x { display: block; }
+  .chip[aria-pressed='true']::after {
+    content: '';
+    position: absolute;
+    left: var(--chip-pad-x);
+    bottom: 0;
+    width: 21px;
+    height: var(--stroke-regular);
+    background: var(--color-gallery-indicator-active);
+  }
+</style>

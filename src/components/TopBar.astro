@@ -1,0 +1,76 @@
+---
+/** Figma: Design System → Components → Top bar (Breakpoint = Desktop / Mobile) */
+interface Props { current?: string }
+const { current } = Astro.props;
+
+const links = [
+  { href: '/works', label: 'Works' },
+  { href: '/about', label: 'About' },
+  { href: '/press', label: 'Press' },
+  { href: '/volume-for-value', label: 'Volume for Value' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+<header class="top-bar">
+  <a class="brand t-brand" href="/">Etamar Beglikter</a>
+
+  <nav class="nav" aria-label="Main">
+    {links.map((l) => (
+      <a class="nav-link t-nav" href={l.href} aria-current={current === l.label ? 'page' : undefined}>{l.label}</a>
+    ))}
+  </nav>
+
+  <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu">
+    <span class="visually-hidden">Menu</span>
+    <!-- Figma: Menu icon (28×28) -->
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+      <path d="M20.5688 13.3134H6.48389M20.5688 7.3396H12.5688M14.4839 19.6604H6.48389" stroke="currentColor" stroke-width="2" />
+    </svg>
+  </button>
+
+  <!-- Not designed yet: simple stacked list until the open-menu state exists in Figma -->
+  <nav id="mobile-menu" class="mobile-menu" aria-label="Main" hidden>
+    {links.map((l) => (
+      <a class="t-nav" href={l.href} aria-current={current === l.label ? 'page' : undefined}>{l.label}</a>
+    ))}
+  </nav>
+</header>
+
+<style>
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--nav-gap);
+    flex-wrap: wrap;
+  }
+  .brand { white-space: nowrap; }
+  .nav {
+    display: contents;
+  }
+  .nav-link { white-space: nowrap; }
+  .nav-link:hover { color: var(--color-gallery-text-secondary); }
+  .menu-button, .mobile-menu { display: none; }
+  .menu-button { color: var(--color-gallery-icon-strong); width: 28px; height: 28px; }
+
+  @media (max-width: 599px) {
+    .nav { display: none; }
+    .menu-button { display: block; }
+    .mobile-menu:not([hidden]) {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.menu-button');
+  const menu = document.getElementById('mobile-menu');
+  button?.addEventListener('click', () => {
+    const open = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', String(!open));
+    if (menu) menu.hidden = open;
+  });
+</script>
