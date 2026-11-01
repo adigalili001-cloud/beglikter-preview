@@ -8,7 +8,7 @@ import { FRAMES, FOCUSES, WORKS_BUCKET, cardImageHeight, type Frame, type Focus 
 
 /* ============================== root: auth gate ============================== */
 
-export default function Studio() {
+export default function AdminApp() {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
   const [recovery, setRecovery] = useState(false);
 
@@ -46,7 +46,7 @@ function Login() {
 
   async function forgot() {
     if (!email) { setMsg({ kind: 'error', text: 'הקלידי קודם את כתובת המייל.' }); return; }
-    const { error } = await sb.auth.resetPasswordForEmail(email.trim().toLowerCase(), { redirectTo: `${location.origin}/studio` });
+    const { error } = await sb.auth.resetPasswordForEmail(email.trim().toLowerCase(), { redirectTo: `${location.origin}/admin` });
     setMsg(error ? { kind: 'error', text: explain(error) } : { kind: 'info', text: 'אם הכתובת רשומה, נשלח אליה קישור לאיפוס סיסמה.' });
   }
 
@@ -54,7 +54,7 @@ function Login() {
     <div class="center">
       <form class="card auth" onSubmit={submit}>
         <p class="eyebrow">Etamar Beglikter</p>
-        <h1>סטודיו</h1>
+        <h1>ממשק ניהול</h1>
         <label>מייל<input type="email" dir="ltr" autocomplete="username" required value={email} onInput={(e) => setEmail(e.currentTarget.value)} /></label>
         <label>סיסמה<input type="password" dir="ltr" autocomplete="current-password" required value={password} onInput={(e) => setPassword(e.currentTarget.value)} /></label>
         {msg && <p class={msg.kind === 'error' ? 'error' : 'note'}>{msg.text}</p>}
@@ -132,7 +132,7 @@ function Shell({ session }: { session: Session }) {
   return (
     <div class="shell">
       <header class="topbar">
-        <div class="brand"><span dir="ltr">Etamar Beglikter</span> · סטודיו</div>
+        <div class="brand"><span dir="ltr">Etamar Beglikter</span> · ממשק ניהול</div>
         <div class="who">
           <a class="link" href="/works" target="_blank">לאתר ↗</a>
           <span class="muted">{name}</span>
@@ -237,7 +237,7 @@ function WorksTab({ works, categories, refresh, notify }: TabProps) {
   );
 }
 
-/** One-time: copies the five original photos from the site into the Studio's image storage. */
+/** One-time: copies the five original photos from the site into the admin's image storage. */
 function SeedImport({ works, notify }: { works: Work[]; notify: TabProps['notify'] }) {
   const seeds = works.filter((w) => w.image_path?.startsWith('seed/'));
   const [missing, setMissing] = useState<Work[] | null>(null);
@@ -272,7 +272,7 @@ function SeedImport({ works, notify }: { works: Work[]; notify: TabProps['notify
 
   return (
     <div class="banner">
-      <span>{missing.length} תמונות של העבודות הקיימות עוד לא הועברו לסטודיו.</span>
+      <span>{missing.length} תמונות של העבודות הקיימות עוד לא הועברו לממשק הניהול.</span>
       <button class="btn primary" disabled={busy} onClick={run}>{busy ? 'מייבא…' : 'ייבוא עכשיו'}</button>
     </div>
   );

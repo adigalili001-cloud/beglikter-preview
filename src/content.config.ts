@@ -4,9 +4,9 @@ import { readFileSync } from 'node:fs';
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, imageUrl } from './lib/supabase-config';
 
 /**
- * Content is managed in the Studio (/studio) and stored in Supabase.
+ * Content is managed in the admin interface (/admin) and stored in Supabase.
  * At build time the site reads the published works and the categories.
- * Every save in the Studio asks Vercel to rebuild, so the site follows within about a minute.
+ * Every save in the admin asks Vercel to rebuild, so the site follows within about a minute.
  *
  * CONTENT_FIXTURE=1 builds from design/content-fixture.json instead (for offline development).
  */

@@ -12,9 +12,9 @@ Built from the Figma design system ("Etamar Beglikter — Design System"). Astro
 
 Never type a colour, size or spacing value in a component — use the token (`var(--…)`). To change one, change the Figma variable and re-export.
 
-## Content: the Studio
+## Content: the admin interface (ממשק הניהול)
 
-Works and categories are managed in the Studio at `/studio` (Hebrew UI, login with email + password).
+Works and categories are managed in the admin interface at `/admin` (Hebrew UI, login with email + password).
 Data lives in Supabase (project "beglikter"): tables `works`, `categories`, `work_categories`; images in the `works` storage bucket.
 
 - Only addresses listed in `studio_members` can sign in or write; everyone else can only read published works (row-level security).
@@ -28,7 +28,7 @@ Data lives in Supabase (project "beglikter"): tables `works`, `categories`, `wor
 | Frame | Image shape in the gallery: original, landscape 3:2, standard 4:3, portrait 4:5, square |
 | Focus | What stays visible when the frame crops |
 | Categories | Filter chips; a chip shows only when a published work uses it |
-| Order | Drag rows in the Studio list |
+| Order | Drag rows in the admin list |
 | Published | Drafts never reach the site |
 
 ## Run locally

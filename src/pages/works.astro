@@ -4,10 +4,10 @@ import Base from '../layouts/Base.astro';
 import FilterChip from '../components/FilterChip.astro';
 import WorkCard from '../components/WorkCard.astro';
 
-// Only published works reach the build; their order is set by dragging in the Studio
+// Only published works reach the build; their order is set by dragging in the admin
 const works = (await getCollection('works')).sort((a, b) => a.data.sortOrder - b.data.sortOrder);
 
-// Only categories that at least one published work uses get a chip, in the order set in the Studio
+// Only categories that at least one published work uses get a chip, in the order set in the admin
 const used = new Set(works.flatMap((w) => w.data.categories));
 const categories = (await getCollection('categories'))
   .filter((c) => used.has(c.id))

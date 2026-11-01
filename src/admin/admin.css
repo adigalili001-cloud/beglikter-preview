@@ -1,4 +1,4 @@
-/* Studio UI — built from the same tokens as the site. Hebrew UI, English content fields are dir="ltr". */
+/* Admin UI (ממשק הניהול) — built from the same tokens as the site. Hebrew UI, English content fields are dir="ltr". */
 *, *::before, *::after { box-sizing: border-box; }
 body {
   margin: 0;
