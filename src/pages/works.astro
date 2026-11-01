@@ -4,13 +4,11 @@ import Base from '../layouts/Base.astro';
 import FilterChip from '../components/FilterChip.astro';
 import WorkCard from '../components/WorkCard.astro';
 
-const works = (await getCollection('works', ({ data }) => data.published)).sort((a, b) => {
-  const ao = a.data.order ?? Infinity, bo = b.data.order ?? Infinity;
-  return ao !== bo ? ao - bo : b.data.year - a.data.year;
-});
+// Only published works reach the build; their order is set by dragging in the Studio
+const works = (await getCollection('works')).sort((a, b) => a.data.sortOrder - b.data.sortOrder);
 
-// Only categories that at least one published work uses get a chip, in the order set in categories.json
-const used = new Set(works.flatMap((w) => w.data.categories.map((c) => c.id)));
+// Only categories that at least one published work uses get a chip, in the order set in the Studio
+const used = new Set(works.flatMap((w) => w.data.categories));
 const categories = (await getCollection('categories'))
   .filter((c) => used.has(c.id))
   .sort((a, b) => a.data.order - b.data.order);

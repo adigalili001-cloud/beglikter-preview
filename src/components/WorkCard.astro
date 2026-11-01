@@ -6,31 +6,34 @@
  */
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import { cardImageHeight } from '../lib/supabase-config';
 
 interface Props { work: CollectionEntry<'works'> }
 const { work } = Astro.props;
 const d = work.data;
 
-const RATIOS = { landscape: 3 / 2, standard: 4 / 3, portrait: 4 / 5, square: 1 } as const;
 const CARD_W = 300;
-const ratio = d.frame === 'original' ? d.image.width / d.image.height : RATIOS[d.frame];
-const imgH = Math.round(CARD_W / ratio);
-const categories = d.categories.map((c) => c.id).join(' ');
+const imgH = cardImageHeight(d.frame, d.imageWidth ?? null, d.imageHeight ?? null, CARD_W);
+const isRemote = d.imageUrl?.startsWith('http');
 ---
-<article class="work-card" data-categories={categories}>
+<article class="work-card" data-categories={d.categories.join(' ')}>
   <div class="work-image" style={`aspect-ratio: ${CARD_W} / ${imgH}`}>
-    <Image
-      src={d.image}
-      alt={d.alt}
-      width={CARD_W}
-      height={imgH}
-      densities={[1, 2]}
-      fit="cover"
-      position={d.focus}
-      quality={82}
-      loading="lazy"
-      style={`object-position: ${d.focus}`}
-    />
+    {d.imageUrl && (isRemote ? (
+      <Image
+        src={d.imageUrl}
+        alt={d.alt}
+        width={CARD_W}
+        height={imgH}
+        densities={[1, 2]}
+        fit="cover"
+        position={d.focus}
+        quality={82}
+        loading="lazy"
+        style={`object-position: ${d.focus}`}
+      />
+    ) : (
+      <img src={d.imageUrl} alt={d.alt} width={CARD_W} height={imgH} loading="lazy" style={`object-position: ${d.focus}`} />
+    ))}
   </div>
   <div class="work-caption">
     <h2 class="t-work-title">{d.title}</h2>

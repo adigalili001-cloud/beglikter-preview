@@ -1,0 +1,138 @@
+{
+ "_note": "Offline copy of the Supabase content, used only when CONTENT_FIXTURE=1.",
+ "works": [
+  {
+   "slug": "nations-greatest",
+   "title": "Nation’s greatest",
+   "year": 2012,
+   "medium": "Carved Work buckets",
+   "note": "drawings",
+   "image_path": "seed/nations-greatest.jpg",
+   "image_url": "/seed/nations-greatest.jpg",
+   "image_width": 1575,
+   "image_height": 1050,
+   "alt": "Three black carved portrait busts on curved stands",
+   "frame": "landscape",
+   "focus": "center",
+   "sort_order": 1,
+   "work_categories": [
+    {
+     "category_id": "sculpture"
+    },
+    {
+     "category_id": "books"
+    }
+   ]
+  },
+  {
+   "slug": "value",
+   "title": "Value",
+   "year": 2012,
+   "medium": "Cut encyclopedia",
+   "note": "Variations, commission",
+   "image_path": "seed/value.jpg",
+   "image_url": "/seed/value.jpg",
+   "image_width": 3724,
+   "image_height": 2096,
+   "alt": "Hebrew letters cut from encyclopedia volumes, grey cover with gold lettering",
+   "frame": "original",
+   "focus": "center",
+   "sort_order": 2,
+   "work_categories": [
+    {
+     "category_id": "books"
+    }
+   ]
+  },
+  {
+   "slug": "talit-shecula",
+   "title": "Talit Shecula",
+   "year": 2019,
+   "medium": "construction bags, paint, electric cords, string",
+   "note": null,
+   "image_path": "seed/talit-shecula.jpg",
+   "image_url": "/seed/talit-shecula.jpg",
+   "image_width": 1575,
+   "image_height": 2362,
+   "alt": "The artist in a hard hat and ear defenders, wearing a prayer shawl made of construction bags, holding a drill",
+   "frame": "portrait",
+   "focus": "top",
+   "sort_order": 3,
+   "work_categories": [
+    {
+     "category_id": "installation"
+    },
+    {
+     "category_id": "video"
+    }
+   ]
+  },
+  {
+   "slug": "ziftonim",
+   "title": "Ziftonim",
+   "year": 2019,
+   "medium": "Tear spray",
+   "note": null,
+   "image_path": "seed/ziftonim.jpg",
+   "image_url": "/seed/ziftonim.jpg",
+   "image_width": 1134,
+   "image_height": 791,
+   "alt": "Burnt symmetrical mark on white paper",
+   "frame": "landscape",
+   "focus": "center",
+   "sort_order": 4,
+   "work_categories": [
+    {
+     "category_id": "drawing"
+    }
+   ]
+  },
+  {
+   "slug": "comics-encyclopedia",
+   "title": "Comics encyclopedia",
+   "year": 2019,
+   "medium": "Cut encyclopedia volume",
+   "note": null,
+   "image_path": "seed/comics-encyclopedia.jpg",
+   "image_url": "/seed/comics-encyclopedia.jpg",
+   "image_width": 877,
+   "image_height": 648,
+   "alt": "Green encyclopedia volume cut into a cartoon mouse head",
+   "frame": "standard",
+   "focus": "center",
+   "sort_order": 5,
+   "work_categories": [
+    {
+     "category_id": "books"
+    }
+   ]
+  }
+ ],
+ "categories": [
+  {
+   "id": "books",
+   "label": "Books",
+   "sort_order": 1
+  },
+  {
+   "id": "video",
+   "label": "Video",
+   "sort_order": 2
+  },
+  {
+   "id": "installation",
+   "label": "Installation",
+   "sort_order": 3
+  },
+  {
+   "id": "sculpture",
+   "label": "Sculpture",
+   "sort_order": 4
+  },
+  {
+   "id": "drawing",
+   "label": "Drawing",
+   "sort_order": 5
+  }
+ ]
+}

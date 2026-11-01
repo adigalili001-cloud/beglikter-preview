@@ -12,28 +12,28 @@ Built from the Figma design system ("Etamar Beglikter — Design System"). Astro
 
 Never type a colour, size or spacing value in a component — use the token (`var(--…)`). To change one, change the Figma variable and re-export.
 
-## Adding or editing a work
+## Content: the Studio
 
-1. Put the photo in `src/content/works/images/` (any size; the site makes web versions automatically).
-2. Copy any file in `src/content/works/` and change the fields:
+Works and categories are managed in the Studio at `/studio` (Hebrew UI, login with email + password).
+Data lives in Supabase (project "beglikter"): tables `works`, `categories`, `work_categories`; images in the `works` storage bucket.
+
+- Only addresses listed in `studio_members` can sign in or write; everyone else can only read published works (row-level security).
+- Every save asks Vercel to rebuild (deploy hook stored in Supabase Vault as `vercel_deploy_hook`), so the site follows within about a minute.
+- The site reads Supabase at build time (`src/content.config.ts`). `CONTENT_FIXTURE=1 npm run build` builds from `design/content-fixture.json` offline.
 
 | Field | What it does |
 |---|---|
-| `title`, `year`, `medium`, `note` | The caption under the image (`note` is optional) |
-| `image`, `alt` | The photo and its description for screen readers |
-| `frame` | Image shape in the gallery: `original` (photo's own proportions), `landscape` 3:2, `standard` 4:3, `portrait` 4:5, `square` |
-| `focus` | What stays visible when the frame crops: `center`, `top`, `bottom`, `left`, `right` |
-| `categories` | One or more ids from `src/content/categories.json` — these become the filter chips |
-| `order` | Optional position in the gallery; works without it follow, newest first |
-| `published` | `false` hides the work without deleting it |
-
-## Categories (filter tags)
-
-Defined once in `src/content/categories.json` (id, label, order). A chip appears only when at least one published work uses it. A work that names a category that isn't in the list fails the build — on purpose, so typos never reach the site.
+| Title, year, medium, note | The caption under the image (note is optional) |
+| Image, image description | The photo and its alt text |
+| Frame | Image shape in the gallery: original, landscape 3:2, standard 4:3, portrait 4:5, square |
+| Focus | What stays visible when the frame crops |
+| Categories | Filter chips; a chip shows only when a published work uses it |
+| Order | Drag rows in the Studio list |
+| Published | Drafts never reach the site |
 
 ## Run locally
 
 ```
 npm install
-npm run dev
+CONTENT_FIXTURE=1 npm run dev
 ```

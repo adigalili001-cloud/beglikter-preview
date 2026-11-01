@@ -1,0 +1,25 @@
+---
+// The Studio: internal admin for site content. Client-side only; all data access goes through Supabase,
+// and the database itself (row-level security) decides who may read or write.
+import '@fontsource/noto-sans-hebrew/400.css';
+import '@fontsource/noto-sans-hebrew/500.css';
+import '@fontsource/noto-sans-hebrew/600.css';
+import '@fontsource/noto-sans-hebrew/700.css';
+import '@fontsource/schibsted-grotesk/400.css';
+import '@fontsource/schibsted-grotesk/700.css';
+import '../styles/tokens.css';
+import '../studio/studio.css';
+import Studio from '../studio/Studio';
+---
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>סטודיו · Etamar Beglikter</title>
+  </head>
+  <body>
+    <Studio client:only="preact" />
+  </body>
+</html>
