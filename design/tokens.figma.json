@@ -1112,6 +1112,22 @@
    {
     "alias": "var(--line-2)"
    }
+  ],
+  [
+   "Layout",
+   "stroke/selected",
+   "var(--stroke-selected)",
+   {
+    "alias": "var(--line-2)"
+   }
+  ],
+  [
+   "Layout",
+   "stroke/field",
+   "var(--stroke-field)",
+   {
+    "alias": "var(--line-2)"
+   }
   ]
  ]
 }

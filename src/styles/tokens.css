@@ -164,4 +164,6 @@
   --stroke-scroll-thumb: var(--line-3); /* stroke/scroll-thumb */
   --stroke-scroll-thumb-mobile: var(--line-5); /* stroke/scroll-thumb-mobile */
   --stroke-scroll-gap: var(--line-2); /* stroke/scroll-gap */
+  --stroke-selected: var(--line-2); /* stroke/selected */
+  --stroke-field: var(--line-2); /* stroke/field */
 }
