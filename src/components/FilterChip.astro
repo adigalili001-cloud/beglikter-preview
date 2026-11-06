@@ -32,17 +32,17 @@ const { label, value, removable = true } = Astro.props;
     font-size: var(--type-filter-size);
     font-weight: 400;
     line-height: 1.5;
-    color: var(--color-gallery-text-muted);
+    color: var(--color-text-muted);
   }
-  .chip-x { display: none; color: var(--color-gallery-icon-secondary); }
+  .chip-x { display: none; color: var(--color-icon-secondary); }
 
   /* Hover */
-  .chip:hover { background: var(--color-gallery-bg-subtle); }
+  .chip:hover { background: var(--color-bg-subtle); }
 
   /* Active = EN/Filter active + active indicator */
   .chip[aria-pressed='true'] {
     font-weight: 600;
-    color: var(--color-gallery-text-secondary);
+    color: var(--color-text-secondary);
     background: none;
   }
   .chip[aria-pressed='true'] .chip-x { display: block; }
@@ -52,7 +52,7 @@ const { label, value, removable = true } = Astro.props;
     left: var(--chip-pad-x);
     bottom: 0;
     width: 21px;
-    height: var(--stroke-regular);
-    background: var(--color-gallery-indicator-active);
+    height: var(--line-2);
+    background: var(--color-indicator-active);
   }
 </style>

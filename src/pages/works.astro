@@ -72,19 +72,19 @@ const categories = (await getCollection('categories'))
   .gallery > :global([hidden]) { display: none; }
 
   /* Scroller */
-  .scroller { display: flex; align-items: center; gap: var(--space-4); color: var(--color-gallery-icon-default); }
+  .scroller { display: flex; align-items: center; gap: var(--space-4); color: var(--color-icon-default); }
   .scroller.is-static { visibility: hidden; }
   .scroller button { display: grid; place-items: center; min-width: 24px; min-height: 24px; }
   .scroller button:disabled { cursor: default; }
   .scroller-next:disabled { opacity: 0.3; }
   .scroller-track { position: relative; flex: 1; height: 24px; cursor: pointer; touch-action: none; }
   .scroller-track::before {
-    content: ''; position: absolute; inset: 50% 0 auto; height: var(--stroke-hairline);
-    background: var(--color-gallery-indicator-track);
+    content: ''; position: absolute; inset: 50% 0 auto; height: var(--stroke-scroll-track);
+    background: var(--color-indicator-track);
   }
   .scroller-thumb {
-    position: absolute; top: 50%; left: 0; height: var(--stroke-bold); transform: translateY(-50%);
-    background: var(--color-gallery-indicator-active); cursor: grab;
+    position: absolute; top: 50%; left: 0; height: var(--stroke-scroll-thumb); transform: translateY(-50%);
+    background: var(--color-indicator-active); cursor: grab;
   }
   .scroller-thumb:active { cursor: grabbing; }
 
