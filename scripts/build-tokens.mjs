@@ -11,12 +11,16 @@ const MODE_MEDIA = {
   Mobile: '(max-width: 599px)', // after Tablet, so it wins on phones
 };
 
+// Fallbacks after each font token. Almoni is licensed and its web files aren't in the repo yet —
+// until they are, Latin shows in Schibsted Grotesk and Hebrew in Noto Sans Hebrew (both bundled via @fontsource).
+const FONT_FALLBACK = '"Schibsted Grotesk", "Noto Sans Hebrew", system-ui, sans-serif';
+
 const src = JSON.parse(readFileSync(new URL('../design/tokens.figma.json', import.meta.url), 'utf8'));
 const prop = (syntax) => syntax.replace(/^var\((--[^)]+)\)$/, '$1');
 const toCss = (name, value) => {
   if (value && typeof value === 'object' && value.alias) return value.alias;
   if (typeof value === 'number') return `${+value.toFixed(3)}px`;
-  if (name.startsWith('font/')) return `"${value}", system-ui, sans-serif`;
+  if (name.startsWith('font/')) return `"${value}", ${FONT_FALLBACK}`;
   return value;
 };
 

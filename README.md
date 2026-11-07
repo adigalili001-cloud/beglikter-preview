@@ -7,7 +7,8 @@ Built from the Figma design system ("Etamar Beglikter — Design System"). Astro
 | Figma | Code |
 |---|---|
 | Variables (Color, Spacing, Typography, Layout) | `design/tokens.figma.json` → `npm run tokens` → `src/styles/tokens.css` |
-| Text styles `EN/*` | `.t-*` classes in `src/styles/global.css` |
+| Text styles (bilingual roles, all on `font/primary`) | `.t-*` classes in `src/styles/global.css` |
+| Variable modes Desktop / Tablet / Mobile | `:root` + `@media (max-width: 1023px)` / `(max-width: 599px)` in `tokens.css` |
 | Components: Top bar, Filter chip, Work card | `src/components/*.astro` |
 
 Never type a colour, size or spacing value in a component — use the token (`var(--…)`). To change one, change the Figma variable and re-export.
@@ -37,3 +38,10 @@ Data lives in Supabase (project "beglikter"): tables `works`, `categories`, `wor
 npm install
 CONTENT_FIXTURE=1 npm run dev
 ```
+
+## Font
+
+One font for the whole site: `font/primary` = Almoni ML v5 AAA (licensed). Its web files are not in the repo yet, so the
+site currently falls back to Schibsted Grotesk (Latin) and Noto Sans Hebrew (Hebrew). When the web license arrives, put the
+`.woff2` files in `public/fonts/` and add `@font-face` rules for "Almoni ML v5 AAA" in `src/styles/global.css`.
+If there is no license, change `font/primary` in Figma and re-export; nothing else changes.

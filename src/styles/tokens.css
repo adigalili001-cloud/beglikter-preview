@@ -78,8 +78,6 @@
   --line-4: 4px; /* line/4 */
 
   /* Typography */
-  --font-latin: "Schibsted Grotesk", system-ui, sans-serif; /* font/latin */
-  --font-hebrew: "Noto Sans Hebrew", system-ui, sans-serif; /* font/hebrew */
   --size-12: 12px; /* size/12 */
   --size-14: 14px; /* size/14 */
   --size-21: 21px; /* size/21 */
@@ -96,11 +94,6 @@
   --type-filter-size: var(--size-14); /* type/filter/size */
   --type-work-title-size: var(--size-16); /* type/work-title/size */
   --type-work-meta-size: var(--size-14); /* type/work-meta/size */
-  --type-v4v-headline-size: var(--size-48); /* type/v4v-headline/size */
-  --type-lead-size: var(--size-21); /* type/lead/size */
-  --type-form-title-size: var(--size-21); /* type/form-title/size */
-  --type-counter-size: var(--size-48); /* type/counter/size */
-  --type-caption-caps-size: var(--size-14); /* type/caption-caps/size */
   --size-18: 18px; /* size/18 */
   --size-20: 20px; /* size/20 */
   --size-24: 24px; /* size/24 */
@@ -109,7 +102,7 @@
   --size-120: 120px; /* size/120 */
   --size-140: 140px; /* size/140 */
   --size-144: 144px; /* size/144 */
-  --font-primary: "Almoni ML v5 AAA", system-ui, sans-serif; /* font/primary */
+  --font-primary: "Almoni ML v5 AAA", "Schibsted Grotesk", "Noto Sans Hebrew", system-ui, sans-serif; /* font/primary */
   --type-number-hero: var(--size-160); /* type/number-hero */
   --type-number-stat: var(--size-144); /* type/number-stat */
   --type-display-xl: var(--size-140); /* type/display-xl */

@@ -8,7 +8,7 @@ body {
   margin: 0;
   background: var(--color-bg-page);
   color: var(--color-text-primary);
-  font-family: var(--font-latin);
+  font-family: var(--font-primary);
   -webkit-font-smoothing: antialiased;
 }
 img { display: block; max-width: 100%; }
@@ -16,7 +16,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 a { color: inherit; text-decoration: none; }
 :focus-visible { outline: var(--line-2) solid var(--color-indicator-active); outline-offset: var(--space-0-5); }
 
-/* ---- Text roles: one class per Figma text style (EN/*) ---- */
+/* ---- Text roles: one class per Figma text style (bilingual, all on font/primary) ---- */
 .t-brand              { font-size: var(--type-brand-size);   font-weight: 600; line-height: 1.4; }
 .t-nav                { font-size: var(--type-nav-size);     font-weight: 400; line-height: 1.45; }
 .t-page-title         { font-size: var(--type-page-title-size); font-weight: 500; line-height: 0.94; letter-spacing: -0.03em; }
@@ -26,8 +26,8 @@ a { color: inherit; text-decoration: none; }
 .t-work-title         { font-size: var(--type-work-title-size); font-weight: 700; line-height: 1.5; }
 .t-work-meta          { font-size: var(--type-work-meta-size);  font-weight: 400; line-height: 1.45; }
 
-/* Hebrew twins (HE/*) — V4V only */
-:lang(he) { font-family: var(--font-hebrew); letter-spacing: 0; }
+/* Hebrew: same styles, no negative tracking */
+:lang(he) { letter-spacing: 0; }
 
 /* ---- Page frame ---- */
 .page {

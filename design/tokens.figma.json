@@ -480,18 +480,6 @@
   ],
   [
    "Typography",
-   "font/latin",
-   "var(--font-latin)",
-   "Schibsted Grotesk"
-  ],
-  [
-   "Typography",
-   "font/hebrew",
-   "var(--font-hebrew)",
-   "Noto Sans Hebrew"
-  ],
-  [
-   "Typography",
    "size/12",
    "var(--size-12)",
    12
@@ -596,46 +584,6 @@
    "Typography",
    "type/work-meta/size",
    "var(--type-work-meta-size)",
-   {
-    "alias": "var(--size-14)"
-   }
-  ],
-  [
-   "Typography",
-   "type/v4v-headline/size",
-   "var(--type-v4v-headline-size)",
-   {
-    "alias": "var(--size-48)"
-   }
-  ],
-  [
-   "Typography",
-   "type/lead/size",
-   "var(--type-lead-size)",
-   {
-    "alias": "var(--size-21)"
-   }
-  ],
-  [
-   "Typography",
-   "type/form-title/size",
-   "var(--type-form-title-size)",
-   {
-    "alias": "var(--size-21)"
-   }
-  ],
-  [
-   "Typography",
-   "type/counter/size",
-   "var(--type-counter-size)",
-   {
-    "alias": "var(--size-48)"
-   }
-  ],
-  [
-   "Typography",
-   "type/caption-caps/size",
-   "var(--type-caption-caps-size)",
    {
     "alias": "var(--size-14)"
    }
