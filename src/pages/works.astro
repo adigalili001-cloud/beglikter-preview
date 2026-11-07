@@ -87,10 +87,6 @@ const categories = (await getCollection('categories'))
     background: var(--color-indicator-active); cursor: grab;
   }
   .scroller-thumb:active { cursor: grabbing; }
-
-  @media (max-width: 599px) {
-    .gallery-area { gap: var(--gallery-scroller-gap-mobile); }
-  }
 </style>
 
 <script>

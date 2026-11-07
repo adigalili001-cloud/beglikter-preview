@@ -163,7 +163,7 @@ details summary { cursor: pointer; color: var(--color-text-muted); margin-bottom
   .preview { position: static; order: -1; align-items: center; }
   .row { flex-wrap: wrap; }
   .row-cats { display: none; }
-  .topbar, .tabs { padding-inline: var(--page-margin-x-mobile); }
-  .content { padding-inline: var(--page-margin-x-mobile); }
+  .topbar, .tabs { padding-inline: var(--page-margin-x); }
+  .content { padding-inline: var(--page-margin-x); }
   .two { grid-template-columns: 1fr; }
 }

@@ -129,10 +129,8 @@
 
   /* Layout */
   --page-margin-x: var(--space-10); /* page/margin-x */
-  --page-margin-x-mobile: var(--space-4); /* page/margin-x-mobile */
   --page-margin-y: var(--space-4); /* page/margin-y */
   --page-section-gap: var(--space-24); /* page/section-gap */
-  --page-section-gap-mobile: var(--space-12); /* page/section-gap-mobile */
   --nav-gap: var(--space-6); /* nav/gap */
   --header-gap: var(--space-9); /* header/gap */
   --title-gap: var(--space-6); /* title/gap */
@@ -141,7 +139,6 @@
   --gallery-gap: var(--space-3); /* gallery/gap */
   --gallery-stack-gap: var(--space-9); /* gallery/stack-gap */
   --gallery-scroller-gap: var(--space-8); /* gallery/scroller-gap */
-  --gallery-scroller-gap-mobile: var(--space-4); /* gallery/scroller-gap-mobile */
   --card-gap: var(--space-2); /* card/gap */
   --card-text-gap: var(--space-1); /* card/text-gap */
   --stack-section: var(--space-55); /* stack/section */
@@ -171,9 +168,18 @@
   --stroke-arrow-long: var(--line-1-2); /* stroke/arrow-long */
   --stroke-scroll-track: var(--line-1); /* stroke/scroll-track */
   --stroke-scroll-thumb: var(--line-3); /* stroke/scroll-thumb */
-  --stroke-scroll-thumb-mobile: var(--line-5); /* stroke/scroll-thumb-mobile */
   --stroke-scroll-gap: var(--line-2); /* stroke/scroll-gap */
   --stroke-selected: var(--line-2); /* stroke/selected */
   --stroke-field: var(--line-2); /* stroke/field */
   --stroke-frame-strong: var(--line-4); /* stroke/frame-strong */
+}
+
+/* Mode: Mobile */
+@media (max-width: 599px) {
+  :root {
+    --page-margin-x: var(--space-4); /* page/margin-x */
+    --page-section-gap: var(--space-12); /* page/section-gap */
+    --gallery-scroller-gap: var(--space-4); /* gallery/scroller-gap */
+    --stroke-scroll-thumb: var(--line-5); /* stroke/scroll-thumb */
+  }
 }
