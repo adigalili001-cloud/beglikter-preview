@@ -1,5 +1,5 @@
 {
- "_source": "Figma file 'Etamar Beglikter — Design System' (jhCsEVWzPXNI0sGs8obfhi), local variables. Exported 2026-11-06. Do not edit by hand: change the variable in Figma, then re-export.",
+ "_source": "Figma file 'Etamar Beglikter — Design System' (jhCsEVWzPXNI0sGs8obfhi), local variables. Exported 2026-11-07. Do not edit by hand: change the variable in Figma, then re-export.",
  "variables": [
   [
    "Primitives",
@@ -1127,6 +1127,78 @@
    "var(--stroke-field)",
    {
     "alias": "var(--line-2)"
+   }
+  ],
+  [
+   "Primitives",
+   "cover/green-dark",
+   "var(--cover-green-dark)",
+   "#1c4e16"
+  ],
+  [
+   "Primitives",
+   "cover/green-light",
+   "var(--cover-green-light)",
+   "#b5bbae"
+  ],
+  [
+   "Primitives",
+   "cover/khaki",
+   "var(--cover-khaki)",
+   "#d7d0c2"
+  ],
+  [
+   "Color",
+   "volume/green-dark",
+   "var(--color-volume-green-dark)",
+   {
+    "alias": "var(--cover-green-dark)"
+   }
+  ],
+  [
+   "Color",
+   "volume/green-light",
+   "var(--color-volume-green-light)",
+   {
+    "alias": "var(--cover-green-light)"
+   }
+  ],
+  [
+   "Color",
+   "volume/khaki",
+   "var(--color-volume-khaki)",
+   {
+    "alias": "var(--cover-khaki)"
+   }
+  ],
+  [
+   "Spacing",
+   "line/4",
+   "var(--line-4)",
+   4
+  ],
+  [
+   "Layout",
+   "stroke/frame-strong",
+   "var(--stroke-frame-strong)",
+   {
+    "alias": "var(--line-4)"
+   }
+  ],
+  [
+   "Typography",
+   "type/body-l",
+   "var(--type-body-l)",
+   {
+    "alias": "var(--size-24)"
+   }
+  ],
+  [
+   "Typography",
+   "type/caption-xs",
+   "var(--type-caption-xs)",
+   {
+    "alias": "var(--size-14)"
    }
   ]
  ]

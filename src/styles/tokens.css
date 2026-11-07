@@ -14,6 +14,9 @@
   --yellow-highlight: #eeff70; /* yellow/highlight */
   --blue-500: #0b17ff; /* blue/500 */
   --mist-50: #f1f6f4; /* mist/50 */
+  --cover-green-dark: #1c4e16; /* cover/green-dark */
+  --cover-green-light: #b5bbae; /* cover/green-light */
+  --cover-khaki: #d7d0c2; /* cover/khaki */
 
   /* Color */
   --color-bg-page: var(--neutral-0); /* bg/page */
@@ -39,6 +42,9 @@
   --color-icon-inverse: var(--neutral-0); /* icon/inverse */
   --color-bg-band: var(--mist-50); /* bg/band */
   --color-bg-media: var(--neutral-100); /* bg/media */
+  --color-volume-green-dark: var(--cover-green-dark); /* volume/green-dark */
+  --color-volume-green-light: var(--cover-green-light); /* volume/green-light */
+  --color-volume-khaki: var(--cover-khaki); /* volume/khaki */
 
   /* Spacing */
   --space-1: 4px; /* space/1 */
@@ -69,6 +75,7 @@
   --space-50: 200px; /* space/50 */
   --space-55: 220px; /* space/55 */
   --line-1-2: 1.2px; /* line/1-2 */
+  --line-4: 4px; /* line/4 */
 
   /* Typography */
   --font-latin: "Schibsted Grotesk", system-ui, sans-serif; /* font/latin */
@@ -117,6 +124,8 @@
   --type-label-m: var(--size-20); /* type/label-m */
   --type-label-s: var(--size-16); /* type/label-s */
   --type-meta: var(--size-24); /* type/meta */
+  --type-body-l: var(--size-24); /* type/body-l */
+  --type-caption-xs: var(--size-14); /* type/caption-xs */
 
   /* Layout */
   --page-margin-x: var(--space-10); /* page/margin-x */
@@ -166,4 +175,5 @@
   --stroke-scroll-gap: var(--line-2); /* stroke/scroll-gap */
   --stroke-selected: var(--line-2); /* stroke/selected */
   --stroke-field: var(--line-2); /* stroke/field */
+  --stroke-frame-strong: var(--line-4); /* stroke/frame-strong */
 }
