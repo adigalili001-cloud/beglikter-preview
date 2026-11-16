@@ -1,439 +1,765 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<title>Volume for Value — Concept B, The Cause</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<link rel="stylesheet" href="./preview.css">
-<link rel="stylesheet" href="./site.css">
-</head>
-<body>
-<x-dc>
-<helmet>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;1,400&amp;family=Noto+Sans+Hebrew:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>V4V Scroll Sequence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;700&family=Schibsted+Grotesk:wght@400;600&display=swap">
+<link rel="stylesheet" href="/ds/tokens.css">
+<link rel="stylesheet" href="/ds/fonts.css">
 <style>
-body{margin:0}
-.vb-top{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,4fr) minmax(0,4fr);column-gap:32px;padding-block:40px 64px;align-items:stretch}
-.vb-cause{display:flex;flex-direction:column;gap:20px;min-width:0}
-.vb-n{font-size:200px;font-weight:600;line-height:.8;letter-spacing:-.06em;color:var(--neutral-900);font-variant-numeric:tabular-nums}
-/* odometer digits: each place is a 0-9 strip in a 1em window; the new digit pushes the old one up from below */
-.vb-odo{display:inline-flex;vertical-align:top}
-.vb-col{display:inline-block;height:1em;line-height:1;overflow:hidden}
-.vb-strip{display:block;will-change:transform}
-.vb-strip span{display:block;height:1em;line-height:1}
-.vb-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.vb-n,.vb-stat b{position:relative}
-.vb-n-l{display:flex;gap:10px;align-items:center;margin-top:12px}
-.vb-n-l .dot{width:10px;height:10px;border-radius:999px;background:var(--red-dot);display:inline-block}
-.vb-h1{margin:8px 0 0;font-size:32px;font-weight:500;line-height:1.1;letter-spacing:-.02em;max-width:20ch}
-.vb-q{margin:auto 0 0;padding-top:16px;border-top:1px solid var(--neutral-900);display:flex;flex-direction:column;gap:8px}
-.vb-q p{margin:0;font-size:19px;line-height:1.38;font-style:italic;color:var(--neutral-800);max-width:38ch}
-.vb-photo{margin:0;background:var(--neutral-100);overflow:hidden;min-height:600px;position:relative}
-.vb-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.vb-form{display:flex;flex-direction:column;gap:22px;padding:4px 0 0}
-.vb-form h2{margin:0;font-size:24px;font-weight:500;letter-spacing:-.01em}
-.vb-chips{display:flex;flex-wrap:wrap;gap:8px}
-.vb-chip{min-height:44px;padding:0 16px;border:1px solid var(--neutral-300);transition:border-color .15s;background:#fff;font:inherit;font-size:15px;cursor:pointer;color:inherit}
-.vb-chip:hover{border-color:var(--neutral-700)}
-.vb-chip.on{background:var(--neutral-900);border-color:var(--neutral-900);color:#fff}
-.vb-chip--sw{width:64px;padding:4px;background:#fff;border-color:transparent} /* swatches only: no outline until hover / selected */
-.vb-chip--sw i{display:block;width:100%;height:100%;min-height:34px}
-.vb-chip--sw.on{background:#fff;border-color:var(--neutral-900);box-shadow:inset 0 0 0 1px var(--neutral-900)}
-.vb-sel{color:var(--neutral-900);margin-left:6px}
-.vb-fields{display:flex;flex-direction:column;gap:20px}
-.vb-fields .v4v-line{margin-top:0}
-.vb-fields .v4v-line input{font-size:24px;font-weight:500}
-.vb-fl .v4v-line-label{opacity:0;transform:translateY(8px);transition:opacity .18s,transform .18s}
-.vb-fl:focus-within .v4v-line-label,.vb-fl:has(input:not(:placeholder-shown)) .v4v-line-label{opacity:1;transform:none}
-.vb-fl input:focus::placeholder{color:transparent}
-.vb-peek{border:0;background:none;padding:0 0 0 32px;font:inherit;font-size:14px;color:var(--neutral-700);text-decoration:underline;text-underline-offset:4px;cursor:pointer;align-self:flex-start;min-height:44px}
-.vb-label{margin-left:32px;background:#fff;border:1px solid var(--neutral-300);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
-.vb-label-t{font-size:16px;font-weight:500}
-.vb-cta{width:100%;cursor:pointer;margin-top:auto}
-.vb-more{padding-block:96px;display:flex;flex-direction:column;gap:96px;border-top:1px solid var(--neutral-300)}
-/* narrow centred measure - same 1040px as the CV lists on About, so the site has one fixed narrow width to reuse */
-.vb-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:72px;row-gap:72px}
-/* equal columns; icon + number and the label are centred inside each one */
-.vb-stats .vb-stat{align-items:center;text-align:center}
-.vb-stats .vb-stat-row{justify-content:center}
-/* reserve the final digit count, so the row doesn't re-centre while 74 rolls up to 124 */
-.vb-stat:nth-child(1) b{min-width:3ch}.vb-stat:nth-child(2) b,.vb-stat:nth-child(3) b{min-width:2ch}
-.vb-stat{border-top:3px solid var(--neutral-900);padding-top:36px;display:flex;flex-direction:column;gap:18px}
-.vb-stat .small{font-size:26px}
-.vb-stat-row{display:flex;align-items:center;gap:18px;will-change:transform,opacity}
-/* each stat takes one of the three encyclopedia cover colours (same as the form swatches) */
-.vb-stat:nth-child(1){--sc:#1F3A2C}.vb-stat:nth-child(2){--sc:#7E9A6E}.vb-stat:nth-child(3){--sc:#B3A47A}
-.vb-stat-row{color:var(--sc)}
-.vb-ic{width:1em;height:1em;font-size:144px;flex:0 0 auto;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.vb-stat b{font-size:144px;font-weight:600;letter-spacing:-.045em;line-height:.9;font-variant-numeric:tabular-nums}
-@media (max-width:1023px){.vb-stats{column-gap:36px}.vb-stat b,.vb-ic{font-size:96px}.vb-stat .small{font-size:19px}}
-.vb-yf{display:grid;grid-template-columns:minmax(0,5fr) auto minmax(0,7fr);column-gap:var(--grid-gutter);align-items:start}
-.vb-yf figure{margin:0;display:flex;flex-direction:column;gap:10px}
-.vb-yf-page{aspect-ratio:4/5;background:#F6F3EC;border:1px solid var(--neutral-300);padding:28px 26px;box-sizing:border-box;display:flex;flex-direction:column;gap:9px}
-.vb-yf-head{font-size:15px;font-weight:600}
-.vb-yf-page i{display:block;height:3px;background:var(--neutral-300)}
-.vb-yf-page i.s{width:45%}
-.vb-yf-page i.d{opacity:.45}
-.vb-yf-next{margin-top:10px;opacity:.45}
-.vb-yf-sig{align-self:flex-end;margin-top:4px;font-size:15px;font-weight:600;padding:2px 6px;outline:1.5px solid var(--ix-accent);outline-offset:2px}
-.vb-yf-arrow{font-size:32px;line-height:1;color:var(--neutral-500);align-self:center;padding-bottom:40px}
-.vb-yf-photo{aspect-ratio:1400/975;background:var(--neutral-100);overflow:hidden}
-.vb-yf-photo img{display:block;width:100%;height:100%;object-fit:cover}
-.vb-yf-img{aspect-ratio:1800/1013;background:#DADADA;overflow:hidden}
-.vb-yf-img img{display:block;width:100%;height:100%;object-fit:cover}
-.vb-yf-work .vb-yf-text{display:grid;grid-template-columns:1fr 1fr;column-gap:var(--grid-gutter);row-gap:var(--space-4);margin-top:var(--space-6)}
-.vb-yf-work .vb-yf-lead{grid-column:1 / -1}
-.vb-yf-text{display:flex;flex-direction:column;gap:var(--space-4);padding-top:4px}
-.vb-yf-text p{margin:0;max-width:46ch;color:var(--neutral-800)}
-.vb-yf-text .vb-yf-lead{max-width:40ch;font-size:var(--size-body-l);line-height:1.4;color:var(--neutral-900)}
-@media (max-width:1023px){.vb-yf{grid-template-columns:1fr;row-gap:var(--space-8)}.vb-yf-entry{max-width:none}.vb-yf-arrow{display:none}}
-@media (max-width:640px){.vb-yf-work .vb-yf-text{grid-template-columns:1fr}}
-.vb-saved{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.vb-s{margin:0;display:flex;flex-direction:column;gap:10px}
-.vb-s .img{aspect-ratio:4/5;background:var(--neutral-100);overflow:hidden;position:relative}
-.vb-s img{width:100%;height:100%;object-fit:cover;display:block}
-.vb-s .tag{position:absolute;left:10px;top:10px;background:#fff;padding:4px 8px;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase}
-.vb-big{margin:0;font-size:56px;font-weight:500;line-height:1.05;letter-spacing:-.03em;max-width:22ch}
-.vb-reels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.vb-reel{position:relative;aspect-ratio:9/16;overflow:hidden;display:flex;align-items:flex-end;text-decoration:none;color:#fff;background:var(--neutral-700)}
-.vb-reel:hover{color:#fff}
-.vb-sil{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.vb-reel::after{content:"";position:absolute;inset:auto 0 0 0;height:55%;background:linear-gradient(to top,rgba(22,21,20,.78),rgba(22,21,20,0))}
-.vb-reel-bar{position:absolute;left:10px;right:10px;top:10px;height:2px;background:rgba(255,255,255,.35)}
-.vb-reel-bar i{display:block;height:100%;background:#fff}
-.vb-play{position:absolute;left:50%;top:42%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:999px;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;transition:transform .2s}
-.vb-play svg{width:22px;height:22px;fill:var(--neutral-900);margin-left:3px}
-.vb-reel:hover .vb-play{transform:scale(1.08)}
-.vb-reel-cap{position:relative;z-index:1;padding:14px;display:flex;flex-direction:column;gap:4px}
-.vb-reel-cap b{font-size:15px;font-weight:600}
-.vb-reel-cap span{font-size:13px;line-height:1.35;opacity:.9}
-@media (max-width:1023px){.vb-top{grid-template-columns:1fr 1fr;row-gap:24px}.vb-cause{grid-column:1 / -1}.vb-photo{min-height:420px}.vb-saved{grid-template-columns:repeat(2,minmax(0,1fr))}.vb-reels{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:640px){.vb-top{grid-template-columns:1fr}.vb-n{font-size:120px}.vb-h1{font-size:30px}.vb-photo{min-height:300px}.vb-stats{grid-template-columns:1fr}.vb-big{font-size:34px}}
-.vb-form.ix-box{padding:var(--ix-pad)}
-.vb-chip:focus-visible,.vb-chip--sw:focus-visible{outline:2px solid var(--ix-accent);outline-offset:2px}
+/* PROTOTYPE ONLY — Almoni from a desktop licence. Needs a web licence before the site goes live. */
+@font-face{font-family:"Almoni";src:url(/v4v/assets/fonts/almoni-regular.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Almoni";src:url(/v4v/assets/fonts/almoni-bold.woff2) format("woff2");font-weight:700;font-display:swap}
 </style>
-</helmet>
-<div class="page">
-<header class="site-header">
-<div class="container">
-<a href="/" class="wordmark">Etamar Begli<span class="k">k</span>ter</a>
-<nav aria-label="Main" class="nav"><a href="/works">Works</a><a href="./about.html">The Artist</a><a href="./volume-for-value.html" aria-current="page">Volume for Value</a><a href="./press.html">Press</a><a href="#" class="lang" lang="he" aria-label="Switch to Hebrew">עברית</a></nav>
-</div>
-</header>
+<style>
+/* ==========================================================================
+   TOKENS
+   Names follow the design system (color/gallery/text/primary → --color-gallery-text-primary).
+   ✱ = not in the design system yet (raw value in the V4V Figma frame).
+   Reference width = the 1440 Figma frame. Sizes written clamp(min, vw, FIGMA): exactly the Figma
+   value at ≥1440, scaling down below it (responsive pass still to come).
+   ========================================================================== */
+:root{
+  /* color */
+  --color-gallery-bg-page:#ffffff;
+  --color-gallery-bg-raised:#ffffff;
+  --color-gallery-text-primary:#161514;
+  --color-gallery-text-muted:#8a867f;
+  --color-gallery-action-text:#f4f2ee;
+  --color-signal-error:#e0301e;                 /* ✱ prototype only (validation isn't designed yet) */
+  --color-v4v-ink:#0b17ff;                      /* ✱ V4V blue */
+  --color-v4v-band:#f1f6f4;                     /* ✱ stats band bg */
+  --color-v4v-cta-bg:#161514;                   /* ✱ = text/primary */
+  --color-v4v-cta-subtle:rgba(255,255,255,.92); /* ✱ hover/label-bg */
+  --color-v4v-counter-edge:rgba(239,238,238,.8);/* ✱ hairline on the counter's left/top */
+  --color-v4v-reel-bg:#e6e6e6;                  /* ✱ */
+  --color-cover-khaki:#d7d0c2;                  /* content values (product colours), not tokens */
+  --color-cover-lightgreen:#b5bbae;
+  --color-cover-darkgreen:#1c4e16;
 
-<main class="container">
-<div class="vb-top">
+  /* type families */
+  --font-latin:"Schibsted Grotesk",system-ui,sans-serif;
+  --font-hebrew:"Noto Sans Hebrew","Arial Hebrew",system-ui,sans-serif;  /* DS font/hebrew */
+  --font-v4v:"Almoni","Noto Sans Hebrew","Arial Hebrew",system-ui,sans-serif; /* ✱ Almoni, used raw in the V4V frame */
 
-<section class="vb-cause" aria-labelledby="vb-title" style="gap: 24px">
-<h1 id="vb-title" class="headline"><img class="v4v-logo" src="./img/v4v-logo.png" alt="Volume for Value" style="width: 312px; height: 180px"></h1>
-<div>
-<div class="vb-n" ref="{{countRef}}"><span class="vb-sr">{{count}}</span><span class="vb-odo" aria-hidden="true"><sc-for list="{{odoCount}}" as="d" hint-placeholder-count="3"><span class="vb-col"><span class="vb-strip" style="{{d.s}}"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></span></span></sc-for></span></div>
-<div class="vb-n-l"><span class="meta" style="color: var(--neutral-900)">VOLUMES ROLLED SO FAR</span></div>
-</div>
-<p class="vb-h1" style="display: flex; gap: 12px; margin-top: 60px">The Hebrew Encyclopedia is leaving our homes. Bring it to the studio instead.</p>
-<blockquote class="vb-q" style="border-style: none; padding-top: 0px; display: flex; gap: 12px">
-<p><span style="font-style: normal">Free your old encyclopedias from the shelf. Pass them forward - the studio will give them a new Value through art.</span></p>
+  /* type — Figma value at 1440 is the last number */
+  --type-brand-size:21px;
+  --type-nav-size:16px;
+  --type-work-meta-size:14px;
+  --type-v4v-headline:clamp(48px,8.333vw,120px);  /* 120 · lh 1 · lines gap 10 */
+  --type-v4v-lead:clamp(18px,2.5vw,36px);         /* 36 · lh 40px (hero frames 1–2) */
+  --type-v4v-lead-sm:clamp(14px,1.667vw,24px);    /* 24 · lh 40px */
+  --type-v4v-lead-3:clamp(17px,2.222vw,32px);     /* 32 · lh 36px (hero frame 3) */
+  --type-counter:162.407px;                       /* 162.407 · lh 1 — counter is fixed-size on desktop (it holds the CTA, which can't shrink) */
+  --type-counter-label:24px;                      /* 24 bold · lh 1.45 */
+  --type-stat:clamp(64px,10vw,144px);             /* 144 · lh 144 · tracking -3.52 */
+  --type-stat-label:clamp(16px,1.667vw,24px);     /* 24 bold · lh 37.7 · tracking .48 */
+  --type-work-title:clamp(56px,9.722vw,140px);    /* 140 bold · lh 1 */
+  --type-work-meta:clamp(16px,1.667vw,24px);      /* 24 bold · lh 1.3 */
+  --type-work-lead:clamp(20px,2.5vw,36px);        /* 36 · lh 1.12 (chain: bold · lh 1.25) */
+  --type-work-body:clamp(16px,1.389vw,20px);      /* 20 · lh 1.3 (caption lh 1.25) */
+  --type-quote:clamp(22px,2.5vw,36px);            /* 36 · lh 1.12 */
+  --type-cta-mini:20px;                           /* 20 bold · lh 1.45 */
+  --type-form-title:24px;                         /* 24 bold · lh 1.22 (DS form-title is 21) */
+  --type-form-label:16px;                         /* 16 · lh 1.45 */
+  --type-button:24px;                             /* 24 bold · lh 1.5 */
 
-</blockquote>
+  /* spacing (base 4) */
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-6:24px; --space-8:32px;
+  --page-margin:40px;
+  --content-width:1250px;
+
+  /* strokes / radius / shadow */
+  --stroke-hairline:1px; --stroke-regular:2px; --stroke-divider:3px; --stroke-bold:4px;
+  --radius-md:12px; --radius-full:999px;
+  --shadow-v4v-card:8px 8px 0 var(--color-v4v-ink);  /* ✱ */
+
+  /* motion */
+  --ease-out:cubic-bezier(.2,.7,.2,1);
+  --dur-1:.18s; --dur-2:.36s; --dur-3:.6s;
+  /* hero scale: the hero is the 1440×990 Figma frame scaled to fit the visible screen (set by JS: min(1, w/1440, h/990)) */
+  --hk:1;
+  color-scheme:light;
+}
+@media (max-width:900px){ :root{ --page-margin:20px; } }
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-gallery-bg-page);color:var(--color-gallery-text-primary);font-family:var(--font-v4v);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+p{margin:0}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:var(--stroke-regular) solid var(--color-v4v-ink);outline-offset:3px}
+
+/* ==========================================================================
+   TOP BAR — Figma: x 40 · y 15.5 · w 1360 · 7 items justify-between (brand, 2px spacer, 5 links)
+   ========================================================================== */
+.topbar{position:fixed;inset:0 0 auto 0;z-index:30;display:flex;justify-content:space-between;align-items:center;direction:ltr;
+  padding:calc(15.5px + env(safe-area-inset-top,0px)) var(--page-margin) 0;font-family:var(--font-latin);color:var(--color-gallery-text-primary);pointer-events:none}
+.topbar b{font-weight:600;font-size:var(--type-brand-size);line-height:1.4}
+.topbar span{font-size:var(--type-nav-size);line-height:1.45}
+.topbar a{color:inherit;text-decoration:none}
+.topbar{font-family:"Almoni ML v5 AAA","Almoni",var(--font-latin)}
+.topbar i{width:2px;height:11px}
+@media (max-width:720px){.topbar span,.topbar i{display:none}}
+
+/* ==========================================================================
+   1 · HERO SCROLL SEQUENCE — frame 1440×990
+   image column: x 0–738.5 (51.3%) · text block: right 40, top 129 (13.03%), w 629.5 (= "האנציקלופדיה" @120)
+   ========================================================================== */
+.seq{position:relative;height:895vh}  /* 7.95 screens of travel + 1 */
+.stage{position:sticky;top:0;height:100vh;height:100svh;height:var(--fold,100svh);overflow:hidden;display:grid;grid-template-columns:48.7% 51.3%}
+.text{position:relative}
+.media{position:relative;overflow:hidden;background:var(--color-v4v-reel-bg)}
+.media .ph{position:absolute;inset:0;overflow:hidden;will-change:transform}   /* the frame of each image (rises in on a frame change) */
+.media img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1);will-change:transform,filter}
+.layer{position:absolute;top:13.03%;right:calc(40px*var(--hk));display:flex;flex-direction:column;gap:calc(40px*var(--hk))}
+.head{margin:0;font-weight:400;font-size:calc(120px*var(--hk));line-height:1;display:flex;flex-direction:column;gap:calc(10px*var(--hk))}
+.head .ln{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em} /* mask with room for descenders, no layout shift */
+.head .ln>span{display:block;will-change:transform}
+.head .strong{font-weight:700}
+.swap{display:grid;grid-template-areas:"a" "b";row-gap:calc(10px*var(--hk))}
+.swap .sw{grid-area:a}.swap .sw[data-k$="b"]{grid-area:b}
+/* B · flip: the whole headline (all 4 lines) flips, line by line. Each line stacks its 3 frame-faces */
+.head-flip{display:none}
+[data-v="b"] .head-slide{display:none}
+[data-v="b"] .head-flip{display:flex}
+.head-flip .fl{display:grid;justify-items:start;perspective:calc(900px*var(--hk))}
+.head-flip .face{grid-area:1/1;backface-visibility:hidden;transform-origin:50% 55%;will-change:transform,opacity}
+.head-flip .strong{font-weight:700}
+/* version tabs (prototype tool, not part of the design) */
+.vtabs{position:fixed;z-index:40;top:calc(52px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;display:flex;gap:2px;padding:3px;border-radius:999px;
+  background:rgba(22,21,20,.82);backdrop-filter:blur(6px);font-family:var(--font-latin);font-size:12px;line-height:1;direction:ltr;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.vtabs button{color:rgba(255,255,255,.7);padding:7px 12px;border-radius:999px;white-space:nowrap}
+.vtabs button[aria-pressed="true"]{background:#fff;color:#161514}
+@media (max-width:900px){.vtabs{top:auto;bottom:calc(72px + env(safe-area-inset-bottom,0px))}}
+.subs{display:grid}
+.subs .body{grid-area:1/1;display:flex;flex-direction:column;gap:calc(8px*var(--hk));color:var(--color-v4v-ink);align-self:start;width:calc(532px*var(--hk));max-width:100%}
+.body .b{font-size:calc(36px*var(--hk));line-height:calc(40px*var(--hk))}
+.body .s{font-size:calc(24px*var(--hk));line-height:calc(40px*var(--hk))}
+.body.f3{gap:calc(16px*var(--hk))}
+.body.f3 p{font-size:calc(32px*var(--hk));line-height:calc(36px*var(--hk))}
+.body .strong{font-weight:700}
+
+/* counter + CTA — Figma frame 3: x 223.67 (15.53%) · y 377.93 (38.17%) · h 187
+   dark px 40 · white pl 40 pr 24 · blue pl 24 pr 40 · 1px edge on left/top */
+.counter{position:absolute;z-index:5;left:15.53%;top:38.17%;display:flex;height:calc(187px*var(--hk));will-change:transform,opacity}
+/* the 1px edge (Figma: left + top of the component) lives on the parts, so it travels with the black when it detaches */
+.counter .num,.counter .lbl{box-shadow:inset 0 var(--stroke-hairline) 0 var(--color-v4v-counter-edge)}
+.counter .num{background:var(--color-v4v-ink);color:#fff;font-size:calc(162.407px*var(--hk));line-height:1;display:flex;align-items:center;padding-inline:calc(40px*var(--hk)) calc(24px*var(--hk));font-variant-numeric:tabular-nums;will-change:transform}
+.counter .lbl{background:var(--color-gallery-bg-page);color:var(--color-v4v-ink);font-weight:700;font-size:calc(24px*var(--hk));line-height:1.45;display:flex;align-items:center;padding-inline:calc(24px*var(--hk)) calc(40px*var(--hk));text-align:center;will-change:transform}
+/* the slot holds the CTA's place; the visible black block is .traveler (one object, hero → side tab) */
+.cta-face{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:calc(16px*var(--hk));padding-inline:calc(40px*var(--hk));text-align:center;white-space:nowrap}
+.cta-face small{font-size:calc(16px*var(--hk));line-height:1.45;color:var(--color-v4v-cta-subtle)}
+.cta-face b{font-size:calc(24px*var(--hk));font-weight:700;line-height:1.45}
+.cta-face svg{width:calc(59px*var(--hk));height:calc(31px*var(--hk));transition:transform var(--dur-2) var(--ease-out)}
+.slot{visibility:hidden}
+
+/* step indicator (not in Figma — kept from the earlier sequence prototype) */
+.steps{position:absolute;z-index:6;bottom:calc(28px + env(safe-area-inset-bottom,0px));left:var(--page-margin);display:flex;align-items:center;gap:6px} /* on the image, so it never runs into the text */
+.steps i{background:rgba(255,255,255,.35)!important}.steps i b{background:#fff!important}.steps .hint{color:#fff!important}
+.steps i{display:block;width:22px;height:2px;background:rgba(22,21,20,.16);position:relative;overflow:hidden}
+.steps i b{position:absolute;inset:0;background:var(--color-gallery-text-primary);transform-origin:right;transform:scaleX(var(--f,0))}
+.steps .hint{font-size:13px;color:var(--color-gallery-text-muted);margin-left:10px;display:flex;align-items:center;gap:6px;opacity:var(--h,1);transition:opacity .4s}
+.steps .hint::after{content:"";width:6px;height:6px;border-left:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(-45deg) translateY(-2px);animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{0%,100%{translate:0 0}50%{translate:0 3px}}
+
+@media (max-width:900px){
+  .stage{grid-template-columns:1fr;grid-template-rows:42% 58%}
+  .media{grid-row:1}.text{grid-row:2}
+  .layer{top:var(--space-6);left:var(--page-margin);gap:var(--space-4)}
+  .head{font-size:clamp(34px,10vw,56px);gap:4px}.swap{row-gap:4px}
+  .subs .body{width:auto;gap:8px}.body .b{font-size:18px;line-height:1.35}.body .s{font-size:14px;line-height:1.35}.body.f3{gap:12px}.body.f3 p{font-size:17px;line-height:1.3}
+  .cta-face b{font-size:20px}
+  .counter{left:var(--space-4);right:var(--space-4);top:auto;bottom:var(--space-4);height:96px}
+  .counter .num{font-size:56px;padding-inline:var(--space-4)}
+  .counter .lbl{font-size:13px;line-height:1.35;padding-inline:10px}
+  .slot{flex:1}.cta-face{padding-inline:var(--space-3);gap:var(--space-1)}.cta-face small{display:none}.cta-face svg{width:40px}
+  .steps{bottom:auto;top:calc(42% - 22px);left:auto;right:var(--space-4)}.steps i{background:rgba(255,255,255,.35)}.steps i b{background:#fff}.steps .hint{color:#fff}
+}
+
+/* ==========================================================================
+   CTA TRAVELER — black block; ends as the side tab
+   side tab (Figma "minimized CTA"): x 0 · h 187 · px 36 · gap 16 · text 20 bold lh 1.45 in a 59px column · arrow 35.6×18.6
+   ========================================================================== */
+.traveler{position:fixed;z-index:25;left:0;top:0;width:0;height:0;overflow:hidden;background:var(--color-v4v-cta-bg);color:#fff;opacity:0;pointer-events:none;
+  box-shadow:inset var(--stroke-hairline) var(--stroke-hairline) 0 var(--color-v4v-counter-edge)}
+.traveler:hover .t-big svg{transform:translateX(-6px)}
+.traveler .t-big{position:absolute;left:0;top:0;bottom:0}  /* texts pinned to the left while the block grows/shrinks */
+.traveler .t-mini{position:absolute;left:0;top:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  padding-inline:36px;font-weight:700;font-size:var(--type-cta-mini);line-height:1.45;text-align:center;opacity:0}
+.traveler .t-mini span{display:block;width:59px}
+.traveler .t-mini svg{width:35.63px;height:18.63px}
+@media (max-width:900px){.traveler .t-mini{flex-direction:row;right:0;padding-inline:var(--space-4)}.traveler .t-mini span{width:auto}}
+
+/* ==========================================================================
+   2 · STATS BAND — margin-top 220 · padding 200 / 80 · stat w 358 · icon 90 gap 18 · slash 92.376×160
+   ========================================================================== */
+.band{margin-top:clamp(120px,15.278vw,220px);background:var(--color-v4v-band);padding:clamp(80px,13.889vw,200px) clamp(20px,5.556vw,80px);display:flex;align-items:center;justify-content:space-between}
+.stat{flex:0 1 358px;display:flex;align-items:center;justify-content:center;gap:18px}
+.stat-fig{display:flex;flex-direction:column;align-items:center;text-align:center;white-space:nowrap}
+.stat-num{font-size:var(--type-stat);line-height:1;letter-spacing:-3.52px;color:var(--color-v4v-ink);font-variant-numeric:tabular-nums;margin-bottom:-15px}
+.stat-lbl{font-weight:700;font-size:var(--type-stat-label);line-height:37.7px;letter-spacing:.48px;color:#000}
+.stat svg{width:clamp(48px,6.25vw,90px);height:auto;flex:none}
+.slash{width:clamp(40px,6.415vw,92.376px);height:auto;flex:none}
+@media (max-width:900px){.band{flex-direction:column;gap:48px}.slash{display:none}}
+
+/* ==========================================================================
+   3 · WORKS — w 1250 · gap 100 · text col 558.8 / image col 657.4 (space-between)
+   text col gap 60 · title block gap 4 · image col gap 60 · figure gap 28 · arrow wrapper py 10
+   ========================================================================== */
+.works{width:min(var(--content-width),100% - 2*var(--page-margin));margin:clamp(120px,15.278vw,220px) auto 0;display:flex;flex-direction:column;gap:clamp(60px,6.944vw,100px)}
+.work{display:grid;grid-template-columns:44.704% 52.592%;justify-content:space-between;align-items:start}
+.work.tight{justify-content:end;column-gap:36px}
+.work-text{display:flex;flex-direction:column;gap:clamp(32px,4.167vw,60px)}
+.work-title{display:flex;flex-direction:column;gap:4px}
+.work-title h3{margin:0;font-weight:700;font-size:var(--type-work-title);line-height:1}
+.work-meta{display:flex;flex-direction:column;align-items:flex-start;font-weight:700;font-size:var(--type-work-meta);line-height:1.3}
+/* divider: Figma "Frame 34" — 16px frame, 3px line centred (y 6.5–9.5), as wide as the bottom line of the info */
+.work-meta .last{display:block;width:fit-content}
+.work-meta .last::after{content:"";display:block;height:var(--stroke-divider);background:currentColor;margin-block:6.5px}
+.work .chain{font-weight:700;font-size:var(--type-work-lead);line-height:1.25;color:var(--color-v4v-ink)}
+.work .lead{font-size:var(--type-work-lead);line-height:1.12}
+.work .desc{font-size:var(--type-work-body);line-height:1.3}
+.work-media{display:flex;flex-direction:column;gap:clamp(32px,4.167vw,60px)}
+.work-media figure{margin:0;display:flex;flex-direction:column;gap:28px}
+.work-media img{width:100%;height:auto;object-fit:cover}
+.work-media figcaption{font-size:var(--type-work-body);line-height:1.25}
+.work-arrow{display:flex;justify-content:center;padding-block:10px;color:var(--color-gallery-text-primary)}
+.work-arrow svg{width:98%;height:auto}  /* 644.297 / 657.4 */
+@media (max-width:900px){.work,.work.tight{grid-template-columns:1fr;gap:var(--space-8)}.work-media{order:2}.work-text{gap:var(--space-6)}}
+
+.rv{opacity:0;translate:0 32px;transition:opacity var(--dur-3) var(--ease-out),translate var(--dur-3) var(--ease-out)}
+.rv.in{opacity:1;translate:0 0}
+
+/* ==========================================================================
+   4 · WHAT STAYS WITH US — margin-top 220 · title 120 (box 145.586) · gap 40 · cards 257×403 r12 gap 16
+   quote card px 28 py 36 · footer gap 12 · avatar 48
+   ========================================================================== */
+.stays{width:min(var(--content-width),100% - 2*var(--page-margin));margin:clamp(120px,15.278vw,220px) auto 0;padding-bottom:200px;display:flex;flex-direction:column;gap:40px}
+.stays h2{margin:0;font-weight:400;font-size:var(--type-v4v-headline);line-height:1;min-height:1.2132em}
+.reels{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.reels::-webkit-scrollbar{display:none}
+.reel{flex:0 0 257px;height:403px;border-radius:var(--radius-md);overflow:hidden;background:var(--color-v4v-reel-bg);scroll-snap-align:start;position:relative}
+.reel img{width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter var(--dur-2)}
+.reel:hover img,.reel:focus-visible img,.reel[aria-pressed="true"] img{filter:none}
+.quote{flex:0 0 257px;height:403px;margin:0;border-radius:var(--radius-md);background:var(--color-v4v-ink);color:#fff;padding:36px 28px;display:flex;flex-direction:column;justify-content:space-between;scroll-snap-align:start}
+.quote blockquote{margin:0;font-size:var(--type-quote);line-height:1.12}
+.quote blockquote b{font-weight:700}
+.quote footer{display:flex;align-items:center;gap:12px;font-size:20px;line-height:1.12}
+.quote footer img{width:48px;height:48px;border-radius:var(--radius-full);object-fit:cover;filter:grayscale(1)}
+.quote .fade{transition:opacity var(--dur-2)}
+@media (max-width:900px){.reel,.quote{flex-basis:200px;height:314px}}
+
+/* ==========================================================================
+   5 · DONATION FORM — card x 0 · y 31 · border 4 · shadow 8/8 · padding 48 · gap 55
+   header: close 40 · gap 55 · title · gap 55 · spacer 51.66
+   block 1: px 60 · gap 36 (colour gap 12 · jacket/amount gap 8) · block 2: pt 16 px 60 · gap 36 (fields gap 32)
+   ========================================================================== */
+dialog.v4v-form{position:fixed;inset:calc(31px + env(safe-area-inset-top,0px)) auto auto 0;margin:0;padding:0;border:0;background:none;
+  width:fit-content;max-width:calc(100vw - 16px);max-height:calc(100svh - 47px);overflow:visible;color:var(--color-v4v-ink)}
+dialog.v4v-form::backdrop{background:transparent}
+dialog.v4v-form[open] .card{animation:slideIn var(--dur-3) var(--ease-out)}
+@keyframes slideIn{from{translate:-40px 0;opacity:0}}
+.card{background:var(--color-gallery-bg-raised);border:var(--stroke-bold) solid var(--color-v4v-ink);box-shadow:var(--shadow-v4v-card);
+  max-height:calc(100svh - 47px);overflow:auto;padding:48px;display:flex;flex-direction:column;align-items:flex-start;gap:55px}
+.f-head{display:flex;direction:ltr;align-items:center;gap:55px}
+.f-head h2{margin:0;font-weight:700;font-size:var(--type-form-title);line-height:1.22;white-space:nowrap}
+.f-head .spacer{width:51.66px;height:51.66px}
+.f-close{width:40px;height:40px;display:grid;place-items:center;color:var(--color-v4v-ink)}
+.f-close svg{width:24px;height:24px}
+form[data-form]{display:flex;flex-direction:column;gap:55px;width:100%}
+.f-block1{display:flex;flex-direction:column;gap:36px;padding-inline:60px}
+.f-block1 .zero{height:1px}    /* the empty 1px line that sits in Figma's block 1 (keeps its spacing) */
+.f-block2{display:flex;flex-direction:column;gap:36px;padding:16px 60px 0}
+.f-fields{display:flex;flex-direction:column;gap:32px}
+.group{display:flex;flex-direction:column;gap:8px}
+.group.color{gap:12px}
+.group-label{font-weight:700;font-size:var(--type-form-label);line-height:1.45}
+.group-label .val{font-weight:400}
+/* colour swatch: 32 · gap 20 · selected = 2px frame, 36 outside */
+.swatches{display:flex;gap:20px;padding:2px}
+.swatch{position:relative;display:block}
+.swatch input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.swatch span{display:block;width:32px;height:32px;background:var(--c);outline:var(--stroke-regular) solid transparent;outline-offset:0}
+.swatch input:checked+span{outline-color:var(--color-v4v-ink)}
+.swatch input:focus-visible+span{outline-color:var(--color-v4v-ink);outline-style:dashed}
+/* option buttons: adjacent (no gap, as in the frame) · h 40 · px 24 py 8 · idle 1px · selected 2px, never a fill */
+.options{display:flex}
+.options.jacket{width:116px}.options.amount{width:345px}
+.opt{position:relative;flex:1 1 0;min-width:0}
+.opt input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.opt span{display:flex;align-items:center;justify-content:center;height:40px;padding:8px 24px;font-size:var(--type-nav-size);line-height:1.45;white-space:nowrap;
+  box-shadow:inset 0 0 0 var(--stroke-hairline) var(--color-v4v-ink)}
+.opt input:checked+span{box-shadow:inset 0 0 0 var(--stroke-regular) var(--color-v4v-ink)}
+.opt input:focus-visible+span{outline:var(--stroke-regular) dashed var(--color-v4v-ink);outline-offset:3px}
+/* text field: h 48 · py 8 · 2px underline · placeholder is the label (16 bold). Typed state: to be designed */
+.field{position:relative}
+.field input{all:unset;box-sizing:border-box;display:block;width:100%;height:48px;padding-block:8px;border-bottom:var(--stroke-regular) solid var(--color-v4v-ink);
+  font-family:var(--font-v4v);font-size:var(--type-form-label);font-weight:700;line-height:1.45;color:var(--color-v4v-ink)}
+.field input::placeholder{color:var(--color-v4v-ink);opacity:1}
+.field .err{position:absolute;top:100%;right:0;margin-top:2px;font-size:12px;color:var(--color-signal-error)} /* ✱ prototype only */
+.field[data-invalid] input{border-bottom-color:var(--color-signal-error)}
+/* checkbox row: h 48 · gap 12 · w 345 · box 24 · text 14 Noto */
+.check{display:flex;align-items:center;gap:12px;height:48px;width:345px;font-family:var(--font-hebrew);font-size:var(--type-work-meta-size);line-height:1.45;cursor:pointer;white-space:nowrap}
+.check input{appearance:none;flex:none;width:24px;height:24px;margin:0;border:var(--stroke-hairline) solid var(--color-v4v-ink);display:grid;place-items:center;cursor:pointer}
+.check input:checked::after{content:"";width:12px;height:6px;border-left:var(--stroke-regular) solid var(--color-v4v-ink);border-bottom:var(--stroke-regular) solid var(--color-v4v-ink);transform:rotate(-45deg) translate(1px,-1px)}
+/* primary button: px 32 py 16 · gap 17 · 24 bold lh 1.5 */
+.btn-primary{display:flex;align-items:center;justify-content:center;gap:17px;width:100%;padding:16px 32px;background:var(--color-v4v-ink);color:var(--color-gallery-action-text);
+  font-weight:700;font-size:var(--type-button);line-height:1.5}
+.btn-primary .arr{font-family:var(--font-hebrew)}
+.btn-primary[disabled]{opacity:.6;cursor:progress}
+.f-done{width:100%}  /* sent state — to be designed; replaces the form */
+@media (max-width:900px){
+  dialog.v4v-form{inset:auto 0 0 0;width:100%;max-width:none;max-height:92svh}
+  .card{max-height:92svh;padding:24px;box-shadow:none;border-width:var(--stroke-regular) 0 0;gap:32px;align-items:stretch}
+  .f-head{gap:16px;justify-content:space-between}.f-head .spacer{display:none}
+  .f-block1,.f-block2{padding-inline:0}.options.amount,.check{width:100%}.check{white-space:normal}
+  form[data-form]{gap:32px}
+  @keyframes slideIn{from{translate:0 40px;opacity:0}}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .rv{opacity:1;translate:none}
+}
+</style>
+</head>
+<body data-v="a">
+<div class="vtabs" role="group" aria-label="גרסאות"><button type="button" data-ver="a" aria-pressed="true">A · slide</button><button type="button" data-ver="b" aria-pressed="false">B · flip</button></div>
+
+<!-- ======================= TOP BAR ======================= -->
+<header class="topbar"><a href="/"><b>Etamar Beglikter</b></a><i></i><a href="/works"><span>Works</span></a><a href="/about"><span>About</span></a><a href="/press"><span>Press</span></a><a href="/volume-for-value" aria-current="page"><span>Volume for Value</span></a><a href="/contact"><span>Contact</span></a></header>
+
+<main>
+
+<!-- ======================= 1 · HERO SEQUENCE ======================= -->
+<section class="seq" aria-label="האנציקלופדיה העברית">
+  <div class="stage">
+    <div class="text">
+      <div class="layer">
+        <h1 class="head head-slide"><span class="ln"><span>האנציקלופדיה</span></span><span class="ln"><span>העברית</span></span><span class="swap"><span class="ln sw" data-k="0"><span>היתה</span></span><span class="ln sw" data-k="0b"><span>כוכבת</span></span><span class="ln sw strong" data-k="1"><span>נשארה</span></span><span class="ln sw strong" data-k="1b"><span>על המדף</span></span><span class="ln sw strong" data-k="2"><span>מחדשת</span></span><span class="ln sw strong" data-k="2b"><span>ערכים</span></span></span></h1>
+        <div class="head head-flip" aria-hidden="true">
+          <span class="fl"><span class="face" data-f="0">האנציקלופדיה</span><span class="face" data-f="1">האנציקלופדיה</span><span class="face" data-f="2">האנציקלופדיה</span></span>
+          <span class="fl"><span class="face" data-f="0">העברית</span><span class="face" data-f="1">העברית</span><span class="face" data-f="2">העברית</span></span>
+          <span class="fl"><span class="face" data-f="0">היתה</span><span class="face strong" data-f="1">נשארה</span><span class="face strong" data-f="2">מחדשת</span></span>
+          <span class="fl"><span class="face" data-f="0">כוכבת</span><span class="face strong" data-f="1">על המדף</span><span class="face strong" data-f="2">ערכים</span></span>
+        </div>
+        <div class="subs">
+          <div class="body"><p class="b">היא היתה התנ׳׳ך החילוני. והציוני.</p><p class="b">הערך שלה היה כמו חופשה בחו׳׳ל היום.</p><div><p class="b">אנשים המתינו בערך שנה לכל כרך חדש</p><p class="s">(א׳ בלבד לקח 7 שנים ו-6 כרכים)</p></div></div>
+          <div class="body"><p class="b">אוטוריטות הידע והמידע הן עכשיו אונליין.</p><p class="b">אבק.</p><div><p class="b">אבל עדיין, אי אפשר סתם לזרוק.</p><p class="s">חלק מניחים ליד הפח, ארוזים יפה בקרטון</p></div></div>
+          <div class="body f3"><div><p>ערכים זה הרבה דברים.</p><p>הגדרה. זהות. שווי.</p></div><p>אמנות יודעת לשחק עם ערכים.</p><div><p>הסטודיו מקבל כרכים.</p><p class="strong">מוזמנים להעביר הלאה.</p></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="media">
+      <div class="ph"><img src="/v4v/assets/hero-1.jpeg" alt="איתמר בגליקטר בסטודיו"></div>
+      <div class="ph"><img src="/v4v/assets/hero-0.jpeg" alt="ערימת כרכי אנציקלופדיה"></div>
+      <div class="ph"><img src="/v4v/assets/hero-2.jpeg" alt="העבודה ״עכשיו״, חיתוך בכרך אנציקלופדיה"></div>
+    </div>
+    <div class="counter" data-counter>
+      <div class="num" aria-hidden="true" data-volumes>844</div>
+      <div class="lbl" aria-hidden="true">כרכים<br>נמסרו<br>עד כה</div>
+      <div class="cta-face slot" aria-hidden="true" data-slot>
+        <small>יש אצלך אנציקלופדיה?</small><b>גלגלו אותה הלאה</b>
+        <svg viewBox="0 0 59 31" fill="none" stroke="currentColor" stroke-width="2"><path d="M58 15.5H3M17 1.5 3 15.5l14 14"/></svg>
+      </div>
+    </div>
+    <div class="steps" aria-hidden="true"><span class="hint">גללו</span><i><b></b></i><i><b></b></i><i><b></b></i></div>
+  </div>
 </section>
 
-<figure class="vb-photo">
-<sc-if value="{{ph.field}}" hint-placeholder-val="{{ true }}"><img src="./img/install-field.jpg" alt="Etamar Beglikter among thousands of cut encyclopedia pages" style="object-position: 55% 50%"></sc-if>
-<sc-if value="{{ph.close}}" hint-placeholder-val="{{ false }}"><img src="./img/install-close.jpg" alt="Cut encyclopedia pages piled on the floor"></sc-if>
-<sc-if value="{{ph.spine}}" hint-placeholder-val="{{ false }}"><img src="./img/cartoon-figure.jpg" alt="An encyclopedia volume cut into a figure"></sc-if>
-<sc-if value="{{ph.stack}}" hint-placeholder-val="{{ false }}"><img src="./img/volumes-stack.jpg" alt="A stack of encyclopedia volumes"></sc-if>
-<sc-if value="{{ph.smile}}" hint-placeholder-val="{{ false }}"><img src="./img/smile-green.jpg" alt="A green encyclopedia cover cut into a smile" style="object-position: 40% 50%"></sc-if>
-<sc-if value="{{ph.brainless}}" hint-placeholder-val="{{ false }}"><img src="./img/brainless-1.jpg" alt="Two encyclopedia volumes cut into a head in profile" style="object-position: 45% 50%"></sc-if>
-</figure>
-
-<section class="vb-form ix-box" aria-labelledby="vb-form-h">
-<sc-if value="{{editing}}" hint-placeholder-val="{{ true }}">
-<div class="vb-fields" style="gap: 24px; height: 100%">
-<div class="stack-tight">
-<h2 id="vb-form-h">Let your volumes roll.</h2>
-
-</div>
-<fieldset class="v4v-field">
-<legend class="v4v-line-label">COVER COLOUR<span class="vb-sel">{{colourName}}</span></legend>
-<div class="vb-chips">
-<sc-for list="{{colours}}" as="c" hint-placeholder-count="3"><button type="button" class="vb-chip vb-chip--sw {{c.cls}}" aria-pressed="{{c.on}}" onClick="{{c.pick}}" aria-label="{{c.t}}" style="width: 56px"><i style="{{c.bg}}" aria-hidden="true"></i></button></sc-for>
-</div>
-</fieldset>
-<sc-if value="{{showJacket}}" hint-placeholder-val="{{ true }}">
-<fieldset class="v4v-field">
-<legend class="v4v-line-label">Dust jacket</legend>
-<div class="vb-chips">
-<sc-for list="{{jackets}}" as="j" hint-placeholder-count="2"><button type="button" class="vb-chip {{j.cls}}" aria-pressed="{{j.on}}" onClick="{{j.pick}}">{{j.t}}</button></sc-for>
-</div>
-</fieldset>
-</sc-if>
-<fieldset class="v4v-field">
-<legend class="v4v-line-label">How many?</legend>
-<div class="vb-chips">
-<sc-for list="{{amounts}}" as="a" hint-placeholder-count="3"><button type="button" class="vb-chip {{a.cls}}" aria-pressed="{{a.on}}" onClick="{{a.pick}}">{{a.t}}</button></sc-for>
-</div>
-</fieldset>
-<div class="vb-fields">
-<label class="v4v-line vb-fl"><span class="v4v-line-label">Name</span><input type="text" placeholder="Name" value="{{name}}" onInput="{{setName}}"></label>
-<label class="v4v-line vb-fl"><span class="v4v-line-label">Phone</span><input type="tel" placeholder="Phone" value="{{phone}}" onInput="{{setPhone}}"></label>
-</div>
-<div class="vb-fields" style="gap: 6px">
-<label class="v4v-check {{creditCls}}" style="gap: 12px; padding-top: 16px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px"><input type="checkbox" checked="{{credit}}" onChange="{{toggleCredit}}"><span class="v4v-box" aria-hidden="true"></span><span class="small">Show my name if my volume becomes a work</span></label>
-
-<sc-if value="{{peek}}" hint-placeholder-val="{{ false }}">
-<div class="vb-label">
-<span class="meta">Rescued from</span>
-<span class="vb-label-t">Vol. XIV · given by {{creditName}}</span>
-<span class="small muted">Printed on the work’s label and certificate</span>
-</div>
-</sc-if>
-
-</div>
-<div class="small secondary" style="margin: 0"></div><button type="button" class="btn btn--primary vb-cta" onClick="{{send}}">Keep them rolling</button><div style="font-size: 14px; line-height: 1.45; color: rgb(74, 71, 67); text-align: center">Collected in Tel Aviv or dropped at the studio.</div>
-</div>
-</sc-if>
-<sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
-<div class="vb-fields" style="gap: 16px">
-<span class="meta">Thank you{{thanksName}}</span>
-<span class="vb-n" style="font-size: 96px">313</span>
-<p class="small secondary" style="margin: 0">Yours is the next one. We’ll message you on WhatsApp within a day to arrange pickup.</p>
-<button type="button" class="vb-peek" style="padding-left: 0" onClick="{{reset}}">Rescue another</button>
-</div>
-</sc-if>
+<!-- ======================= 2 · STATS BAND ======================= -->
+<section class="band" aria-label="במספרים">
+  <div class="stat">
+    <svg viewBox="0 0 90 90" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M24 18 45 10l21 8 14 14-11 9-5-5v44H26V36l-5 5-11-9z"/></svg>
+    <div class="stat-fig"><span class="stat-num" data-count="357">357</span><span class="stat-lbl">נאספו לאורך הדרך</span></div>
+  </div>
+  <svg class="slash" viewBox="0 0 92.376 160" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M92 0 .4 160"/></svg>
+  <div class="stat">
+    <svg viewBox="0 0 90 90" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 42 45 14l33 28M20 36v40h50V36M38 76V54h14v22"/></svg>
+    <div class="stat-fig"><span class="stat-num" data-count="245">245</span><span class="stat-lbl">מגלגלי כרכים</span></div>
+  </div>
+  <svg class="slash" viewBox="0 0 92.376 160" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M92 0 .4 160"/></svg>
+  <div class="stat">
+    <svg viewBox="0 0 90 90" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="45" cy="45" r="33"/><circle cx="34" cy="38" r="2" fill="currentColor"/><circle cx="56" cy="38" r="2" fill="currentColor"/><path d="M31 53c7 9 21 9 28 0"/></svg>
+    <div class="stat-fig"><span class="stat-num" data-count="56">56</span><span class="stat-lbl">יצירות עם ערך חדש</span></div>
+  </div>
 </section>
 
-</div>
+<!-- ======================= 3 · WORKS ======================= -->
+<section class="works" aria-label="יצירות מהכרכים">
+
+  <article class="work rv">
+    <div class="work-text">
+      <div class="work-title"><h3>מָטָטָה</h3><div class="work-meta"><p>2008</p><p class="last">אוסף ינקו דאדא</p></div></div>
+      <p class="desc">מטטה - בהגייה של ״האקונה מאטטה״. מרפרר לאפריקה כסימבול של ה״אחר״, הלא מלומד, השורשי. במקרה הזה - גם השמח, החוגג את החופש מן האינטלקט וה״נכון״ המערביים.</p>
+      <p class="chain">אינטלקט ← דיסרפציה ← נונסנס</p>
+      <p class="lead">המפגש האמנותי הראשון של בגליקטר עם האנציקלופדיה - קודם כל כשיבוש לשוני, סמל האינטלקט כבמה לעילגות. לא כדי ללעוג למי מהם, אלא כיד לייצר גשר דיסרפטיבי בין קצוות של מבני שפה.</p>
+    </div>
+    <div class="work-media">
+      <figure><img src="/v4v/assets/work-matata.jpg" alt="מטטה" loading="lazy" width="712" height="1072" style="aspect-ratio:712/1072"></figure>
+      <div class="work-arrow"><svg viewBox="0 0 644.297 47.406" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M644.3 23.7H2M24 1 2 23.7 24 46.4"/></svg></div>
+    </div>
+  </article>
+
+  <article class="work rv">
+    <div class="work-text">
+      <div class="work-title"><h3>פרצוף - ספר</h3><div class="work-meta"><p class="last">2021</p></div></div>
+      <p class="lead">המחווה ל״שלכת״ של קדישמן הסיטה את הציר שעסק ב׳המון׳ מן השואה אל הרשתות החברתיות.</p>
+      <p class="chain">המונים (שלכת) ← אימוג׳ים ← פייסבוק</p>
+    </div>
+    <div class="work-media">
+      <figure><img src="/v4v/assets/work-partzuf.jpg" alt="פרצוף - ספר" loading="lazy" style="aspect-ratio:4096/2731"><figcaption>ההבעתיות העזה והכואבת עברה לספירה של אימוג׳ים - שפה של מסיכות שמחליפות מילים.</figcaption></figure>
+      <div class="work-arrow"><svg viewBox="0 0 644.297 47.406" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M644.3 23.7H2M24 1 2 23.7 24 46.4"/></svg></div>
+    </div>
+  </article>
+
+  <article class="work tight rv">
+    <div class="work-text">
+      <div class="work-title"><h3>יו.פי</h3><div class="work-meta"><p>2017</p><p class="last">אוסף יונה פישר</p></div></div>
+      <div class="lead"><p>יונה פישר, עורך האנציקלופדיה העברית ואוצר בכיר באמנות הישראלית,</p><p>חתם תחת הערכים שכתב בראשי התיבות ״יו.פי״.</p></div>
+      <p class="chain">כרך ← ערך ← ר״ת ← מחשבה חדשה</p>
+      <p class="desc">איתמר צמצם את הכרך עד שנותרה רק החתימה. העורך שחתם על הידע הפך לאובייקט עצמו — וקרא בקול: י.פ. זה יופי. בעברית, "ערך" הוא פריט מידע מילוני — יחידה של מידע. הוא גם ערך במשמעות של שווי, הון, מטען שדבר מה נושא עמו. זהו כל המהלך של היצירה, מזוקק: להוציא ערך מתוך האנציקלופדיה ולהפוך את הנייר לערך עצמו. תרבותי וכלכלי.</p>
+    </div>
+    <div class="work-media">
+      <figure><img src="/v4v/assets/work-yp.jpg" alt="יו.פי" loading="lazy" style="aspect-ratio:657.401/466.805"><figcaption>החתימה - תמצית של ערך, הייצוג הזעיר ביותר שלו - בגלגול החדש לאחר ששאר התוכן התייתר, נשארה כמהות האובייקט כולו.<br>התוכן - שהיה פעם גוף הערכים - הפך למילוי,</figcaption></figure>
+    </div>
+  </article>
+
+  <article class="work rv">
+    <div class="work-text">
+      <div class="work-title"><h3>עבודה עברית</h3><div class="work-meta"><p class="last">2023</p></div></div>
+      <p class="chain">שאריות ← סידור מחדש ← תוואי ארץ</p>
+      <p class="lead">נמלים חופרות מנהרות ובונות את משכנן בתוך שרידי אבק ונסורת של יצירות אחרות שנוצרו מתוך האנציקלופדיה.</p>
+    </div>
+    <div class="work-media">
+      <figure><img src="/v4v/assets/work-ants.jpg" alt="עבודה עברית" loading="lazy" style="aspect-ratio:1448/1086"><figcaption>נוצרת פה גיאולוגיה פיזית ורוחנית - שכבות של שימושים תרבותיים אחד על גבי השני.</figcaption></figure>
+      <div class="work-arrow"><svg viewBox="0 0 644.297 47.406" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M644.3 23.7H2M24 1 2 23.7 24 46.4"/></svg></div>
+    </div>
+  </article>
+</section>
+
+<!-- ======================= 4 · WHAT STAYS WITH US ======================= -->
+<section class="stays" aria-labelledby="stays-h">
+  <h2 id="stays-h" class="rv">מה נשאר איתנו</h2>
+  <div class="reels rv" role="list">
+    <figure class="quote" role="listitem" aria-live="polite">
+      <blockquote class="fade" data-q-text>״כל פעם שהגיע כרך חדש, זה היה משהו כזה ש<b>כל הבית התמלא מן יראת קודש״</b></blockquote>
+      <footer class="fade" data-q-who><img data-q-img src="/v4v/assets/reel-4.jpg" alt=""><span data-q-name>עדינה, חיפה</span></footer>
+    </figure>
+    <button class="reel" role="listitem" type="button" data-reel="1" aria-pressed="false"><img src="/v4v/assets/reel-1.jpg" alt="תורמת, רילס 1" loading="lazy"></button>
+    <button class="reel" role="listitem" type="button" data-reel="2" aria-pressed="false"><img src="/v4v/assets/reel-2.jpg" alt="תורמת, רילס 2" loading="lazy"></button>
+    <button class="reel" role="listitem" type="button" data-reel="4" aria-pressed="true"><img src="/v4v/assets/reel-4.jpg" alt="עדינה, חיפה" loading="lazy"></button>
+    <button class="reel" role="listitem" type="button" data-reel="3" aria-pressed="false"><img src="/v4v/assets/reel-3.jpg" alt="תורם, רילס 3" loading="lazy"></button>
+  </div>
+</section>
 </main>
 
-<section class="container vb-more" aria-label="What the volumes became" style="border-style: none">
-<div class="vb-stats" ref="{{statsRef}}" style="padding-right: 0px; padding-left: 0px; margin-top: 80px; margin-bottom: 80px">
-<div class="vb-stat" style="border-style: none"><div class="vb-stat-row" style="{{st0}}"><svg class="vb-ic" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 17h24v16H8z"></path><path d="M8 17 3 11h11l6 6"></path><path d="M32 17l5-6H26l-6 6"></path><path d="M20 17v16"></path></svg><b><span class="vb-sr">{{statVolumes}}</span><span class="vb-odo" aria-hidden="true"><sc-for list="{{odo0}}" as="d" hint-placeholder-count="3"><span class="vb-col"><span class="vb-strip" style="{{d.s}}"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></span></span></sc-for></span></b></div><span class="small secondary">Found along the way</span></div>
-<div class="vb-stat" style="border-style: none"><div class="vb-stat-row" style="{{st1}}"><svg class="vb-ic" viewBox="0 0 40 40" aria-hidden="true"><path d="M6 19 20 7l14 12"></path><path d="M10 16v17h20V16"></path><path d="M17 33v-9h6v9"></path></svg><b><span class="vb-sr">{{statHomes}}</span><span class="vb-odo" aria-hidden="true"><sc-for list="{{odo1}}" as="d" hint-placeholder-count="3"><span class="vb-col"><span class="vb-strip" style="{{d.s}}"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></span></span></sc-for></span></b></div><span class="small secondary">Volume rollers</span></div>
-<div class="vb-stat" style="border-style: none"><div class="vb-stat-row" style="{{st2}}"><svg class="vb-ic" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"></circle><circle cx="15" cy="16" r="2.5"></circle><circle cx="25" cy="16" r="2.5"></circle><path d="M12 22c2 5 5 7 8 7s6-2 8-7"></path></svg><b><span class="vb-sr">{{statWorks}}</span><span class="vb-odo" aria-hidden="true"><sc-for list="{{odo2}}" as="d" hint-placeholder-count="3"><span class="vb-col"><span class="vb-strip" style="{{d.s}}"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span></span></span></sc-for></span></b></div><span class="small secondary">Artworks with new value</span></div>
-</div>
-<div class="stack">
-<div class="stack-tight"><span class="meta">One entry, two values</span><h2 class="title">Yo.Fi.</h2></div>
-<div class="vb-yf">
-<figure class="vb-yf-entry" aria-label="The end of an entry in the Hebrew Encyclopedia, signed with the initials of its editor">
-<div class="vb-yf-photo"><img src="./img/yf-spread.jpg" alt="An open volume of the Hebrew Encyclopedia: an entry signed י. פ., with Yona Fischer’s handwriting at the foot of the page"></div>
-<figcaption class="small secondary">Every entry is signed. <bdi lang="he">י. פ.</bdi> is Yona Fischer, one of the encyclopedia’s editors — here with his handwriting at the foot of the page.</figcaption>
-</figure>
-<span class="vb-yf-arrow" aria-hidden="true">→</span>
-<figure class="vb-yf-work">
-<div class="vb-yf-img"><img src="./img/w-yf-double.jpg" alt="Y.F. — the word יופי, doubled, cut from the layered pages of an encyclopedia volume"></div>
-<figcaption class="small secondary">Y.F. · [year] · cut from Vol. [ ] of the Hebrew Encyclopedia</figcaption>
-<div class="vb-yf-text">
-<p class="vb-yf-lead">Etamar cut the volume down until only the signature was left. The editor who signed the knowledge became the object itself — and read aloud, <bdi lang="he">י.פ.</bdi> is <i>yofi</i>: beauty.</p>
-<p>In Hebrew, <b lang="he" dir="rtl">ערך</b> <i>(erech)</i> is an entry — a unit of information. It is also value — worth, capital, a charge something carries.</p>
-<p>That is the whole move of the work, distilled: take an entry out of the encyclopedia and turn the paper into the value itself. Cultural, and economic.</p>
-</div>
-</figure>
-</div>
-</div>
-<p class="vb-big">“Every volume arrives with someone’s handwriting in it, a pressed leaf, a name. That’s the part I keep.”</p>
-<sc-if value="{{showReels}}" hint-placeholder-val="{{ true }}">
-<div class="stack">
-<div class="stack-tight"><span class="meta">Later · the people behind the volumes</span><h2 class="title">“We got ours the year I was born.”</h2></div>
-<div class="vb-reels">
-<sc-for list="{{reels}}" as="r" hint-placeholder-count="5">
-<a href="#" class="vb-reel" style="{{r.bg}}" aria-label="{{r.label}}">
-<img class="vb-sil" src="{{r.img}}" alt="" style="{{r.pos}}">
-<span class="vb-reel-bar" aria-hidden="true"><i style="{{r.prog}}"></i></span>
-<span class="vb-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></span>
-<span class="vb-reel-cap"><b>{{r.who}}</b><span>{{r.line}}</span></span>
-</a>
-</sc-for>
-</div>
-</div>
-</sc-if>
-</section>
+<!-- ======================= CTA TRAVELER =======================
+     One element: sits in the counter's slot in the hero, then (scroll-linked) grows right,
+     detaches from the counter and shrinks left into the side tab. -->
+<button class="traveler" type="button" data-open-form data-traveler tabindex="-1" aria-label="יש אצלך אנציקלופדיה? גלגלו אותה הלאה">
+  <span class="cta-face t-big" aria-hidden="true">
+    <small>יש אצלך אנציקלופדיה?</small><b>גלגלו אותה הלאה</b>
+    <svg viewBox="0 0 59 31" fill="none" stroke="currentColor" stroke-width="2"><path d="M58 15.5H3M17 1.5 3 15.5l14 14"/></svg>
+  </span>
+  <span class="t-mini" aria-hidden="true">
+    <span>רוצה למסור את שלי</span>
+    <svg viewBox="0 0 36 19" fill="none" stroke="currentColor" stroke-width="2"><path d="M35 9.5H3M11 1.5l-8 8 8 8"/></svg>
+  </span>
+</button>
 
-<footer class="join" style="background:#FF625C;color:#161514;--join-ink:#161514;--join-on-ink:#FFFFFF" aria-labelledby="h-news">
-<div class="container join-inner">
-<h2 id="h-news" class="join-title">See new works first</h2>
-<p class="join-quote">“I only write when a new work leaves the table — a few times a year, never more.”</p>
-<span class="small join-by">Etamar Beglikter</span>
-<form class="join-form" action="#"><label class="join-field"><span>Name</span><input type="text" aria-label="Name"></label><label class="join-field"><span>Email</span><input type="email" aria-label="Email"></label><button type="button" class="join-btn">Subscribe</button></form>
-</div>
-<div class="container join-foot small">
-<span class="wordmark">Etamar Begli<span class="k">k</span>ter</span>
-<span>Studio, Tel Aviv · visits by appointment</span>
-<span class="join-links"><a href="/works">Works</a><a href="./about.html">The Artist</a><a href="#">Contact</a><a href="#">WhatsApp</a><a href="#">Instagram</a><a href="#">Privacy</a><a href="#">Accessibility</a></span>
-</div>
-</footer>
-</div>
-</x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"photo":{"editor":"enum","options":["artist in the pages","sea of pages","volume spine","stacked volumes","green smile","brainless"],"default":"artist in the pages","section":"Hero image"},"showReels":{"editor":"boolean","default":true,"section":"Later modules"},"showJacket":{"editor":"boolean","default":true,"section":"Form"},"$preview":{"width":1440,"height":2400}}'>
-const AMOUNTS = [
-  { k: 'some', t: 'A few volumes' },
-  { k: 'set', t: 'A whole set, or most' }
-];
-const COLOURS = [
-  { k: 'dark', t: 'Dark green', hex: '#1F3A2C' },
-  { k: 'light', t: 'Light green', hex: '#7E9A6E' },
-  { k: 'khaki', t: 'Khaki', hex: '#B3A47A' }
-];
-const JACKETS = [
-  { k: 'with', t: 'With jacket' },
-  { k: 'without', t: 'Without jacket' }
-];
-const PHOTO_KEYS = { 'artist in the pages': 'field', 'sea of pages': 'close', 'volume spine': 'spine', 'stacked volumes': 'stack', 'green smile': 'smile', 'brainless': 'brainless' };
-const TARGET = { volumes: 312, street: 124, homes: 87, works: 46 }; // [street = volumes found on the street / by the bins — placeholder]
-const REELS = [
-  { who: 'Miriam, 74 · Haifa', line: '“My father paid for it in instalments.”', tone: '#6E6258', p: 38, img: './img/reel-1.jpg', x: 48 },
-  { who: 'Rachel, 66 · Tel Aviv', line: '“I learned English from it.”', tone: '#55605C', p: 12, img: './img/reel-2.jpg', x: 40 },
-  { who: 'Shoshana, 88 · Jaffa', line: '“It was the first thing in the house.”', tone: '#7A6A5C', p: 64, img: './img/reel-3.jpg', x: 55 },
-  { who: 'Dalia, 71 · Jerusalem', line: '“We kept it through four moves.”', tone: '#5C5A66', p: 22, img: './img/reel-4.jpg', x: 62 }
-];
-// main counter: ~1s roll over the last ~40 numbers, braking hard at the end
-const DURATION = 1000, ROLL = 40;
-const easeOutQuint = (p) => 1 - Math.pow(1 - p, 5);
-// small stats: one number flips (target-1 → target), slow, one soft bounce back; 1/3 s between items
-const STAT_DUR = 2000, STAT_STAGGER = 330, STATS_TOTAL = STAT_DUR + 2 * STAT_STAGGER;
-const statP = (ms, i) => Math.max(0, Math.min(1, (ms - i * STAT_STAGGER) / STAT_DUR));
-const easeOutBack = (p) => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
-// each stat rolls up through its last numbers (from ~60% of the target) and settles with ease-out
-// small stats: only the last 2 numbers change (122 -> 124). A very soft ease-out carries the last digit
-// slightly past its place (momentum), then it settles back slowly.
-const STAT_STEPS = 2, STAT_OVER = 0.06, STAT_UNDER = 0.5, STAT_GLIDE = 0.7; // overshoot, in digit heights
-const statFrom = (target) => Math.max(Math.pow(10, String(target).length - 1), target - STAT_STEPS);
-const statEase = (p) => {
-  const k = STAT_GLIDE; // glide out and slightly past the target...
-  if (p < k) { const q = p / k; return 1 - Math.pow(1 - q, 4); }
-  // ...then one slow spring bounce: drop through the target and sink a little below it (ease-in-out, ~270ms),
-  // then rise back and rest (ease-in-out, ~330ms). Returned as a multiple of STAT_OVER: 1 -> -STAT_UNDER -> 0.
-  const q = (p - k) / (1 - k), io = (x) => 0.5 - 0.5 * Math.cos(Math.PI * x);
-  if (q < 0.45) return 1 - (1 + STAT_UNDER) * io(q / 0.45);
-  return -STAT_UNDER * (1 - io((q - 0.45) / 0.55));
-};
-const statRaw = (target, p) => {
-  const from = statFrom(target), span = target - from;
-  if (p < STAT_GLIDE) return from + (span + STAT_OVER) * statEase(p);
-  return target + STAT_OVER * statEase(p);
-};
-const statVal = (target, p) => Math.round(statRaw(target, p));
-// odometer: continuous value -> one translateY per digit place. A place only moves while every place
-// below it is on 9 and rolling over, so carries push the next digit up exactly like a mechanical counter.
-const odo = (v, digits) => {
-  const out = [];
-  for (let k = digits - 1; k >= 0; k--) {
-    const unit = Math.pow(10, k);
-    const whole = Math.floor(v / unit);
-    const below = v - whole * unit;           // what the lower places show
-    const carry = Math.max(0, below - (unit - 1)); // 0..1 while lower places go 9 -> 0
-    const pos = (whole % 10) + (k === 0 ? (v - Math.floor(v)) : carry);
-    out.push({ s: 'transform:translateY(' + (-pos).toFixed(4) + 'em)' });
+<!-- ======================= 5 · DONATION FORM ======================= -->
+<dialog class="v4v-form" aria-labelledby="f-title">
+  <div class="card">
+    <div class="f-head">
+      <button class="f-close" type="button" data-close aria-label="סגירה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l18 18M21 3 3 21"/></svg></button>
+      <h2 id="f-title" dir="rtl">יש לי אנציקלופדיה למסירה</h2>
+      <span class="spacer" aria-hidden="true"></span>
+    </div>
+
+    <form novalidate data-form>
+      <div class="f-body">
+        <div class="f-block1">
+          <div class="group color" role="radiogroup" aria-labelledby="g-color">
+            <p class="group-label" id="g-color">צבע כריכה : <span class="val" data-color-name></span></p>
+            <div class="swatches">
+              <label class="swatch" style="--c:var(--color-cover-khaki)"><input type="radio" name="color" value="khaki" data-name="חאקי" aria-label="חאקי"><span></span></label>
+              <label class="swatch" style="--c:var(--color-cover-lightgreen)"><input type="radio" name="color" value="lightgreen" data-name="ירוק בהיר" aria-label="ירוק בהיר"><span></span></label>
+              <label class="swatch" style="--c:var(--color-cover-darkgreen)"><input type="radio" name="color" value="darkgreen" data-name="ירוק כהה" aria-label="ירוק כהה"><span></span></label>
+            </div>
+          </div>
+          <div class="group" role="radiogroup" aria-labelledby="g-jacket">
+            <p class="group-label" id="g-jacket">מעטפת נייר?</p>
+            <div class="options jacket">
+              <label class="opt"><input type="radio" name="jacket" value="no"><span>אין</span></label>
+              <label class="opt"><input type="radio" name="jacket" value="yes"><span>יש</span></label>
+            </div>
+          </div>
+          <div class="group" role="radiogroup" aria-labelledby="g-amount">
+            <p class="group-label" id="g-amount">כמה כרכים יש לך למסור?</p>
+            <div class="options amount">
+              <label class="opt"><input type="radio" name="amount" value="few"><span>כרכים בודדים</span></label>
+              <label class="opt"><input type="radio" name="amount" value="most"><span>רוב / כל הסדרה</span></label>
+            </div>
+          </div>
+          <div class="zero" aria-hidden="true"></div>
+        </div>
+        <div class="f-block2">
+          <div class="f-fields">
+            <div class="field"><label class="sr" for="f-name">שמך</label><input id="f-name" name="name" placeholder="שמך" autocomplete="name" required><span class="err" data-err></span></div>
+            <div class="field"><label class="sr" for="f-phone">טלפונך</label><input id="f-phone" name="phone" placeholder="טלפונך" type="tel" inputmode="tel" autocomplete="tel" dir="rtl" required><span class="err" data-err></span></div>
+          </div>
+          <label class="check"><input type="checkbox" name="credit" value="yes">אם כרך שלי יהפוך ליצירה – תציגו את שמי כתורמ/ת</label>
+        </div>
+      </div>
+      <button class="btn-primary" type="submit"><span>תאמו איתי</span><span class="arr" aria-hidden="true">←</span></button>
+    </form>
+
+    <!-- sent state: to be designed — appears in place of the form -->
+    <div class="f-done" data-done hidden tabindex="-1"></div>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const M = reduce ? 0 : 1;
+  const ease = t => t<0?0:t>1?1:t*t*(3-2*t);
+  const win  = (p,a,b) => ease((p-a)/(b-a));
+
+  /* ---------- 1 · hero sequence ----------
+     Timeline in screens of scroll (section = 600vh, 5 screens of travel):
+     hold 0.5 · change 1 · hold 1 · change 1 · rest on frame 3: 1.5
+     No scroll-jacking: native scroll only. */
+  /* in screens of scroll (T = 7.95). Each frame: pause · blue lines arrive one by one · pause · change.
+     frame 1: pause 0–0.25 · lines [0.25–0.95] · pause → change 1→2 [1.35–2.35]
+     frame 2: pause · lines [2.6–3.3] · pause → change 2→3 [3.7–4.7]
+     frame 3: pause · lines [4.95–5.65] · pause
+     counter (its own stage): arrives [5.95–6.35], the number runs its last 5 [6.0–6.6] · pause
+     CTA grows [6.95–7.45] · detaches → stage released at 7.95 */
+  const T=7.95, W1=[1.35,2.35], W2=[3.7,4.7], WC=[5.95,6.35], WN=[6.0,6.6], RUN=5, LINES=[[0.25,0.95],[2.6,3.3],[4.95,5.65]];
+  const seq = document.querySelector('.seq');
+  const sw = [...seq.querySelectorAll('.sw')];
+  const volEl = seq.querySelector('[data-volumes]'), VOL = +volEl.textContent;
+  const subs = [...seq.querySelectorAll('.subs .body')];
+  const frames = [...seq.querySelectorAll('.media .ph')], imgs = frames.map(f=>f.querySelector('img'));
+  const lines = subs.map(b=>[...b.querySelectorAll('p')]);   // the blue block comes in line by line
+  const flipLines = [...seq.querySelectorAll('.head-flip .fl')].map(l=>[...l.querySelectorAll('.face')]);
+  const counter = seq.querySelector('[data-counter]');
+  const stepBars = [...seq.querySelectorAll('.steps i b')], hint = seq.querySelector('.steps .hint');
+  const trav = document.querySelector('[data-traveler]'), slot = seq.querySelector('[data-slot]');
+  const tBig = trav.querySelector('.t-big'), tMini = trav.querySelector('.t-mini');
+    const lerp=(a,b,t)=>a+(b-a)*t;
+  let bigNat=0, miniNat=0;
+  function measure(){ // natural widths of the two texts
+    tBig.style.width='auto'; tMini.style.width='auto'; tMini.style.right='auto';
+    bigNat=tBig.offsetWidth; miniNat=tMini.offsetWidth; tMini.style.right='';
   }
-  return out;
-};
-const statStyle = (p) => 'opacity:' + Math.min(1, p * 4).toFixed(3) + ';transform:translateY(' + ((1 - easeOutBack(p)) * 10).toFixed(2) + 'px)';
-// sticky header: hides while scrolling down, comes back on pause or scroll up (shared snippet, same in every page board)
-function bgHeaderAutoHide() {
-  if (typeof document === 'undefined') return function () {};
-  var last = new WeakMap(), timer = null;
-  function onScroll(e) {
-    var root = (e.target === document || !e.target.querySelectorAll) ? document : e.target;
-    var y = root === document ? (document.scrollingElement || document.documentElement).scrollTop : root.scrollTop;
-    var prev = last.get(root) || 0; last.set(root, y);
-    var hs = root.querySelectorAll('.site-header'); if (!hs.length) return;
-    var hide = y > prev && y > 160;
-    hs.forEach(function (h) { h.classList.toggle('is-hidden', hide); });
-    clearTimeout(timer);
-    timer = setTimeout(function () { hs.forEach(function (h) { h.classList.remove('is-hidden'); }); }, 700);
+  /* CTA traveler — in continuous screens of scroll (sx keeps counting after the stage is released):
+     GROW  [6.95–7.45] stage pinned: black grows LEFT, 85% of the way to the screen edge. white+blue and the component stay put;
+                      the text stays anchored to the black's left wall
+     7.45             it detaches from the counter, still inside the sequence:
+                      left wall carries on to the edge (done by 5.0+0.35·DET) while the right side closes in to the left
+     7.95             stage released → white+blue scroll away; black is already separate and stays at its original height
+     7.45+DET         lands as the side tab. Text swaps once the block is narrower than the big text */
+  const GROW=[6.95,7.45], REACH=0.85, DET=1.3;
+
+  function frame(){
+    const vh = innerHeight, r = seq.getBoundingClientRect(), total = r.height - vh;
+    const p = Math.min(1, Math.max(0, -r.top/total)), sc = p*T;   // sc = screens scrolled
+    const t1=win(sc,...W1), t2=win(sc,...W2), tc=win(sc,...WC);
+
+    // headline: second half swaps line by line (masked rise)
+    const pairs=[['0','0b'],['1','1b'],['2','2b']], show=[[1,t1],[t1,t2],[t2,0]];
+    pairs.forEach((pr,i)=>pr.forEach((k,j)=>{
+      const el = sw.find(x=>x.dataset.k===k).firstElementChild, st=j*0.2;
+      const a=ease((show[i][0]-st)/(1-st)), b=ease((show[i][1]-st)/(1-st));
+      el.style.transform=`translateY(${M*((1-a)*110 - b*110)}%)`;
+    }));
+    // body text: split fade so texts never stack
+    const o=x=>ease(x*2), n=x=>ease(x*2-1);
+    // B · flip headline: per line (staggered top→bottom), the old face rolls away, then the new one rolls in from above
+    if (document.body.dataset.v==='b'){
+      const tr=[t1,t2];
+      flipLines.forEach((faces,j)=>{
+        const k=tr.map(t=>Math.min(1,Math.max(0,(t - j*0.12)/0.64)));
+        // which change is in play for this line
+        const set=(f,ang,op)=>{ f.style.transform=`rotateX(${M?ang:0}deg)`; f.style.opacity=op; };
+        faces.forEach(f=>set(f,0,0));
+        let cur=0, kk=0;
+        if (k[1]>0){ cur=1; kk=k[1]; } else if (k[0]>0){ cur=0; kk=k[0]; }
+        const from=faces[k[1]>0?1:0], to=faces[k[1]>0?2:1];
+        if ((k[1]>=1)) set(faces[2],0,1);
+        else if (kk===0) set(faces[0],0,1);
+        else if (kk<.5){ const a=kk/.5; set(from,-90*ease(a),1); }
+        else { const a=(kk-.5)/.5; set(to,90*(1-ease(a)),1); }
+        if (M===0 && kk>0 && kk<1){ set(from,0,1-kk); set(to,0,kk); }
+      });
+    }
+    // blue block: leaves as a whole (fade, first half of the change); lines arrive one by one, scroll-linked, between pauses
+    const cl=x=>Math.min(1,Math.max(0,x));
+    const out=[1-o(t1), 1-o(t2), 1], live=[1, n(t1), n(t2)];
+    subs.forEach((el,i)=>{
+      const inn=cl((sc-LINES[i][0])/(LINES[i][1]-LINES[i][0]));
+      const L=lines[i], N=L.length, w=.32, st=N>1?(1-w)/(N-1):0;
+      L.forEach((ln,j)=>{ const k=ease((inn-j*st)/w); ln.style.opacity=k; ln.style.transform=`translateY(${M*(1-k)*14}px)`; });
+      const vis = i===0 ? out[0] : Math.min(live[i]>0?1:0, out[i]);
+      el.style.opacity=vis; el.style.visibility=vis>0?'visible':'hidden';
+    });
+    // images: each new one rises over the previous; the last turns from b/w to colour
+    // frames change only with the text stages (both versions)
+    const [fa,fb,fc]=frames, [a,b,c]=imgs;
+    fa.style.transform=`scale(${1-M*t1*0.06})`; a.style.filter=`grayscale(1) brightness(${1-0.35*t1})`;
+    fb.style.transform=`translateY(${M*(1-t1)*100}%) scale(${1-M*t2*0.06})`; b.style.filter=`grayscale(1) brightness(${1-0.35*t2})`;
+    fc.style.transform=`translateY(${M*(1-t2)*100}%)`; c.style.filter=`grayscale(${1-t2*0.9})`;
+    if(!M){ fb.style.opacity=t1; fc.style.opacity=t2; }
+    // counter + CTA arrives on frame 3
+    counter.style.opacity=tc; counter.style.transform=`translateY(${M*(1-tc)*24}px)`;
+    // the number runs up its last RUN values as the counter arrives
+    const vn = VOL - Math.round((1-win(sc,...WN))*RUN*M);
+    if (volEl.textContent != vn) volEl.textContent = vn;
+    // ---- CTA traveler ----
+    const vw=document.documentElement.clientWidth, mobile=vw<=900;
+    const past=Math.max(0, vh - r.bottom);                           // px scrolled since the stage was released
+    const sx=sc + past/vh;                                           // screens, continuous
+    const s0=slot.getBoundingClientRect(), w0=s0.width, h0=s0.height, L0=Math.max(0,s0.left);
+    const y0=s0.top+past;                                            // the block's original height on screen
+    const F = mobile ? {x:0, y:vh-56, w:vw, h:56} : {x:0, y:y0, w:miniNat, h:h0};
+    const g=win(sx,...GROW), u=Math.min(1,Math.max(0,(sx-GROW[1])/DET)), tt=ease(u);
+    let R;
+    if (u<=0){ const dx=REACH*L0*g; R={x:L0-dx, y:y0, w:w0+dx, h:h0}; }
+    else {
+      const x=lerp(L0*(1-REACH), F.x, ease(Math.min(1,u/0.35)));  // left wall to the edge
+      const right=lerp(L0+w0, F.x+F.w, tt);                        // right side closes in
+      R={x, y:lerp(y0,F.y,tt), w:Math.max(0,right-x), h:lerp(h0,F.h,tt)};
+    }
+    Object.assign(trav.style,{left:R.x+'px', top:R.y+'px', width:R.w+'px', height:R.h+'px'});
+    tBig.style.width=w0+'px';
+    // swap texts once the block is narrower than the big text needs
+    const clamp01=x=>Math.min(1,Math.max(0,x));
+    const swp = u<=0 ? 0 : mobile ? clamp01((tt-.35)/.2) : clamp01((bigNat - R.w)/36);
+    tBig.style.opacity=1-swp; tMini.style.opacity=swp;
+    const vis = (sx>GROW[0] ? 1 : tc) * (dlg.open?0:1);
+    trav.style.opacity=vis; trav.style.pointerEvents=vis>.5?'auto':'none'; trav.tabIndex=vis>.5?0:-1;
+    trav.setAttribute('aria-label', swp>.5 ? 'רוצה למסור את שלי — פתיחת טופס מסירה' : '844 כרכים נמסרו עד כה. יש אצלך אנציקלופדיה? גלגלו אותה הלאה');
+    // step indicator
+    [1,t1,t2].forEach((f,i)=>stepBars[i].style.setProperty('--f',f));
+    hint.style.setProperty('--h', sc<0.2?1:0);
+    req=false;
   }
-  document.addEventListener('scroll', onScroll, { capture: true, passive: true });
-  return function () { document.removeEventListener('scroll', onScroll, { capture: true }); clearTimeout(timer); };
-}
-class Component extends DCLogic {
-constructor(props) {
-super(props);
-this.state = { amount: null, colour: null, jacket: null, name: '', phone: '', credit: false, optIn: true, peek: false, sent: false, t: 0, el2: 0 };
-this.setCountEl = (el) => {
-if (!el || this.cio) return;
-if (typeof IntersectionObserver === 'undefined') { this.startCount(); return; }
-this.cio = new IntersectionObserver((entries) => {
-entries.forEach(en => { if (en.isIntersecting) this.startCount(); else { if (this.raf) cancelAnimationFrame(this.raf); this.setState({ t: 0 }); } });
-}, { threshold: 0.6 });
-this.cio.observe(el);
-};
-this.setStatsEl = (el) => {
-if (!el || this.io) return;
-if (typeof IntersectionObserver === 'undefined') { this.startStats(); return; }
-// replays every time the row comes back into view; resets while out of view
-this.io = new IntersectionObserver((entries) => {
-entries.forEach(en => { if (en.isIntersecting) this.startStats(); else { if (this.raf2) cancelAnimationFrame(this.raf2); this.setState({ el2: 0 }); } });
-}, { threshold: 0.5 });
-this.io.observe(el);
-};
-}
-startStats() {
-if (this.raf2) cancelAnimationFrame(this.raf2);
-const start = performance.now();
-const tick = (now) => {
-const el2 = now - start;
-this.setState({ el2 });
-if (el2 < STATS_TOTAL) this.raf2 = requestAnimationFrame(tick);
-};
-this.raf2 = requestAnimationFrame(tick);
-}
-componentDidMount() {
-this._hdrOff = bgHeaderAutoHide();
-}
-// the main counter rolls whenever it comes into view (and again each time it re-enters), not just once at load —
-// on the canvas an artboard mounts long before anyone looks at it, so a load-time roll was already over.
-startCount() {
-if (this.raf) cancelAnimationFrame(this.raf);
-const start = performance.now();
-const tick = (now) => {
-const t = Math.min(1, (now - start) / DURATION);
-this.setState({ t });
-if (t < 1) this.raf = requestAnimationFrame(tick);
-};
-this.raf = requestAnimationFrame(tick);
-}
-componentWillUnmount() {
-if (this._hdrOff) this._hdrOff(); if (this.raf) cancelAnimationFrame(this.raf); if (this.raf2) cancelAnimationFrame(this.raf2); if (this.io) this.io.disconnect(); if (this.cio) this.cio.disconnect(); }
-renderVals() {
-const st = this.state;
-const e = easeOutQuint(st.t);
-const key = PHOTO_KEYS[this.props.photo ?? 'artist in the pages'] || 'field';
-const ph = { field: false, close: false, spine: false, stack: false, smile: false, brainless: false };
-ph[key] = true;
-return {
-count: Math.round(TARGET.volumes - ROLL + ROLL * e),
-odoCount: odo(TARGET.volumes - ROLL + ROLL * e, String(TARGET.volumes).length),
-odo0: odo(statRaw(TARGET.street, statP(st.el2, 0)), String(TARGET.street).length),
-odo1: odo(statRaw(TARGET.homes, statP(st.el2, 1)), String(TARGET.homes).length),
-odo2: odo(statRaw(TARGET.works, statP(st.el2, 2)), String(TARGET.works).length),
-statVolumes: statVal(TARGET.street, statP(st.el2, 0)),
-statHomes: statVal(TARGET.homes, statP(st.el2, 1)),
-statWorks: statVal(TARGET.works, statP(st.el2, 2)),
-st0: statStyle(statP(st.el2, 0)), st1: statStyle(statP(st.el2, 1)), st2: statStyle(statP(st.el2, 2)),
-statsRef: this.setStatsEl,
-countRef: this.setCountEl,
-reels: REELS.map(r => ({ ...r, bg: 'background:' + r.tone, prog: 'width:' + r.p + '%', pos: 'object-position:' + r.x + '% 40%', label: 'Play: ' + r.who })),
-ph: ph,
-showReels: this.props.showReels ?? true,
-editing: !st.sent, sent: st.sent,
-colours: COLOURS.map(x => ({ ...x, bg: 'background:' + x.hex, on: st.colour === x.k ? 'true' : 'false', cls: st.colour === x.k ? 'on' : '', pick: () => this.setState({ colour: x.k }) })),
-jackets: JACKETS.map(x => ({ ...x, on: st.jacket === x.k ? 'true' : 'false', cls: st.jacket === x.k ? 'on' : '', pick: () => this.setState({ jacket: x.k }) })),
-showJacket: this.props.showJacket ?? true,
-colourName: (() => { const c = COLOURS.find(x => x.k === st.colour); return c ? '· ' + c.t : ''; })(),
-amounts: AMOUNTS.map(x => ({ ...x, on: st.amount === x.k ? 'true' : 'false', cls: st.amount === x.k ? 'on' : '', pick: () => this.setState({ amount: x.k }) })),
-name: st.name, setName: (ev) => this.setState({ name: ev.target.value }),
-phone: st.phone, setPhone: (ev) => this.setState({ phone: ev.target.value }),
-credit: st.credit, creditCls: st.credit ? 'on' : '', toggleCredit: () => this.setState({ credit: !st.credit }),
-optIn: st.optIn, optCls: st.optIn ? 'on' : '', toggleOptIn: () => this.setState({ optIn: !st.optIn }),
-peek: st.peek, peekAria: st.peek ? 'true' : 'false', peekText: st.peek ? 'Hide example' : 'What will it look like?', togglePeek: () => this.setState({ peek: !st.peek }),
-creditName: st.name ? st.name : 'your name',
-send: () => this.setState({ sent: true }),
-reset: () => this.setState({ sent: false, amount: null, colour: null, jacket: null }),
-thanksName: st.name ? ', ' + st.name.split(' ')[0] : ''
-};
-}
-}
+  let req=false; const tick=()=>{ if(!req){ req=true; requestAnimationFrame(frame);} };
+  addEventListener('scroll',tick,{passive:true});
+  document.fonts && document.fonts.ready.then(()=>{ measure(); tick(); });
+
+  /* ---------- reveal + stat count-up ---------- */
+  const io = new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting) return;
+    e.target.classList.add('in'); io.unobserve(e.target);
+  }),{rootMargin:'0px 0px -12% 0px'});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  const nums=[...document.querySelectorAll('[data-count]')];
+  const countIO = new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting) return; countIO.unobserve(e.target);
+    const el=e.target, to=+el.dataset.count; if(reduce) return;
+    const t0=performance.now(), D=1400;
+    const step=t=>{ const k=Math.min(1,(t-t0)/D); el.textContent=Math.round(to*(1-Math.pow(1-k,3))); if(k<1) requestAnimationFrame(step); };
+    el.textContent='0'; requestAnimationFrame(step);
+  }),{threshold:.6});
+  nums.forEach(n=>countIO.observe(n));
+
+  /* ---------- reels: picking a reel puts its quote in the blue card ----------
+     Only Adina's quote exists today; the others show their name only. */
+  const QUOTES={
+    4:{html:'״כל פעם שהגיע כרך חדש, זה היה משהו כזה ש<b>כל הבית התמלא מן יראת קודש״</b>', name:'עדינה, חיפה'},
+    1:{html:'<span style="opacity:.6">ציטוט ממתין</span>', name:'—'},
+    2:{html:'<span style="opacity:.6">ציטוט ממתין</span>', name:'—'},
+    3:{html:'<span style="opacity:.6">ציטוט ממתין</span>', name:'—'}
+  };
+  const qText=document.querySelector('[data-q-text]'), qName=document.querySelector('[data-q-name]'), qImg=document.querySelector('[data-q-img]');
+  document.querySelectorAll('[data-reel]').forEach(btn=>btn.addEventListener('click',()=>{
+    const id=btn.dataset.reel, q=QUOTES[id];
+    document.querySelectorAll('[data-reel]').forEach(b=>b.setAttribute('aria-pressed', b===btn));
+    document.querySelectorAll('.quote .fade').forEach(f=>f.style.opacity=0);
+    setTimeout(()=>{ qText.innerHTML=q.html; qName.textContent=q.name; qImg.src=`/v4v/assets/reel-${id}.jpg`;
+      document.querySelectorAll('.quote .fade').forEach(f=>f.style.opacity=1); }, reduce?0:200);
+  }));
+
+  /* ---------- 5 · donation form ---------- */
+  const dlg=document.querySelector('dialog.v4v-form'), form=dlg.querySelector('[data-form]'), done=dlg.querySelector('[data-done]');
+  let opener=null;
+  document.querySelectorAll('[data-open-form]').forEach(b=>b.addEventListener('click',()=>{
+    opener=b; form.hidden=false; done.hidden=true;
+    dlg.showModal(); tick();
+  }));
+  dlg.addEventListener('click',e=>{ if(e.target===dlg || e.target.closest('[data-close]')) dlg.close(); });
+  dlg.addEventListener('close',()=>{ opener&&opener.focus(); tick(); });
+
+  // cover colour: the chosen name is written into the label
+  const colorName=dlg.querySelector('[data-color-name]');
+  form.querySelectorAll('input[name=color]').forEach(r=>r.addEventListener('change',()=>{ colorName.textContent=r.dataset.name; }));
+
+  const PHONE=/^0(5\d|[2-489]|7\d)-?\d{7}$|^\+?972-?\d{8,9}$/;
+  function check(input){
+    const f=input.closest('.field'), v=input.value.trim(); let msg='';
+    if(!v) msg = input.name==='name' ? 'צריך שם כדי שנדע למי לחזור' : 'צריך טלפון כדי לתאם';
+    else if(input.name==='phone' && !PHONE.test(v.replace(/[\s()]/g,''))) msg='מספר הטלפון לא נראה תקין';
+    f.querySelector('[data-err]').textContent=msg; f.toggleAttribute('data-invalid',!!msg);
+    input.setAttribute('aria-invalid',!!msg); return !msg;
+  }
+  form.querySelectorAll('.field input').forEach(i=>{
+    i.addEventListener('blur',()=>{ if(i.value) check(i); });
+    i.addEventListener('input',()=>{ if(i.closest('[data-invalid]')) check(i); });
+  });
+
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const fields=[...form.querySelectorAll('.field input')];
+    const ok=fields.map(check).every(Boolean);
+    if(!ok){ fields.find(i=>i.getAttribute('aria-invalid')==='true').focus(); return; }
+    const data=Object.fromEntries(new FormData(form)); data.credit = data.credit==='yes';
+    const btn=form.querySelector('[type=submit]'); btn.disabled=true;
+    try{ await window.V4V.submit(data); }
+    finally{ btn.disabled=false; }
+    form.hidden=true; done.hidden=false; done.focus(); form.reset(); colorName.textContent='';
+  });
+
+  /* Hook for the real backend (Supabase table of V4V donors, per the admin plan).
+     Prototype: does nothing but wait a moment. */
+  window.V4V = window.V4V || { submit: d => new Promise(r=>{ console.log('[V4V] donation lead', d); setTimeout(r,500); }) };
+
+  // version tabs: #a / #b in the URL
+  function setV(v){
+    document.body.dataset.v=v;
+    document.querySelectorAll('[data-ver]').forEach(b=>b.setAttribute('aria-pressed', b.dataset.ver===v));
+    try{ if(location.hash!=='#'+v) history.replaceState(null,'','#'+v); }catch(_){}
+    try{ localStorage.setItem('v4v-ver2',v); }catch(_){}
+    tick();
+  }
+  document.querySelectorAll('[data-ver]').forEach(b=>b.addEventListener('click',()=>setV(b.dataset.ver)));
+  let v0='a'; try{ v0=localStorage.getItem('v4v-ver2')||'a'; }catch(_){}
+  if(location.hash==='#a'||location.hash==='#b') v0=location.hash.slice(1);
+  addEventListener('hashchange',()=>{ const h=location.hash.slice(1); if(h==='a'||h==='b') setV(h); });
+  setV(v0);
+  /* fit the hero to the visible fold (browser chrome, bookmarks bar etc. are already outside innerHeight) */
+  function fit(){
+    const w=document.documentElement.clientWidth, h=innerHeight;
+    const k = w<=900 ? 1 : Math.min(1, w/1440, h/990);
+    document.documentElement.style.setProperty('--hk', k.toFixed(4));
+    document.documentElement.style.setProperty('--fold', h+'px');
+  }
+  addEventListener('resize',()=>{ fit(); measure(); tick(); });
+  fit(); measure(); frame();
+})();
 </script>
-<script src="./dc-lite.js"></script>
+
 </body>
 </html>

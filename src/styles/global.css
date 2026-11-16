@@ -1,5 +1,10 @@
 @import './tokens.css';
 
+/* font/primary = "Almoni ML v5 AAA". Regular + Bold for now (private preview; web licence pending).
+   Until there are Medium/SemiBold files, 500/600 render from the nearest weight. */
+@font-face { font-family: "Almoni ML v5 AAA"; src: url(/fonts/almoni-regular.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Almoni ML v5 AAA"; src: url(/fonts/almoni-bold.woff2) format("woff2"); font-weight: 700; font-display: swap; }
+
 /* Breakpoints (match the Figma artboards): mobile < 600 · tablet 600–1023 · desktop ≥ 1024 */
 
 *, *::before, *::after { box-sizing: border-box; }

@@ -6,6 +6,9 @@
 <!-- copy on this board is DUMMY TEXT written to feel real: names, dates, venues, grants, photo credit and phone are invented placeholders, not facts -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
+<link rel="stylesheet" href="/ds/tokens.css">
+<link rel="stylesheet" href="/ds/fonts.css">
+<link rel="stylesheet" href="/ds/top-bar.css">
 <link rel="stylesheet" href="./preview.css">
 <link rel="stylesheet" href="./site.css">
 </head>
@@ -174,11 +177,11 @@ body{margin:0}
 </style>
 </helmet>
 <div class="page">
-<header class="site-header">
-<div class="container">
-<a href="/" class="wordmark">Etamar Begli<span class="k">k</span>ter</a>
-<nav aria-label="Main" class="nav"><a href="/works">Works</a><a href="./about.html" aria-current="page">The Artist</a><a href="./volume-for-value.html">Volume for Value</a><a href="./press.html">Press</a><a href="#" class="lang" lang="he" aria-label="Switch to Hebrew">עברית</a></nav>
-</div>
+<header class="ds-top-bar site-header">
+<a class="ds-brand" href="/">Etamar Beglikter</a>
+<nav class="ds-nav" aria-label="Main"><a href="/works">Works</a><a href="/about" aria-current="page">About</a><a href="/press">Press</a><a href="/volume-for-value">Volume for Value</a><a href="/contact">Contact</a></nav>
+<button class="ds-menu-button" type="button" aria-expanded="false" aria-controls="ds-mobile-menu"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Menu</span><svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true"><path d="M20.5688 13.3134H6.48389M20.5688 7.3396H12.5688M14.4839 19.6604H6.48389" stroke="currentColor" stroke-width="2" /></svg></button>
+<nav id="ds-mobile-menu" class="ds-mobile-menu" aria-label="Main" hidden><a href="/works">Works</a><a href="/about" aria-current="page">About</a><a href="/press">Press</a><a href="/volume-for-value">Volume for Value</a><a href="/contact">Contact</a></nav>
 </header>
 <main>
 
@@ -602,5 +605,6 @@ thanksName: st.name ? ', ' + st.name.split(' ')[0] : ''
 }
 </script>
 <script src="./dc-lite.js"></script>
+<script>/* design-system top bar: mobile menu (delegated: the page re-renders its markup) */document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.ds-menu-button');if(!b)return;const m=document.getElementById('ds-mobile-menu'),o=b.getAttribute('aria-expanded')==='true';b.setAttribute('aria-expanded',String(!o));if(m)m.hidden=o;});</script>
 </body>
 </html>

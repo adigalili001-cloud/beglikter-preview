@@ -1,0 +1,22 @@
+/* Design-system top bar for the static pages (same as src/components/TopBar.astro).
+   Needs /ds/tokens.css and /ds/fonts.css. Namespaced so the pages' own styles don't leak in. */
+.ds-top-bar {
+  box-sizing: border-box; width: 100%;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--nav-gap); flex-wrap: wrap;
+  padding: var(--page-margin-y) var(--page-margin-x);
+  font-family: var(--font-primary); color: var(--color-text-primary); background: var(--color-bg-page);
+  border: 0; -webkit-font-smoothing: antialiased;
+}
+.ds-top-bar.site-header { border-bottom: 0; }           /* keeps the page's sticky hide-on-scroll, drops the old rule */
+.ds-top-bar a { color: inherit; text-decoration: none; }
+.ds-top-bar .ds-brand { font-size: var(--type-brand-size); font-weight: 600; line-height: 1.4; white-space: nowrap; }
+.ds-top-bar .ds-nav { display: contents; }
+.ds-top-bar .ds-nav a, .ds-top-bar .ds-mobile-menu a { font-size: var(--type-nav-size); font-weight: 400; line-height: 1.45; white-space: nowrap; }
+.ds-top-bar .ds-nav a:hover { color: var(--color-text-secondary); }
+.ds-top-bar .ds-menu-button { display: none; width: 28px; height: 28px; padding: 0; border: 0; background: none; color: var(--color-icon-strong); cursor: pointer; }
+.ds-top-bar .ds-mobile-menu { display: none; }
+@media (max-width: 719px) {
+  .ds-top-bar .ds-nav { display: none; }
+  .ds-top-bar .ds-menu-button { display: block; }
+  .ds-top-bar .ds-mobile-menu:not([hidden]) { display: flex; flex-direction: column; gap: var(--space-2); width: 100%; }
+}
