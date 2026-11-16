@@ -12,8 +12,10 @@ import TopBar from '../components/TopBar.astro';
 interface Props {
   title: string;
   current?: string;
+  /** true: the page renders its own frame and top bar (Works: the top bar lives inside the pinned stage) */
+  bare?: boolean;
 }
-const { title, current } = Astro.props;
+const { title, current, bare = false } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
@@ -23,9 +25,11 @@ const { title, current } = Astro.props;
     <title>{title} — Etamar Beglikter</title>
   </head>
   <body>
-    <div class="page">
-      <TopBar current={current} />
-      <slot />
-    </div>
+    {bare ? <slot /> : (
+      <div class="page">
+        <TopBar current={current} />
+        <slot />
+      </div>
+    )}
   </body>
 </html>

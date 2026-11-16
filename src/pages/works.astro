@@ -1,6 +1,19 @@
 ---
+/**
+ * Works — version C from the Works lab (artifact "Works · מעבדה", Figma 368:1213).
+ *
+ * Arrival (Figma frame 1): big title, filters under it, the strip cut off at the fold, so the page
+ * invites a scroll down. The first ~160px of scroll settle the layout (frame 2), 1:1 with the hand.
+ * From there the page is pinned and the same vertical scroll moves the strip sideways.
+ * No scroll handling: one passive listener reads scrollY, every visual is a function of it.
+ * Hover: the work grows around its centre and a thin arrow is drawn under its meta.
+ * Mobile (< 600px): a plain vertical list; the work crossing the middle of the screen is full size.
+ *
+ * ?fx=fade|shrink|cascade|none picks the filter transition (default fade) while we compare them.
+ */
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
 import FilterChip from '../components/FilterChip.astro';
 import WorkCard from '../components/WorkCard.astro';
 
@@ -13,112 +26,317 @@ const categories = (await getCollection('categories'))
   .filter((c) => used.has(c.id))
   .sort((a, b) => a.data.order - b.data.order);
 ---
-<Base title="Works" current="Works">
-  <main class="works">
-    <div class="header">
-      <h1 class="t-page-title">Works</h1>
-      <div class="filters" role="group" aria-label="Filter works by category">
-        <FilterChip label="All" value="" removable={false} />
-        {categories.map((c) => <FilterChip label={c.data.label} value={c.id} />)}
-      </div>
+<Base title="Works" current="Works" bare>
+  <section class="seq-track">
+    <div class="seq-stage">
+      <TopBar current="Works" />
+      <main class="works">
+        <div class="header">
+          <h1 class="t-page-title">Works</h1>
+          <div class="filters" role="group" aria-label="Filter works by category">
+            <FilterChip label="All" value="" removable={false} />
+            {categories.map((c) => <FilterChip label={c.data.label} value={c.id} />)}
+          </div>
+        </div>
+        <section class="gallery-area" aria-label="Works">
+          <div class="seq-view">
+            {works.map((w) => <WorkCard work={w} />)}
+          </div>
+        </section>
+      </main>
+      <div class="seq-counter t-work-meta" aria-hidden="true"></div>
     </div>
-
-    <section class="gallery-area" aria-label="Works">
-      <div class="gallery" tabindex="0">
-        {works.map((w) => <WorkCard work={w} />)}
-      </div>
-
-      <!-- Figma: scroller (start cap · track · thumb · next arrow) -->
-      <div class="scroller" aria-hidden="false">
-        <button class="scroller-start" type="button" aria-label="Back to first work">
-          <svg width="4" height="14" viewBox="0 0 4 14" fill="none" aria-hidden="true"><path d="M1.49929 0.0460815L1.72736 7.46581L1.49929 13.4686" stroke="currentColor" stroke-width="3" /></svg>
-        </button>
-        <div class="scroller-track"><div class="scroller-thumb"></div></div>
-        <button class="scroller-next" type="button" aria-label="Next works">
-          <svg width="11" height="16" viewBox="0 0 11 16" fill="none" aria-hidden="true"><path d="M1.01282 1.10645L8.34493 7.81769L1.01282 14.5289" stroke="currentColor" stroke-width="3" /></svg>
-        </button>
-      </div>
-    </section>
-  </main>
+  </section>
 </Base>
 
 <style>
-  .works { display: flex; flex-direction: column; gap: var(--section-gap); }
-  h1 { margin: 0; white-space: nowrap; }
-
-  /* Header: desktop = title left, filters right on one row; tablet/mobile = stacked */
-  .header { display: flex; align-items: center; gap: var(--header-gap); }
-  .filters { flex: 1; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
-  @media (max-width: 1023px) {
-    .header { flex-direction: column; align-items: flex-start; }
-    .filters { justify-content: flex-start; margin-inline: calc(-1 * var(--chip-pad-x)); }
+  .seq-track { position: relative; }             /* height set by the script */
+  .seq-stage {
+    --margin-x: var(--page-margin-x);
+    position: sticky; top: 0;
+    height: 100vh; height: 100svh;
+    display: flex; flex-direction: column; gap: 68px;              /* ✱ Figma 368:1213 */
+    padding: var(--page-margin-y) var(--margin-x);
+    overflow: hidden;
+  }
+  .works { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 68px; will-change: transform; } /* ✱ */
+  h1 { margin: 0; white-space: nowrap; transform-origin: 0 0; will-change: transform; }
+  .header { display: flex; flex-direction: column; align-items: flex-start; gap: var(--header-gap); }
+  .filters {
+    display: flex; flex-wrap: wrap; align-items: center;
+    margin-inline: calc(-1 * var(--chip-pad-x)); will-change: transform;
+  }
+  .gallery-area { flex: 1; min-height: 0; display: flex; flex-direction: column; padding-bottom: var(--space-12); will-change: transform; }
+  .seq-view { position: relative; flex: 1; min-height: 0; margin-right: calc(-1 * var(--margin-x)); }
+  .seq-view > :global(.work-card) { position: absolute; top: 0; left: 0; will-change: transform; }
+  .seq-view > :global(.work-card[hidden]) { display: none; }
+  .seq-view :global(.work-image) { transform-origin: 0 0; will-change: transform; }
+  .seq-view :global(.work-caption) { will-change: transform; }
+  .seq-counter {
+    position: absolute; left: var(--margin-x); bottom: var(--space-6); z-index: 2;
+    font-variant-numeric: tabular-nums; letter-spacing: .04em; color: var(--color-text-secondary);
   }
 
-  /* Gallery: one horizontal strip that bleeds to the right edge of the window */
-  .gallery-area { display: flex; flex-direction: column; gap: var(--gallery-scroller-gap); }
-  .gallery {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--gallery-gap);
-    overflow-x: auto;
-    margin-right: calc(-1 * var(--margin-x));
-    padding-right: var(--margin-x);
-    scroll-snap-type: x proximity;
-    scrollbar-width: none;
-    overscroll-behavior-x: contain;
-  }
-  .gallery::-webkit-scrollbar { display: none; }
-  .gallery > :global(*) { scroll-snap-align: start; }
-  .gallery > :global([hidden]) { display: none; }
-
-  /* Scroller */
-  .scroller { display: flex; align-items: center; gap: var(--space-4); color: var(--color-icon-default); }
-  .scroller.is-static { visibility: hidden; }
-  .scroller button { display: grid; place-items: center; min-width: 24px; min-height: 24px; }
-  .scroller button:disabled { cursor: default; }
-  .scroller-next:disabled { opacity: 0.3; }
-  .scroller-track { position: relative; flex: 1; height: 24px; cursor: pointer; touch-action: none; }
-  .scroller-track::before {
-    content: ''; position: absolute; inset: 50% 0 auto; height: var(--stroke-scroll-track);
-    background: var(--color-indicator-track);
-  }
-  .scroller-thumb {
-    position: absolute; top: 50%; left: 0; height: var(--stroke-scroll-thumb); transform: translateY(-50%);
-    background: var(--color-indicator-active); cursor: grab;
-  }
-  .scroller-thumb:active { cursor: grabbing; }
+  /* Mobile: a plain vertical list in normal flow */
+  :global(.is-vertical) .seq-stage { position: static; height: auto; overflow: visible; }
+  :global(.is-vertical) .seq-view { margin-right: 0; display: flex; flex-direction: column; gap: var(--gallery-stack-gap); }
+  :global(.is-vertical) .seq-view > :global(.work-card) { position: relative; width: 100%; transform-origin: 50% 50%; }
+  :global(.is-vertical) .seq-counter { display: none; }
+  :global(.is-vertical) .gallery-area { padding-bottom: var(--page-section-gap); }
 </style>
 
 <script>
-  const gallery = document.querySelector<HTMLElement>('.gallery')!;
-  const cards = [...gallery.querySelectorAll<HTMLElement>('.work-card')];
-  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip')];
-  const scroller = document.querySelector<HTMLElement>('.scroller')!;
-  const track = scroller.querySelector<HTMLElement>('.scroller-track')!;
-  const thumb = scroller.querySelector<HTMLElement>('.scroller-thumb')!;
-  const startBtn = scroller.querySelector<HTMLButtonElement>('.scroller-start')!;
-  const nextBtn = scroller.querySelector<HTMLButtonElement>('.scroller-next')!;
+  type Card = {
+    el: HTMLElement; img: HTMLElement; cap: HTMLElement; meta: HTMLElement; arrow: HTMLElement;
+    imgH: number; cats: string[]; hv: number; hoverOn: boolean;
+  };
+  type Item = Card & { src: Card; capH: number; base: number; fit: number; wb: number; xb: number };
+  type Pos = { x: number; s: number; w: number };
 
-  /* ---------- Filtering: several categories can be on; a work shows if it has ANY of them ---------- */
-  const selected = new Set(
-    (new URLSearchParams(location.search).get('filter') ?? '').split(',').filter(Boolean),
-  );
+  const CARD_W = 300;
+  const TRAVEL = 1.3;          // px of scroll per px of strip travel (the lab's "fast")
+  const HOVER_S = 1.35;        // ✱ hover growth
+  const ARRIVAL_GAP = 61;      // ✱ Figma 368:1213: 129 on arrival, 68 settled (top bar→title, filters→strip)
+  const FX = new URLSearchParams(location.search).get('fx') || 'fade';
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function applyFilter() {
+  const root = document.documentElement;
+  const track = document.querySelector<HTMLElement>('.seq-track')!;
+  const stage = track.querySelector<HTMLElement>('.seq-stage')!;
+  const view = stage.querySelector<HTMLElement>('.seq-view')!;
+  const worksEl = stage.querySelector<HTMLElement>('.works')!;
+  const h1 = stage.querySelector<HTMLElement>('h1')!;
+  const filtersEl = stage.querySelector<HTMLElement>('.filters')!;
+  const area = stage.querySelector<HTMLElement>('.gallery-area')!;
+  const counter = stage.querySelector<HTMLElement>('.seq-counter')!;
+  const chips = [...stage.querySelectorAll<HTMLButtonElement>('.chip')];
+
+  const cards: Card[] = [...view.querySelectorAll<HTMLElement>('.work-card')].map((el) => ({
+    el,
+    img: el.querySelector<HTMLElement>('.work-image')!,
+    cap: el.querySelector<HTMLElement>('.work-caption')!,
+    meta: el.querySelector<HTMLElement>('.t-work-meta')!,
+    arrow: el.querySelector<HTMLElement>('.work-arrow')!,
+    imgH: parseFloat(el.dataset.imgH || '200'),
+    cats: (el.dataset.categories || '').split(' ').filter(Boolean),
+    hv: 0, hoverOn: false,
+  }));
+
+  const smooth = (x: number) => x * x * (3 - 2 * x);
+  const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
+  const cssPx = (name: string) => parseFloat(getComputedStyle(root).getPropertyValue(name)) || 0;
+
+  let visible = cards.slice();
+  let G: any = null;
+
+  /* ---------- Geometry (on resize / filter) ---------- */
+  function measure() {
+    const vertical = stage.clientWidth < 600;
+    document.body.classList.toggle('is-vertical', vertical);
+    h1.style.height = ''; h1.style.transform = ''; filtersEl.style.transform = '';
+    area.style.transform = ''; worksEl.style.transform = '';
+    if (vertical) {
+      track.style.height = '';
+      for (const c of cards) { c.el.style.transform = ''; c.img.style.transform = ''; c.cap.style.transform = ''; }
+      G = { vertical: true, items: visible };
+      return;
+    }
+    const K = cssPx('--type-display-l') / cssPx('--type-page-title-size');     // 120 / 88
+    const Hcol = h1.offsetHeight;
+    const diff = Hcol * (K - 1);                     // the bigger title pushes the filters down
+    const LEAD = ARRIVAL_GAP + diff + ARRIVAL_GAP;   // ≈160px: the strip's way up
+
+    const vh = stage.clientHeight;
+    const viewH = view.clientHeight, viewW = view.clientWidth;
+    const marginX = parseFloat(getComputedStyle(stage).paddingLeft);
+    const gap = cssPx('--gallery-gap') || 12;
+    let xb = 0;
+    const items: Item[] = visible.map((c) => {
+      const capH = c.cap.offsetHeight;
+      const fit = (viewH - capH) / c.imgH;
+      const base = Math.min(1, fit);                 // very tall works shrink to fit the view
+      const wb = CARD_W * base;
+      const it = { ...c, src: c, capH, base, fit, wb, xb };
+      xb += wb + gap;
+      return it;
+    });
+    const room = viewW - marginX;
+    const umax = Math.max(0, xb - gap - room);
+    track.style.height = `${umax * TRAVEL + LEAD + vh}px`;
+    G = { vertical: false, items, gap, vh, room, umax, LEAD, K, diff };
+  }
+
+  /* ---------- Frame ---------- */
+  function render() {
+    if (!G) return;
+    if (G.vertical) return renderVertical();
+    const y = window.scrollY - track.offsetTop;
+
+    // Settling: frame 1 → frame 2, 1:1 with the scroll
+    const left = 1 - clamp01(y / G.LEAD);
+    worksEl.style.transform = `translate3d(0,${(ARRIVAL_GAP * left).toFixed(1)}px,0)`;
+    h1.style.transform = `scale(${(1 + (G.K - 1) * left).toFixed(4)})`;
+    filtersEl.style.transform = `translate3d(0,${(G.diff * left).toFixed(1)}px,0)`;
+    area.style.transform = `translate3d(0,${((G.diff + ARRIVAL_GAP) * left).toFixed(1)}px,0)`;
+
+    // Travel: the strip goes from its left edge to its right edge
+    const u = Math.min(G.umax, Math.max(0, (y - G.LEAD) / TRAVEL));
+    const pos: Pos[] = G.items.map((it: Item) => ({ x: it.xb - u, s: it.base, w: it.wb }));
+    applyHover(pos);
+    G.items.forEach((it: Item, i: number) => {
+      const p = pos[i];
+      it.el.style.transform = `translate3d(${p.x.toFixed(1)}px,0,0)`;
+      it.img.style.transform = `scale(${p.s.toFixed(4)})`;
+      it.cap.style.transform = `translate3d(0,${(it.imgH * (p.s - 1)).toFixed(1)}px,0)`;
+    });
+    const q = G.umax > 0 ? u / G.umax : 0;
+    const N = G.items.length;
+    counter.textContent = N ? `${String(Math.round(q * (N - 1)) + 1).padStart(2, '0')} / ${String(N).padStart(2, '0')}` : '';
+  }
+
+  function renderVertical() {
+    const mid = innerHeight / 2, viewTop = view.getBoundingClientRect().top;
+    for (const c of G.items as Card[]) {
+      const top = viewTop + c.el.offsetTop, h = c.el.offsetHeight;
+      const k = smooth(clamp01(1 - (Math.abs(top + h / 2 - mid) / innerHeight) * 1.6));
+      c.el.style.transform = `scale(${(0.84 + 0.16 * k).toFixed(4)})`;
+    }
+  }
+
+  let raf = 0;
+  const schedule = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; render(); }); };
+  window.addEventListener('scroll', schedule, { passive: true });
+  new ResizeObserver(() => { measure(); render(); }).observe(stage);
+
+  /* ---------- Hover: grow around the centre, away from the strip's ends ---------- */
+  function applyHover(pos: Pos[]) {
+    G.items.forEach((it: Item, i: number) => {
+      const h = smooth(clamp01(it.src.hv));
+      if (h < 0.001) return;
+      const p = pos[i];
+      const target = Math.min(p.s * HOVER_S, it.fit, G.room / CARD_W);
+      const newS = p.s + (Math.max(p.s, target) - p.s) * h;
+      const extra = CARD_W * (newS - p.s);
+      const first = pos[0], last = pos[pos.length - 1];
+      const wl = clamp01(-first.x / 150), wr = clamp01((last.x + last.w - G.room) / 150);
+      const shiftL = wl + wr > 0 ? extra * wl / (wl + wr) : 0;
+      const shiftR = extra - shiftL;
+      pos.forEach((o, j) => { if (j < i) o.x -= shiftL; else if (j > i) o.x += shiftR; });
+      p.x -= shiftL; p.s = newS; p.w = CARD_W * newS;
+    });
+  }
+  let hoverRaf = 0;
+  function tickHover() {
+    hoverRaf = 0;
+    let moving = false;
+    for (const c of cards) {
+      const t = c.hoverOn ? 1 : 0;
+      if (Math.abs(t - c.hv) > 0.002) { c.hv += (t - c.hv) * 0.16; moving = true; } else c.hv = t;
+    }
+    render();
+    if (moving) hoverRaf = requestAnimationFrame(tickHover);
+  }
+  for (const c of cards) {
+    c.el.addEventListener('pointerenter', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      c.hoverOn = true; if (reduceMotion) c.hv = 1;
+      // arrow length = width of the last meta line
+      const r = document.createRange(); r.selectNodeContents(c.meta);
+      const rects = [...r.getClientRects()].filter((x) => x.width > 0);
+      const lastLine = rects[rects.length - 1];
+      if (lastLine) c.arrow.style.setProperty('--arrow-w', `${Math.round(lastLine.width)}px`);
+      if (!hoverRaf && !G?.vertical) hoverRaf = requestAnimationFrame(tickHover);
+    });
+    c.el.addEventListener('pointerleave', () => {
+      c.hoverOn = false; if (reduceMotion) c.hv = 0;
+      if (!hoverRaf && !G?.vertical) hoverRaf = requestAnimationFrame(tickHover);
+    });
+  }
+
+  /* ---------- Filtering: several categories can be on; a work shows if it has ANY of them ----------
+     The page stays where it is. Only if the strip had travelled, it returns to its start. */
+  const selected = new Set((new URLSearchParams(location.search).get('filter') ?? '').split(',').filter(Boolean));
+  let anims: Animation[] = [];
+
+  function applyFilter(instant = false) {
     for (const chip of chips) {
       const v = chip.dataset.filter!;
       chip.setAttribute('aria-pressed', String(v === '' ? selected.size === 0 : selected.has(v)));
-    }
-    for (const card of cards) {
-      const cats = card.dataset.categories!.split(' ');
-      card.hidden = selected.size > 0 && !cats.some((c) => selected.has(c));
     }
     const url = new URL(location.href);
     if (selected.size) url.searchParams.set('filter', [...selected].join(','));
     else url.searchParams.delete('filter');
     history.replaceState(null, '', url);
-    gallery.scrollTo({ left: 0 });
-    updateScroller();
+
+    const prev = visible;
+    const next = cards.filter((c) => selected.size === 0 || c.cats.some((k) => selected.has(k)));
+    const mode = instant ? 'none' : FX;
+    for (const a of anims) a.cancel();
+    anims = [];
+    for (const c of cards) c.el.style.zIndex = '';
+
+    const before = new Map(prev.map((c) => [c, c.el.getBoundingClientRect().left]));
+    const exiting = prev.filter((c) => !next.includes(c));
+    const entering = next.filter((c) => !prev.includes(c));
+    const narrowing = next.length < prev.length;
+
+    visible = next;
+    for (const c of cards) c.el.hidden = !next.includes(c) && !(mode !== 'none' && exiting.includes(c));
+    measure();
+    if (!G.vertical) {
+      const settled = track.offsetTop + G.LEAD;
+      if (window.scrollY > settled) window.scrollTo({ top: settled, behavior: 'instant' as ScrollBehavior });
+    }
+    render();
+    if (mode === 'none' || reduceMotion || G.vertical) { for (const c of exiting) c.el.hidden = true; return; }
+
+    const onScreen = (c: Card) => { const r = c.el.getBoundingClientRect(); return r.right > -50 && r.left < innerWidth + 50; };
+    const add = (el: HTMLElement, kf: Keyframe[], o: KeyframeAnimationOptions) => {
+      const a = el.animate(kf, { fill: 'backwards', composite: 'add', ...o }); anims.push(a); return a;
+    };
+    const hideAfter = (a: Animation, c: Card) => { const h = () => { if (!visible.includes(c)) c.el.hidden = true; }; a.finished.then(h, h); };
+    const ease = 'cubic-bezier(.2,.7,.2,1)';
+    const slideStaying = (delay: number, duration: number) => {
+      for (const c of next) if (before.has(c)) {
+        const dx = before.get(c)! - c.el.getBoundingClientRect().left;
+        if (Math.abs(dx) > 0.5) add(c.el, [{ transform: `translateX(${dx}px)` }, { transform: 'translateX(0)' }], { duration, delay, easing: ease });
+      }
+    };
+    const byLeft = (a: Card, b: Card) => a.el.getBoundingClientRect().left - b.el.getBoundingClientRect().left;
+
+    if (mode === 'fade') {
+      for (const c of exiting) { c.el.style.zIndex = '0'; hideAfter(add(c.el, [{ opacity: 0 }], { duration: 180, easing: 'linear', fill: 'forwards', composite: 'replace' }), c); }
+      slideStaying(120, 520);
+      for (const c of entering) add(c.el, [{ opacity: 0 }, { opacity: 1 }], { duration: 360, delay: 300, easing: 'linear', composite: 'replace' });
+    }
+    if (mode === 'shrink') {
+      for (const c of exiting) hideAfter(add(c.el, [{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(.82)' }], { duration: 260, easing: ease, fill: 'forwards' }), c);
+      slideStaying(narrowing ? 140 : 0, 560);
+      entering.filter(onScreen).sort(byLeft).forEach((c, i) =>
+        add(c.el, [{ opacity: 0, transform: 'scale(.86)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 480, delay: 220 + i * 45, easing: ease }));
+    }
+    if (mode === 'cascade') {
+      const out = narrowing ? 24 : -24, inn = narrowing ? 28 : -28;
+      const old = prev.filter(onScreen).sort((a, b) => before.get(a)! - before.get(b)!);
+      old.forEach((c, i) => {
+        const a = add(c.el, [{ transform: 'translateY(0)', opacity: 1 }, { transform: `translateY(${out}px)`, opacity: 0 }],
+          { duration: 220, delay: i * 30, easing: 'cubic-bezier(.4,0,.8,.4)', fill: 'forwards' });
+        if (exiting.includes(c)) hideAfter(a, c);
+      });
+      const outEnd = old.length * 30 + 220;
+      next.filter(onScreen).sort(byLeft).forEach((c, i) =>
+        add(c.el, [{ transform: `translateY(${inn}px)`, opacity: 0 }, { transform: 'translateY(0)', opacity: 1 }],
+          { duration: 520, delay: outEnd * 0.6 + i * 50, easing: ease }));
+      for (const c of exiting.filter((c) => !onScreen(c))) c.el.hidden = true;
+    }
+    // when it is over, remove every animation so nothing keeps a stale opacity or offset
+    const mine = anims;
+    Promise.allSettled(mine.map((a) => a.finished)).then(() => {
+      if (anims !== mine) return;
+      for (const c of cards) { c.el.style.zIndex = ''; if (!visible.includes(c)) c.el.hidden = true; }
+      for (const a of mine) a.cancel();
+      anims = [];
+    });
   }
 
   for (const chip of chips) {
@@ -131,69 +349,6 @@ const categories = (await getCollection('categories'))
     });
   }
 
-  /* ---------- Scroller: thumb mirrors the strip's position; drag it, click the track, or use the arrows ---------- */
-  function metrics() {
-    const max = gallery.scrollWidth - gallery.clientWidth;
-    const trackW = track.clientWidth;
-    const thumbW = Math.max(40, trackW * (gallery.clientWidth / gallery.scrollWidth));
-    return { max, trackW, thumbW };
-  }
-
-  function updateScroller() {
-    const { max, trackW, thumbW } = metrics();
-    scroller.classList.toggle('is-static', max <= 1);
-    thumb.style.width = `${thumbW}px`;
-    const p = max > 0 ? gallery.scrollLeft / max : 0;
-    thumb.style.transform = `translate(${(trackW - thumbW) * p}px, -50%)`;
-    startBtn.disabled = gallery.scrollLeft <= 1;
-    nextBtn.disabled = gallery.scrollLeft >= max - 1;
-  }
-
-  function scrollToTrackX(x: number, smooth: boolean) {
-    const { max, trackW, thumbW } = metrics();
-    const p = Math.min(1, Math.max(0, (x - thumbW / 2) / (trackW - thumbW)));
-    gallery.scrollTo({ left: p * max, behavior: smooth ? 'smooth' : 'auto' });
-  }
-
-  gallery.addEventListener('scroll', updateScroller, { passive: true });
-  new ResizeObserver(updateScroller).observe(gallery);
-
-  nextBtn.addEventListener('click', () => gallery.scrollBy({ left: gallery.clientWidth * 0.8, behavior: 'smooth' }));
-  startBtn.addEventListener('click', () => gallery.scrollTo({ left: 0, behavior: 'smooth' }));
-
-  let dragOffset: number | null = null;
-  track.addEventListener('pointerdown', (e) => {
-    const rect = track.getBoundingClientRect();
-    const thumbRect = thumb.getBoundingClientRect();
-    const onThumb = e.clientX >= thumbRect.left && e.clientX <= thumbRect.right;
-    dragOffset = onThumb ? e.clientX - thumbRect.left - thumbRect.width / 2 : 0;
-    track.setPointerCapture(e.pointerId);
-    gallery.style.scrollSnapType = 'none';
-    if (!onThumb) scrollToTrackX(e.clientX - rect.left, true);
-  });
-  track.addEventListener('pointermove', (e) => {
-    if (dragOffset === null || !track.hasPointerCapture(e.pointerId)) return;
-    scrollToTrackX(e.clientX - track.getBoundingClientRect().left - dragOffset, false);
-  });
-  const endDrag = () => { dragOffset = null; gallery.style.scrollSnapType = ''; };
-  track.addEventListener('pointerup', endDrag);
-  track.addEventListener('pointercancel', endDrag);
-
-  /* A vertical mouse wheel over the strip moves it sideways, until it reaches an end */
-  gallery.addEventListener('wheel', (e) => {
-    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-    const max = gallery.scrollWidth - gallery.clientWidth;
-    const atEnd = (e.deltaY > 0 && gallery.scrollLeft >= max - 1) || (e.deltaY < 0 && gallery.scrollLeft <= 0);
-    if (max <= 0 || atEnd) return;
-    e.preventDefault();
-    gallery.scrollLeft += e.deltaY;
-  }, { passive: false });
-
-  /* Arrow keys when the strip has focus */
-  gallery.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight') { e.preventDefault(); gallery.scrollBy({ left: 312, behavior: 'smooth' }); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); gallery.scrollBy({ left: -312, behavior: 'smooth' }); }
-  });
-
-  applyFilter();
+  applyFilter(true);
+  document.fonts?.ready.then(() => { measure(); render(); });
 </script>
