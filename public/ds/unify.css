@@ -1,0 +1,2 @@
+/* Loaded after each static page's own styles: its English font token follows the design system's font/primary. */
+:root { --font-latin: var(--font-primary); }

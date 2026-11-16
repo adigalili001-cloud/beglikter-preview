@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@400;700&family=Schibsted+Grotesk:wght@400;600&display=swap">
+<script src="/ds/en.js"></script>
 <link rel="stylesheet" href="/ds/tokens.css">
 <link rel="stylesheet" href="/ds/fonts.css">
 <style>
@@ -105,7 +106,8 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .topbar b{font-weight:600;font-size:var(--type-brand-size);line-height:1.4}
 .topbar span{font-size:var(--type-nav-size);line-height:1.45}
 .topbar a{color:inherit;text-decoration:none}
-.topbar{font-family:"Almoni ML v5 AAA","Almoni",var(--font-latin)}
+.topbar{font-family:var(--font-primary)}
+.topbar a{pointer-events:auto}   /* the bar itself lets clicks through to the hero; its links take them */
 .topbar i{width:2px;height:11px}
 @media (max-width:720px){.topbar span,.topbar i{display:none}}
 
@@ -330,6 +332,7 @@ form[data-form]{display:flex;flex-direction:column;gap:55px;width:100%}
   .rv{opacity:1;translate:none}
 }
 </style>
+<link rel="stylesheet" href="/ds/unify.css">
 </head>
 <body data-v="a">
 <div class="vtabs" role="group" aria-label="גרסאות"><button type="button" data-ver="a" aria-pressed="true">A · slide</button><button type="button" data-ver="b" aria-pressed="false">B · flip</button></div>

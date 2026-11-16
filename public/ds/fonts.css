@@ -1,3 +1,7 @@
 /* font/primary = "Almoni ML v5 AAA" (design system). Regular + Bold only for now; private preview, web licence pending. */
 @font-face { font-family: "Almoni ML v5 AAA"; src: url(/fonts/almoni-regular.woff2) format("woff2"); font-weight: 400; font-display: swap; }
 @font-face { font-family: "Almoni ML v5 AAA"; src: url(/fonts/almoni-bold.woff2) format("woff2"); font-weight: 700; font-display: swap; }
+
+/* One English font everywhere = font/primary. Default: Almoni (as in the design system).
+   To compare: add ?en=schibsted (or ?en=almoni) to any page address; the choice is remembered in this browser. */
+html[data-en="schibsted"] { --font-primary: "Schibsted Grotesk", "Noto Sans Hebrew", system-ui, sans-serif; }
