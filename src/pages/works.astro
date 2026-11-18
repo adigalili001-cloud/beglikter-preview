@@ -32,19 +32,26 @@ const categories = (await getCollection('categories'))
       <TopBar current="Works" />
       <main class="works">
         <div class="header">
-          <h1 class="t-page-title">Works</h1>
+          <h1 class="t-page-title"><span class="title-big">Works</span><span class="title-compact" aria-hidden="true">Works</span></h1>
           <div class="filters" role="group" aria-label="Filter works by category">
             <FilterChip label="All" value="" removable={false} />
             {categories.map((c) => <FilterChip label={c.data.label} value={c.id} />)}
           </div>
         </div>
         <section class="gallery-area" aria-label="Works">
+          <div class="m-spacer" aria-hidden="true"></div>
           <div class="seq-view">
             {works.map((w) => <WorkCard work={w} />)}
           </div>
         </section>
       </main>
       <div class="seq-counter t-work-meta" aria-hidden="true"></div>
+      <!-- Mobile: vertical scroller (Figma 197:49 / 199:323), the desktop scroller turned on its side -->
+      <div class="m-scroller" aria-hidden="true">
+        <button class="m-start" type="button" tabindex="-1"><svg width="14" height="4" viewBox="0 0 14 4" fill="none"><path d="M0 2H13.4" stroke="currentColor" stroke-width="3" /></svg></button>
+        <div class="m-track"><div class="m-thumb"></div></div>
+        <button class="m-next" type="button" tabindex="-1"><svg width="16" height="11" viewBox="0 0 16 11" fill="none"><path d="M1.1 1L7.8 8.3L14.5 1" stroke="currentColor" stroke-width="3" /></svg></button>
+      </div>
     </div>
   </section>
 </Base>
@@ -77,12 +84,47 @@ const categories = (await getCollection('categories'))
     font-variant-numeric: tabular-nums; letter-spacing: .04em; color: var(--color-text-secondary);
   }
 
-  /* Mobile: a plain vertical list in normal flow */
-  :global(.is-vertical) .seq-stage { position: static; height: auto; overflow: visible; }
-  :global(.is-vertical) .seq-view { margin-right: 0; display: flex; flex-direction: column; gap: var(--gallery-stack-gap); }
-  :global(.is-vertical) .seq-view > :global(.work-card) { position: relative; width: 100%; transform-origin: 50% 50%; }
+  .title-compact, .m-spacer, .m-scroller { display: none; }
+
+  /* Mobile & touch (Figma 197:49 → 199:323): a plain vertical list in normal flow.
+     Arrival: big title, filters below. The first ~150px of scroll settle the header into its
+     compact, sticky form (title 28 bold, tighter gaps); the list scrolls under it. */
+  :global(.is-vertical) .seq-stage { position: static; height: auto; overflow: visible; gap: var(--space-6); }  /* compact: top bar → title 24 */
+  :global(.is-vertical) .seq-stage > :global(.top-bar) {
+    position: sticky; top: 0; z-index: 6; background: var(--color-bg-page);
+    margin-top: calc(-1 * var(--page-margin-y)); padding-top: var(--page-margin-y);
+  }
+  :global(.is-vertical) .works { gap: var(--space-6); will-change: auto; transform: none !important; }   /* compact: filters → list 24 */
+  :global(.is-vertical) .header {
+    position: sticky; top: var(--m-header-top, 68px); z-index: 5; background: var(--color-bg-page);
+    gap: var(--space-4);                                   /* compact: title → filters 16 */
+    margin: calc(-1 * var(--space-6)) 0; padding: var(--space-6) 0;   /* white behind the gaps above and below */
+  }
+  :global(.is-vertical) h1 { position: relative; height: var(--m-title-h, 26px); transform: none !important; }
+  :global(.is-vertical) .title-big { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform, opacity; }
+  :global(.is-vertical) .title-compact {
+    display: block; position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform, opacity;
+    font-size: var(--type-page-title-compact-size); font-weight: 700; line-height: 0.94; letter-spacing: -0.01em;
+  }
+  :global(.is-vertical) .filters { margin-inline: 0; }
+  :global(.is-vertical) .m-spacer { display: block; height: var(--m-lead, 149px); }
+  :global(.is-vertical) .seq-view { margin-right: 0; display: flex; flex-direction: column; gap: var(--space-4); } /* Figma: 16 between works */
+  :global(.is-vertical) .seq-view > :global(.work-card) { position: relative; width: 100%; transform: none !important; }
+  :global(.is-vertical) .seq-view :global(.work-image) { width: min(300px, 100%); transform: none !important; }
+  :global(.is-vertical) .seq-view :global(.work-caption) { transform: none !important; }
   :global(.is-vertical) .seq-counter { display: none; }
-  :global(.is-vertical) .gallery-area { padding-bottom: var(--page-section-gap); }
+  :global(.is-vertical) .seq-view :global(.work-arrow) { display: none; }   /* no hover on touch; Figma: 16 between works */
+  :global(.is-vertical) .gallery-area { padding-bottom: var(--page-section-gap); transform: none !important; }
+  :global(.is-vertical) .m-scroller {
+    display: flex; flex-direction: column; align-items: center; gap: var(--space-4);
+    position: fixed; z-index: 4; right: 22px;                      /* ✱ Figma: the line sits 27px from the edge */
+    top: var(--m-scroller-top, 192px); bottom: var(--space-4); width: 14px;
+    color: var(--color-icon-default);
+  }
+  .m-scroller button { display: grid; place-items: center; min-width: 24px; min-height: 24px; padding: 0; border: 0; background: none; color: inherit; cursor: pointer; }
+  .m-track { position: relative; flex: 1; width: 14px; }
+  .m-track::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: var(--stroke-scroll-track); transform: translateX(-50%); background: var(--color-indicator-track); }
+  .m-thumb { position: absolute; left: 50%; top: 0; width: var(--stroke-scroll-thumb); transform: translateX(-50%); background: var(--color-indicator-active); }
 </style>
 
 <script>
@@ -114,6 +156,18 @@ const categories = (await getCollection('categories'))
   const area = stage.querySelector<HTMLElement>('.gallery-area')!;
   const counter = stage.querySelector<HTMLElement>('.seq-counter')!;
   const chips = [...stage.querySelectorAll<HTMLButtonElement>('.chip')];
+  const headerEl = stage.querySelector<HTMLElement>('.header')!;
+  const titleBig = h1.querySelector<HTMLElement>('.title-big')!;
+  const titleCompact = h1.querySelector<HTMLElement>('.title-compact')!;
+  const mTrack = stage.querySelector<HTMLElement>('.m-track')!;
+  const mThumb = stage.querySelector<HTMLElement>('.m-thumb')!;
+  stage.querySelector('.m-start')!.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  stage.querySelector('.m-next')!.addEventListener('click', () => {
+    // next work whose top is below the header
+    const hb = headerEl.getBoundingClientRect().bottom + 24;
+    const nxt = (G.items as Card[]).find((c) => c.el.getBoundingClientRect().top > hb + 4);
+    window.scrollBy({ top: nxt ? nxt.el.getBoundingClientRect().top - hb : innerHeight * 0.8, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
 
   const cards: Card[] = [...view.querySelectorAll<HTMLElement>('.work-card')].map((el) => ({
     el,
@@ -138,11 +192,23 @@ const categories = (await getCollection('categories'))
     const vertical = stage.clientWidth < 600 || TOUCH;
     document.body.classList.toggle('is-vertical', vertical);
     h1.style.height = ''; h1.style.transform = ''; filtersEl.style.transform = '';
+    headerEl.style.transform = ''; titleBig.style.transform = ''; titleBig.style.opacity = '';
+    titleCompact.style.transform = ''; titleCompact.style.opacity = '';
     area.style.transform = ''; worksEl.style.transform = '';
     if (vertical) {
       track.style.height = '';
       for (const c of cards) { c.el.style.transform = ''; c.img.style.transform = ''; c.cap.style.transform = ''; }
-      G = { vertical: true, items: visible };
+      // Figma 197:49 (arrival) vs 199:323 (settled): extra space on arrival, in px
+      const bigH = titleBig.offsetHeight, compactH = titleCompact.offsetHeight;
+      const diff = Math.max(0, bigH - compactH);
+      const TOP = 24, GAP = 20, LIST = 48;            // ✱ top bar→title 48/24 · title→filters 36/16 · filters→list 72/24
+      const LEAD = TOP + diff + GAP + LIST;
+      const topBar = stage.querySelector<HTMLElement>('.top-bar');
+      const headerTop = topBar?.getBoundingClientRect().height || 44;   // the header's own 24px padding is the gap
+      root.style.setProperty('--m-header-top', `${headerTop}px`);
+      root.style.setProperty('--m-title-h', `${compactH}px`);
+      root.style.setProperty('--m-lead', `${LEAD}px`);
+      G = { vertical: true, items: visible, LEAD, diff, TOP, GAP, sc: compactH / (bigH || 1) };
       return;
     }
     const K = cssPx('--type-display-l') / cssPx('--type-page-title-size');     // 120 / 88
@@ -199,12 +265,25 @@ const categories = (await getCollection('categories'))
   }
 
   function renderVertical() {
-    const mid = innerHeight / 2, viewTop = view.getBoundingClientRect().top;
-    for (const c of G.items as Card[]) {
-      const top = viewTop + c.el.offsetTop, h = c.el.offsetHeight;
-      const k = smooth(clamp01(1 - (Math.abs(top + h / 2 - mid) / innerHeight) * 1.6));
-      c.el.style.transform = `scale(${(0.84 + 0.16 * k).toFixed(4)})`;
-    }
+    // Settling: arrival → compact, 1:1 with the scroll (the spacer above the list scrolls away under the header)
+    const c = clamp01(window.scrollY / G.LEAD), left = 1 - c;
+    headerEl.style.transform = `translate3d(0,${(G.TOP * left).toFixed(1)}px,0)`;
+    titleBig.style.transform = `scale(${(1 - (1 - G.sc) * c).toFixed(4)})`;
+    titleCompact.style.transform = `scale(${(1 / G.sc + (1 - 1 / G.sc) * c).toFixed(4)})`;
+    const x = smooth(clamp01((c - 0.55) / 0.35));               // weight changes near the end: crossfade
+    titleBig.style.opacity = String(1 - x);
+    titleCompact.style.opacity = String(x);
+    filtersEl.style.transform = `translate3d(0,${((G.diff + G.GAP) * left).toFixed(1)}px,0)`;
+    // vertical scroller: starts at the list, runs to the bottom
+    const headerBottom = headerEl.getBoundingClientRect().bottom;
+    const listTop = view.getBoundingClientRect().top;
+    root.style.setProperty('--m-scroller-top', `${Math.max(headerBottom + 24, listTop).toFixed(0)}px`);
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const trackH = mTrack.clientHeight;
+    const thumbH = Math.max(24, trackH * innerHeight / document.documentElement.scrollHeight);
+    const q = max > 0 ? window.scrollY / max : 0;
+    mThumb.style.height = `${thumbH.toFixed(0)}px`;
+    mThumb.style.transform = `translate(-50%,${((trackH - thumbH) * q).toFixed(1)}px)`;
   }
 
   let raf = 0;
