@@ -98,6 +98,10 @@ const categories = (await getCollection('categories'))
   const HOVER_S = 1.35;        // ✱ hover growth
   const ARRIVAL_GAP = 61;      // ✱ Figma 368:1213: 129 on arrival, 68 settled (top bar→title, filters→strip)
   const FX = new URLSearchParams(location.search).get('fx') || 'fade';
+  // Touch screens always get the vertical list: there, scrolling down must never move things sideways
+  const TOUCH = matchMedia('(hover: none) and (pointer: coarse)').matches;
+  // 18.11 test: a sideways gesture also drives the strip. ?h=off turns it off, to compare.
+  const SIDEWAYS = new URLSearchParams(location.search).get('h') !== 'off';
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const root = document.documentElement;
@@ -131,7 +135,7 @@ const categories = (await getCollection('categories'))
 
   /* ---------- Geometry (on resize / filter) ---------- */
   function measure() {
-    const vertical = stage.clientWidth < 600;
+    const vertical = stage.clientWidth < 600 || TOUCH;
     document.body.classList.toggle('is-vertical', vertical);
     h1.style.height = ''; h1.style.transform = ''; filtersEl.style.transform = '';
     area.style.transform = ''; worksEl.style.transform = '';
@@ -351,4 +355,39 @@ const categories = (await getCollection('categories'))
 
   applyFilter(true);
   document.fonts?.ready.then(() => { measure(); render(); });
+
+  /* ---------- Sideways gestures (test, 18.11) ----------
+     A sideways trackpad swipe (or Shift + wheel) becomes the same page scroll, so both directions
+     move one position: header, strip and counter stay in sync. Nothing is stopped or snapped:
+     each px of the hand sideways is TRAVEL px of scroll, i.e. the strip follows the fingers 1:1,
+     and the trackpad's own momentum carries on. Vertical scrolling is never touched.
+     Each gesture keeps the axis it started with (events < 160ms apart are one gesture),
+     so a slightly diagonal swipe doesn't do two things at once. */
+  if (SIDEWAYS && !TOUCH) {
+    root.style.overscrollBehaviorX = 'none';          // a sideways swipe must not go "back" a page
+    document.body.style.overscrollBehaviorX = 'none';
+    let axis: 'x' | 'y' | null = null, lastT = 0;
+    window.addEventListener('wheel', (e) => {
+      if (!G || G.vertical || e.ctrlKey) return;      // ctrl = pinch-zoom
+      const now = performance.now();
+      if (now - lastT > 160) axis = null;
+      lastT = now;
+      if (!axis) axis = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? 'x' : 'y';
+      if (axis !== 'x') return;
+      e.preventDefault();
+      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1;
+      window.scrollBy(0, e.deltaX * unit * TRAVEL);
+    }, { passive: false });
+
+    // keyboard: ← → move one work
+    window.addEventListener('keydown', (e) => {
+      if (!G || G.vertical || e.altKey || e.metaKey || e.ctrlKey) return;
+      const t = e.target as HTMLElement;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!dir) return;
+      e.preventDefault();
+      window.scrollBy({ top: dir * (CARD_W + G.gap) * TRAVEL, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+  }
 </script>

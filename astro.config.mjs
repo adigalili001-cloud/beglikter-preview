@@ -7,5 +7,5 @@ export default defineConfig({
   image: { domains: ['jwvubbmixwijmbeljpnl.supabase.co'] },
   // Home, About, Press, Volume for Value and the work page are still the earlier static pages
   // (copied from the main branch into public/); Works is the designed page.
-  redirects: { '/studio': '/admin', '/works.html': '/works' },
+  redirects: { '/studio': '/admin' },
 });
