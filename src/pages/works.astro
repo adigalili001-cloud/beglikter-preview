@@ -26,7 +26,7 @@ const categories = (await getCollection('categories'))
   .filter((c) => used.has(c.id))
   .sort((a, b) => a.data.order - b.data.order);
 ---
-<Base title="Works" current="Works" bare>
+<Base title="Works" current="Works" bare pinterestNoHover>
   <section class="seq-track">
     <div class="seq-stage">
       <TopBar current="Works" />
@@ -498,22 +498,19 @@ const categories = (await getCollection('categories'))
      move one position: header, strip and counter stay in sync. Nothing is stopped or snapped:
      each px of the hand sideways is TRAVEL px of scroll, i.e. the strip follows the fingers 1:1,
      and the trackpad's own momentum carries on. Vertical scrolling is never touched.
-     Each gesture keeps the axis it started with (events < 160ms apart are one gesture),
-     so a slightly diagonal swipe doesn't do two things at once. */
+     Sideways and vertical parts of one event simply add up. */
   if (SIDEWAYS && !TOUCH) {
     root.style.overscrollBehaviorX = 'none';          // a sideways swipe must not go "back" a page
     document.body.style.overscrollBehaviorX = 'none';
-    let axis: 'x' | 'y' | null = null, lastT = 0;
+    // No axis lock (19.11): a lock kept swallowing the vertical part when the hand changed direction
+    // mid-momentum, and the strip crawled. Now any event that carries a sideways part is taken whole:
+    // sideways and vertical are added up (both move the same position). Pure vertical stays native.
     window.addEventListener('wheel', (e) => {
       if (!G || G.vertical || e.ctrlKey) return;      // ctrl = pinch-zoom
-      const now = performance.now();
-      if (now - lastT > 160) axis = null;
-      lastT = now;
-      if (!axis) axis = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? 'x' : 'y';
-      if (axis !== 'x') return;
+      if (Math.abs(e.deltaX) < 0.5) return;           // no sideways part: the browser scrolls as usual
       e.preventDefault();
       const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1;
-      window.scrollBy(0, e.deltaX * unit * TRAVEL);
+      window.scrollBy(0, (e.deltaX * TRAVEL + e.deltaY) * unit);
     }, { passive: false });
 
     // keyboard: ← → move one work

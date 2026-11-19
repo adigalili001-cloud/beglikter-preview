@@ -14,8 +14,10 @@ interface Props {
   current?: string;
   /** true: the page renders its own frame and top bar (Works: the top bar lives inside the pinned stage) */
   bare?: boolean;
+  /** Pinterest's own opt-out of its hover buttons (Works: the images move, the buttons chase them) */
+  pinterestNoHover?: boolean;
 }
-const { title, current, bare = false } = Astro.props;
+const { title, current, bare = false, pinterestNoHover = false } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
@@ -23,6 +25,7 @@ const { title, current, bare = false } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script is:inline src="/ds/en.js"></script>
+    {pinterestNoHover && <meta name="pinterest" content="nohover" />}
     <link rel="stylesheet" href="/ds/fonts.css" />
     <title>{title} — Etamar Beglikter</title>
   </head>
