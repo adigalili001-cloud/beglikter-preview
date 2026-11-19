@@ -32,7 +32,9 @@ const isRemote = d.imageUrl?.startsWith('http');
         style={`object-position: ${d.focus}`}
       />
     ) : (
-      <img src={d.imageUrl} alt={d.alt} width={CARD_W} height={imgH} loading="lazy" style={`object-position: ${d.focus}`} />
+      <!-- data-pin-nohover: these images move with the scroll and grow on hover; Pinterest's hover
+           button chases them and flies around. Saving still works from the extension's own button. -->
+      <img src={d.imageUrl} alt={d.alt} width={CARD_W} height={imgH} loading="lazy" style={`object-position: ${d.focus}`} data-pin-nohover="true" />
     ))}
   </div>
   <div class="work-caption">
