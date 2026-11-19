@@ -57,7 +57,11 @@ const isRemote = d.imageUrl?.startsWith('http');
     flex-direction: column;
     gap: var(--card-gap);
   }
-  .work-image { width: 100%; overflow: hidden; background: var(--color-bg-subtle); }
+  .work-image { position: relative; width: 100%; overflow: hidden; background: var(--color-bg-subtle); }
+  /* A clear layer over the image: the pointer meets this layer, not the <img>. Browser extensions that
+     put buttons on hovered images (Pinterest and the like) ignore their own opt-outs, and on this page
+     the images move, so their buttons fly around. The image stays in the page with its alt text. */
+  .work-image::after { content: ''; position: absolute; inset: 0; }
   .work-image :global(img) { width: 100%; height: 100%; object-fit: cover; }
   .work-caption { display: flex; flex-direction: column; gap: var(--card-text-gap); }
   h2, p { margin: 0; }
