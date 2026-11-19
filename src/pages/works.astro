@@ -43,9 +43,18 @@ const categories = (await getCollection('categories'))
           <div class="seq-view">
             {works.map((w) => <WorkCard work={w} />)}
           </div>
+          <!-- Figma 195:1710: scroller (start cap · track · thumb · next arrow). Back since sideways scrolling works (19.11) -->
+          <div class="scroller">
+            <button class="scroller-start" type="button" aria-label="Back to first work">
+              <svg width="4" height="14" viewBox="0 0 4 14" fill="none" aria-hidden="true"><path d="M1.49929 0.0460815L1.72736 7.46581L1.49929 13.4686" stroke="currentColor" stroke-width="3" /></svg>
+            </button>
+            <div class="scroller-track"><div class="scroller-thumb"></div></div>
+            <button class="scroller-next" type="button" aria-label="Next work">
+              <svg width="11" height="16" viewBox="0 0 11 16" fill="none" aria-hidden="true"><path d="M1.01282 1.10645L8.34493 7.81769L1.01282 14.5289" stroke="currentColor" stroke-width="3" /></svg>
+            </button>
+          </div>
         </section>
       </main>
-      <div class="seq-counter t-work-meta" aria-hidden="true"></div>
       <!-- Mobile: vertical scroller (Figma 197:49 / 199:323), the desktop scroller turned on its side -->
       <div class="m-scroller" aria-hidden="true">
         <button class="m-start" type="button" tabindex="-1"><svg width="14" height="4" viewBox="0 0 14 4" fill="none"><path d="M0 2H13.4" stroke="currentColor" stroke-width="3" /></svg></button>
@@ -73,16 +82,27 @@ const categories = (await getCollection('categories'))
     display: flex; flex-wrap: wrap; align-items: center;
     margin-inline: calc(-1 * var(--chip-pad-x)); will-change: transform;
   }
-  .gallery-area { flex: 1; min-height: 0; display: flex; flex-direction: column; padding-bottom: var(--space-12); will-change: transform; }
+  .gallery-area { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: var(--gallery-scroller-gap); will-change: transform; }
+  .scroller { display: flex; align-items: center; gap: var(--space-4); color: var(--color-icon-default); flex: none; }
+  .scroller.is-static { visibility: hidden; }
+  .scroller button { display: grid; place-items: center; min-width: 24px; min-height: 24px; padding: 0; border: 0; background: none; color: inherit; cursor: pointer; }
+  .scroller button:disabled { cursor: default; }
+  .scroller-next:disabled { opacity: 0.3; }
+  .scroller-track { position: relative; flex: 1; height: 24px; cursor: pointer; touch-action: none; }
+  .scroller-track::before {
+    content: ''; position: absolute; inset: 50% 0 auto; height: var(--stroke-scroll-track);
+    background: var(--color-indicator-track);
+  }
+  .scroller-thumb {
+    position: absolute; top: 50%; left: 0; height: var(--stroke-scroll-thumb); transform: translateY(-50%);
+    background: var(--color-indicator-active); cursor: grab;
+  }
+  .scroller-thumb:active { cursor: grabbing; }
   .seq-view { position: relative; flex: 1; min-height: 0; margin-right: calc(-1 * var(--margin-x)); }
   .seq-view > :global(.work-card) { position: absolute; top: 0; left: 0; will-change: transform; }
   .seq-view > :global(.work-card[hidden]) { display: none; }
   .seq-view :global(.work-image) { transform-origin: 0 0; will-change: transform; }
   .seq-view :global(.work-caption) { will-change: transform; }
-  .seq-counter {
-    position: absolute; left: var(--margin-x); bottom: var(--space-6); z-index: 2;
-    font-variant-numeric: tabular-nums; letter-spacing: .04em; color: var(--color-text-secondary);
-  }
 
   .title-compact, .m-spacer, .m-scroller { display: none; }
 
@@ -112,7 +132,7 @@ const categories = (await getCollection('categories'))
   :global(.is-vertical) .seq-view > :global(.work-card) { position: relative; width: 100%; transform: none !important; }
   :global(.is-vertical) .seq-view :global(.work-image) { width: min(300px, 100%); transform: none !important; }
   :global(.is-vertical) .seq-view :global(.work-caption) { transform: none !important; }
-  :global(.is-vertical) .seq-counter { display: none; }
+  :global(.is-vertical) .scroller { display: none; }
   :global(.is-vertical) .seq-view :global(.work-arrow) { display: none; }   /* no hover on touch; Figma: 16 between works */
   :global(.is-vertical) .gallery-area { padding-bottom: var(--page-section-gap); transform: none !important; }
   :global(.is-vertical) .m-scroller {
@@ -154,7 +174,11 @@ const categories = (await getCollection('categories'))
   const h1 = stage.querySelector<HTMLElement>('h1')!;
   const filtersEl = stage.querySelector<HTMLElement>('.filters')!;
   const area = stage.querySelector<HTMLElement>('.gallery-area')!;
-  const counter = stage.querySelector<HTMLElement>('.seq-counter')!;
+  const scroller = stage.querySelector<HTMLElement>('.scroller')!;
+  const sTrack = scroller.querySelector<HTMLElement>('.scroller-track')!;
+  const sThumb = scroller.querySelector<HTMLElement>('.scroller-thumb')!;
+  const sStart = scroller.querySelector<HTMLButtonElement>('.scroller-start')!;
+  const sNext = scroller.querySelector<HTMLButtonElement>('.scroller-next')!;
   const chips = [...stage.querySelectorAll<HTMLButtonElement>('.chip')];
   const headerEl = stage.querySelector<HTMLElement>('.header')!;
   const titleBig = h1.querySelector<HTMLElement>('.title-big')!;
@@ -261,7 +285,15 @@ const categories = (await getCollection('categories'))
     });
     const q = G.umax > 0 ? u / G.umax : 0;
     const N = G.items.length;
-    counter.textContent = N ? `${String(Math.round(q * (N - 1)) + 1).padStart(2, '0')} / ${String(N).padStart(2, '0')}` : '';
+    // scroller mirrors the strip: thumb = visible share, position = travel
+    const trackW = sTrack.clientWidth;
+    const thumbW = Math.max(40, trackW * Math.min(1, G.room / (G.umax + G.room)));
+    scroller.classList.toggle('is-static', G.umax <= 1);
+    sThumb.style.width = `${thumbW.toFixed(0)}px`;
+    sThumb.style.transform = `translate(${((trackW - thumbW) * q).toFixed(1)}px,-50%)`;
+    sStart.disabled = u <= 1;
+    sNext.disabled = u >= G.umax - 1;
+    void N;
   }
 
   function renderVertical() {
@@ -434,6 +466,32 @@ const categories = (await getCollection('categories'))
 
   applyFilter(true);
   document.fonts?.ready.then(() => { measure(); render(); });
+
+  /* ---------- Scroller: every control asks the page to scroll; the strip just follows ---------- */
+  const yForTravel = (u: number) => track.offsetTop + G.LEAD + Math.min(G.umax, Math.max(0, u)) * TRAVEL;
+  const travelNow = () => Math.min(G.umax, Math.max(0, (window.scrollY - track.offsetTop - G.LEAD) / TRAVEL));
+  const behavior = (reduceMotion ? 'auto' : 'smooth') as ScrollBehavior;
+  sStart.addEventListener('click', () => window.scrollTo({ top: yForTravel(0), behavior }));
+  sNext.addEventListener('click', () => window.scrollTo({ top: yForTravel(travelNow() + CARD_W + G.gap), behavior }));
+  const travelAt = (clientX: number, grab: number) => {
+    const r = sTrack.getBoundingClientRect(), w = sThumb.getBoundingClientRect().width;
+    return clamp01((clientX - r.left - grab) / Math.max(1, r.width - w)) * G.umax;
+  };
+  let grab: number | null = null;
+  sTrack.addEventListener('pointerdown', (e) => {
+    const t = sThumb.getBoundingClientRect();
+    const onThumb = e.clientX >= t.left && e.clientX <= t.right;
+    grab = onThumb ? e.clientX - t.left : t.width / 2;
+    sTrack.setPointerCapture(e.pointerId);
+    window.scrollTo({ top: yForTravel(travelAt(e.clientX, grab)), behavior: onThumb ? 'auto' : behavior });
+  });
+  sTrack.addEventListener('pointermove', (e) => {
+    if (grab === null || !sTrack.hasPointerCapture(e.pointerId)) return;
+    window.scrollTo({ top: yForTravel(travelAt(e.clientX, grab)), behavior: 'auto' });
+  });
+  const endGrab = () => { grab = null; };
+  sTrack.addEventListener('pointerup', endGrab);
+  sTrack.addEventListener('pointercancel', endGrab);
 
   /* ---------- Sideways gestures (test, 18.11) ----------
      A sideways trackpad swipe (or Shift + wheel) becomes the same page scroll, so both directions
